@@ -1,0 +1,40 @@
+- model_class = @asset.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: "#{model_class.model_name.human}: #{@asset.id}", default: t("helpers.views.show.title", title: "#{model_class.model_name.human}: #{@asset.id}", default: ""))
+  .span7
+    .pull-right
+      .btn-group
+        = link_to edit_asset_path(@asset), class: "btn" do
+          %i.icon-pencil
+          %span= t(".edit", default: t("helpers.links.edit"))
+
+        = link_to @asset, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destroy?"))}, class: "btn btn-danger" do
+          %i.icon-trash.icon-white
+          %span= t(".destroy", default: t("helpers.links.destroy"))
+        = link_to assets_path, class: "btn" do
+          %i.icon-list
+          %span= t(".index", default: t("helpers.links.index"))
+      .btn-group
+        = render "layouts/toolbar"
+
+.row-fluid
+  .span12
+    %ul#assetTab.nav.nav-tabs
+      %li.active
+        %a{ :href => "#asset", :"data-toggle" => "tab" } Basic Info
+      %li
+        %a{ :href => "#info_adj", :"" => "tab" } Info Adj.
+      %li
+        %a{ :href => "#cost_adj", :"" => "tab" } Cost Adj.
+      %li
+        %a{ :href => "#transfer", :"" => "tab" } Transfer
+    #assetTabContent.tab-content
+      #asset.tab-pane.fade.active.in
+        = render 'asset_info', :asset => @asset
+      #info_adj.tab-pane.fade
+        = render 'info_adjustments', :asset => @asset
+      #cost_adj.tab-pane.fade
+        = render 'cost_adjustments', :asset => @asset
+      #transfer.tab-pane.fade
+        = render 'asset_transfers', :asset => @asset

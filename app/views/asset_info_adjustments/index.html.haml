@@ -1,0 +1,62 @@
+- model_class = AssetInfoAdjustment.new.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: model_class.model_name.human, default: t("helpers.views.index.title", title: model_class.model_name.human))
+  .span7
+    .pull-right
+      .btn-group
+        = link_to new_asset_info_adjustment_path, class: "btn" do
+          %i.icon-plus
+          %span= t(".new", default: t("helpers.links.new"))
+      .btn-group
+        = render "layouts/toolbar"
+.row-fluid
+  .span12
+    = form_tag model_class, method: :get, class: "form-search" do
+      .row-fluid
+        .span12
+          .input-append
+            = text_field_tag "[search][text]", nil, class: "search-query", placeholder: t(".placehoder", default: t("helpers.links.search_placeholder"))
+            = button_tag class: "btn" do
+              %i.icon-search
+              %span= t(".search", default: t("helpers.links.search"))
+.row-fluid
+  .span12
+    %table.table.table-condensed.table-hover.my-table
+      %thead
+        %tr
+          %th= check_box_tag "check_#{model_class.name.underscore}"
+          %th= model_class.human_attribute_name(:effective_date)
+          %th{colspan: 2}= model_class.human_attribute_name(:asset_id)
+          %th= model_class.human_attribute_name(:changed_asset_attributes)
+          %th= model_class.human_attribute_name(:submitted_at)
+          %th= model_class.human_attribute_name(:confirmed_at)
+          %th= model_class.human_attribute_name(:approved_at)
+          %th= model_class.human_attribute_name(:rejected_at)
+          %th
+      %tbody
+        - @asset_info_adjustments.each do |asset_info_adjustment|
+          %tr{href: asset_info_adjustment_path(asset_info_adjustment)}
+            %td= check_box_tag "#{model_class.name.underscore}_id_#{asset_info_adjustment.id}"
+            %td= asset_info_adjustment.effective_date
+            %td= asset_info_adjustment.asset.sub_category
+            %td= asset_info_adjustment.asset.asset_no
+            %td= asset_info_adjustment.changed_asset_contents(true)
+            %td= asset_info_adjustment.submitted_at
+            %td= asset_info_adjustment.confirmed_at
+            %td= asset_info_adjustment.approved_at
+            %td= asset_info_adjustment.rejected_at
+            %td
+              .btn-group.pull-right
+                = link_to asset_info_adjustment, class: "btn" do
+                  %i.icon-eye-open
+                  %span= t(".show", default: t("helpers.links.show"))
+                = link_to edit_asset_info_adjustment_path(asset_info_adjustment), class: "btn" do
+                  %i.icon-pencil
+                  %span= t(".edit", default: t("helpers.links.edit"))
+                = link_to asset_info_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destory?"))}, class: "btn btn-danger" do
+                  %i.icon-trash.icon-white
+                  %span= t(".destroy", default: t("helpers.links.destroy", default: "Destroy"))
+.row-fluid
+  .span12
+    = paginate @asset_info_adjustments

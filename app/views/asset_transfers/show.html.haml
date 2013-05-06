@@ -1,0 +1,69 @@
+- model_class = @asset_transfer.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: "#{model_class.model_name.human}: #{@asset_transfer.id}", default: t("helpers.views.show.title", title: "#{model_class.model_name.human}: #{@asset_transfer.id}"))
+  .span7
+    .pull-right
+      .btn-group
+        = link_to edit_asset_transfer_path(@asset_transfer), class: "btn" do
+          %i.icon-pencil
+          %span= t(".edit", default: t("helpers.links.edit"))
+
+        = link_to @asset_transfer, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))}, class: "btn btn-danger" do
+          %i.icon-trash.icon-white
+          %span= t(".destroy", default: t("helpers.links.destroy"))
+        = link_to asset_transfers_path, class: "btn" do
+          %i.icon-list
+          %span= t(".index", default: t("helpers.links.index"))
+      .btn-group
+        = render "layouts/toolbar"
+
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed.my-table-sheet
+      %tbody
+        %tr
+          %th.span2= model_class.human_attribute_name(:asset_id)
+          %td.span10= @asset_transfer.asset_id
+        %tr
+          %th.span2= model_class.human_attribute_name(:effective_date)
+          %td.span10= @asset_transfer.effective_date
+        %tr
+          %th.span2= model_class.human_attribute_name(:created_by_id)
+          %td.span10= @asset_transfer.created_by_id
+        %tr
+          %th.span2= model_class.human_attribute_name(:updated_by_id)
+          %td.span10= @asset_transfer.updated_by_id
+        %tr
+          %th.span2= model_class.human_attribute_name(:confirmed_by_id)
+          %td.span10= @asset_transfer.confirmed_by_id
+        %tr
+          %th.span2= model_class.human_attribute_name(:confirmed_at)
+          %td.span10= @asset_transfer.confirmed_at
+        %tr
+          %th.span2= model_class.human_attribute_name(:approved_at)
+          %td.span10= @asset_transfer.approved_at
+        %tr
+          %th.span2= model_class.human_attribute_name(:approved_by_id)
+          %td.span10= @asset_transfer.approved_by_id
+        %tr
+          %th.span2= model_class.human_attribute_name(:rejected_at)
+          %td.span10= @asset_transfer.rejected_at
+        %tr
+          %th.span2= model_class.human_attribute_name(:rejected_by_id)
+          %td.span10= @asset_transfer.rejected_by_id
+        %tr
+          %th.span2= model_class.human_attribute_name(:submitted_by_id)
+          %td.span10= @asset_transfer.submitted_by_id
+        %tr
+          %th.span2= model_class.human_attribute_name(:submitted_at)
+          %td.span10= @asset_transfer.submitted_at
+        %tr
+          %th.span2= model_class.human_attribute_name(:published)
+          %td.span10= @asset_transfer.published
+        %tr
+          %th.span2= model_class.human_attribute_name(:published_at)
+          %td.span10= @asset_transfer.published_at
+        %tr
+          %th.span2= model_class.human_attribute_name(:document_status)
+          %td.span10= @asset_transfer.document_status

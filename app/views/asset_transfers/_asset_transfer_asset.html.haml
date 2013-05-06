@@ -1,0 +1,6 @@
+= f.simple_fields_for :transfering_assets do |ta|
+  = ta.input :refer_id_from, as: :hidden
+  = ta.input :refer_id_to, as: :hidden
+  = ta.object.asset.inspect
+  = render 'asset_transfer_item_froms', :ta => ta
+  = render 'asset_transfer_item_tos', :ta => ta

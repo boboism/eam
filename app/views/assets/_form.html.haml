@@ -1,0 +1,33 @@
+= simple_form_for(@asset, html: {class: "well form-horizontal"}) do |f|
+  = f.error_notification
+  = display_base_errors @asset
+  .form-inputs
+    = f.input :asset_no, input_html: { class: "input-block-level" }
+    = f.input :asset_name, input_html: { class: "input-block-level" }
+    = f.input :brand, input_html: { class: "input-block-level" }
+    = f.input :model, input_html: { class: "input-block-level" }
+    = f.input :serial_no, input_html: { class: "input-block-level" }
+    = f.input :category_id, input_html: { class: "input-block-level" }
+    = f.input :sub_category_id, input_html: { class: "input-block-level" }
+    = f.input :original_cost, input_html: { class: "input-block-level" }
+    = f.input :salvage, input_html: { class: "input-block-level" }
+    = f.input :salvage_rate, input_html: { class: "input-block-level" }
+    = f.input :activated_by_id, input_html: { class: "input-block-level" }
+    = f.input :activated_at, input_html: { class: "input-block-level" }
+    = f.input :activated, input_html: { class: "input-block-level" }
+    = f.input :accepted_by_id, input_html: { class: "input-block-level" }
+    = f.input :accepted, input_html: { class: "input-block-level" }
+    = f.input :accepted_at, input_html: { class: "input-block-level" }
+    = f.input :is_tariff_free, input_html: { class: "input-block-level" }
+    = f.input :is_specific_fund, input_html: { class: "input-block-level" }
+    = f.input :tax_preference_id, input_html: { class: "input-block-level" }
+    = f.input :is_vat_free, input_html: { class: "input-block-level" }
+    = f.input :vat, input_html: { class: "input-block-level" }
+    = f.input :vat_rate, input_html: { class: "input-block-level" }
+    = f.input :created_by_id, input_html: { class: "input-block-level" }
+    = f.input :updated_by_id, input_html: { class: "input-block-level" }
+    = f.input :published, input_html: { class: "input-block-level" }
+    = f.input :published_at, input_html: { class: "input-block-level" }
+
+  .form-actions
+    = f.button :submit, t('helpers.links.submit'), class: 'btn-primary'

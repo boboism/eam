@@ -1,0 +1,8 @@
+%tr.field
+  %td= to.input_field :construction_period_id, as: :select, collection: ConstructionPeriod.enabled.all, class: "input-medium"
+  %td= to.input_field :specific_investment_id, collection: SpecificInvestment.enabled.all, class: "input-medium"
+  %td= to.input_field :management_department_id, collection: Department.enabled.all, class: "input-medium"
+  %td= to.input_field :cost_center_id, as: :select, collection: CostCenter.enabled.all, class: "input-medium"
+  %td= to.input_field :quantity, class: "input-mini"
+  %td
+    = link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), to)

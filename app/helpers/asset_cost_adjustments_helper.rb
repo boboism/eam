@@ -1,0 +1,2 @@
+module AssetCostAdjustmentsHelper
+end

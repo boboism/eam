@@ -11,7 +11,176 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130501062943) do
+ActiveRecord::Schema.define(:version => 20130502033800) do
+
+  create_table "asset_allocations", :force => true do |t|
+    t.integer  "asset_id"
+    t.integer  "management_department_id"
+    t.integer  "cost_center_id"
+    t.integer  "construction_period_id"
+    t.integer  "specific_investment_id"
+    t.decimal  "quantity"
+    t.boolean  "enabled"
+    t.datetime "enabled_at"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  create_table "asset_cost_adjustments", :force => true do |t|
+    t.integer  "asset_id"
+    t.date     "effective_date"
+    t.decimal  "original_cost_from"
+    t.decimal  "original_cost_to"
+    t.decimal  "salvage_from"
+    t.decimal  "salvage_to"
+    t.decimal  "salvage_rate_from"
+    t.decimal  "salvage_rate_to"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "confirmed_by_id"
+    t.datetime "confirmed_at"
+    t.integer  "approved_by_id"
+    t.datetime "approved_at"
+    t.integer  "rejected_by_id"
+    t.datetime "rejected_at"
+    t.boolean  "published"
+    t.datetime "published_at"
+    t.integer  "submitted_by_id"
+    t.datetime "submitted_at"
+    t.string   "document_status"
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+  end
+
+  create_table "asset_info_adjustments", :force => true do |t|
+    t.integer  "asset_id"
+    t.date     "effective_date"
+    t.string   "asset_name_from"
+    t.string   "asset_name_to"
+    t.string   "brand_from"
+    t.string   "brand_to"
+    t.string   "model_from"
+    t.string   "model_to"
+    t.string   "serial_no_from"
+    t.string   "serial_no_to"
+    t.boolean  "is_tariff_free_from"
+    t.boolean  "is_tariff_free_to"
+    t.boolean  "is_specific_fund_from"
+    t.boolean  "is_specific_fund_to"
+    t.integer  "tax_preference_id_from"
+    t.integer  "tax_preference_id_to"
+    t.boolean  "is_vat_free_from"
+    t.boolean  "is_vat_free_to"
+    t.decimal  "vat_from"
+    t.decimal  "vat_to"
+    t.decimal  "vat_rate_from"
+    t.decimal  "vat_rate_to"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "confirmed_by_id"
+    t.datetime "confirmed_at"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
+    t.datetime "submitted_at"
+    t.integer  "submitted_by_id"
+    t.string   "document_status"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
+  end
+
+  create_table "asset_transfer_items", :force => true do |t|
+    t.string   "type"
+    t.integer  "transfering_asset_id"
+    t.integer  "asset_allocation_id"
+    t.integer  "management_department_id"
+    t.integer  "cost_center_id"
+    t.integer  "construction_period_id"
+    t.integer  "specific_investment_id"
+    t.decimal  "quantity"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "asset_transfer_items", ["type"], :name => "trans_items_type"
+
+  create_table "asset_transfers", :force => true do |t|
+    t.integer  "asset_id"
+    t.date     "effective_date"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "confirmed_by_id"
+    t.datetime "confirmed_at"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
+    t.datetime "rejected_at"
+    t.integer  "rejected_by_id"
+    t.integer  "submitted_by_id"
+    t.integer  "submitted_at"
+    t.boolean  "published"
+    t.datetime "published_at"
+    t.string   "document_status"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  create_table "assets", :force => true do |t|
+    t.string   "asset_no"
+    t.string   "asset_name"
+    t.string   "brand"
+    t.string   "model"
+    t.string   "serial_no"
+    t.integer  "category_id"
+    t.integer  "sub_category_id"
+    t.decimal  "original_cost"
+    t.decimal  "salvage"
+    t.decimal  "salvage_rate"
+    t.integer  "activated_by_id"
+    t.datetime "activated_at"
+    t.boolean  "activated"
+    t.integer  "accepted_by_id"
+    t.boolean  "accepted"
+    t.datetime "accepted_at"
+    t.boolean  "is_tariff_free"
+    t.boolean  "is_specific_fund"
+    t.integer  "tax_preference_id"
+    t.boolean  "is_vat_free"
+    t.decimal  "vat"
+    t.decimal  "vat_rate"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.boolean  "published"
+    t.datetime "published_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
+  create_table "master_data", :force => true do |t|
+    t.string   "code"
+    t.string   "name"
+    t.string   "description"
+    t.integer  "parent_id"
+    t.string   "type"
+    t.boolean  "enabled"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  create_table "model_relationships", :force => true do |t|
+    t.integer  "refer_id_from"
+    t.integer  "refer_id_to"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"

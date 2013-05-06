@@ -1,0 +1,23 @@
+= simple_form_for(@asset_cost_adjustment, html: {class: "well form-horizontal"}) do |f|
+  = f.error_notification
+  = display_base_errors @asset_cost_adjustment
+  .form-inputs
+    = f.input :asset_id, as: :hidden
+    = f.input :original_cost_from, as: :hidden
+    = f.input :salvage_from, as: :hidden
+    = f.input :salvage_rate_from, as: :hidden
+    .row-fluid
+      .span6
+        %h3= "#{f.object.asset.asset_no} #{f.object.asset.category.name} - #{f.object.asset.sub_category.name}"
+      .span6
+        .pull-right
+          %h3= "#{f.object.asset}"
+    .row-fluid
+      .span6= f.input :effective_date, as: :string, input_html: { class: "input-block-level", :"data-behavior" => "datepicker" }
+      .span6= f.input :original_cost_to, input_html: { class: "input-block-level" }
+    .row-fluid
+      .span6= f.input :salvage_to, input_html: { class: "input-block-level" }
+      .span6= f.input :salvage_rate_to, input_html: { class: "input-block-level" }
+
+  .form-actions
+    = f.button :submit, t('helpers.links.submit'), class: 'btn-primary'

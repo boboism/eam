@@ -1,6 +1,38 @@
-%h3 Users
-%ul.users
-  - @users.each do |user|
-    %li
-      = link_to user.name, user
-      signed up #{user.created_at.to_date}
+- model_class = User.new.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", :title => model_class.model_name.human, :default => t("helpers.views.index.title", :title => model_class.model_name.human, :default => "Title"))
+  .span7
+    .pull-right
+      .btn-group
+        = render "layouts/toolbar"
+
+.row-fuild
+  .span12
+    = form_tag model_class, :method => :get, :class => "form-search" do
+      .row-fluid
+        .span12
+          .input-append
+            = text_field_tag "[search][text]", nil, :class => "search-query", :placeholder => t(".placehoder", :default => t("helpers.links.search_placeholder", :default => "" ))
+            = button_tag class: "btn" do
+              %i.icon-search
+              %span= t(".search", default: t("helpers.links.search"))
+.row-fluid
+  .span12
+    %table.table.table-condensed.table-hover.my-table
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:name)
+          %th= model_class.human_attribute_name(:email)
+          %th= model_class.human_attribute_name(:created_at)
+          %th
+      %tbody
+        - @users.each do |user|
+          %tr{:href => user_path(user)}
+            %td= user.name
+            %td= user.email
+            %td= user.created_at.to_date
+            %td
+.row-fluid
+  .span12
+    = paginate @users

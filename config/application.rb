@@ -24,7 +24,8 @@ module Eam
       g.test_framework :rspec, fixture: true
       g.fixture_replacement :factory_girl, dir: 'spec/factories'
       
-      
+      g.stylesheets false # skip stylesheets while using bootstrap
+
       g.view_specs false
       g.helper_specs false
     end
