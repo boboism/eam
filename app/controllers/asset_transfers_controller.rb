@@ -32,10 +32,7 @@ class AssetTransfersController < ApplicationController
   # GET /asset_transfers/new.json
   # GET /asset_transfers/new.xml
   def new
-    @asset_transfer = AssetTransfer.new
-    @asset_transfer.transfering_assets << TransferingAsset.new
-    5.times{@asset_transfer.transfering_assets.first.asset_transfer_item_froms << AssetTransferItemFrom.new }
-    5.times{@asset_transfer.transfering_assets.first.asset_transfer_item_tos << AssetTransferItemTo.new }
+    @asset_transfer = AssetTransfer.new_with_asset(Asset.where(:id => params[:asset_id]).first)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @asset_transfer }

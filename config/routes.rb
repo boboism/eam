@@ -1,11 +1,17 @@
 Eam::Application.routes.draw do
-  resources :asset_transfers
+  resources :asset_transfers do
+    post :submit, :on => :member
+  end
 
 
-  resources :asset_info_adjustments
+  resources :asset_info_adjustments do
+    post :submit, :on => :member
+  end
 
 
-  resources :asset_cost_adjustments
+  resources :asset_cost_adjustments do
+    post :submit, :on => :member
+  end
 
 
   resources :assets

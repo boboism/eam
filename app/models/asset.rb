@@ -11,6 +11,7 @@ class Asset < ActiveRecord::Base
 
   has_many :transfering_assets, :class_name => "TransferingAsset", :foreign_key => "refer_id_to"
   has_many :asset_transfers, :class_name => "AssetTransfer", :through => :transfering_assets
+  has_many :allocations, :class_name => "AssetAllocation", :foreign_key => "asset_id"
 
   scope :search, lambda { |search|
   }

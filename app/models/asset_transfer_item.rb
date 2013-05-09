@@ -1,5 +1,5 @@
 class AssetTransferItem < ActiveRecord::Base
-  attr_accessible :asset_allocation_id, :transfering_asset_id, :construction_period_id, :cost_center_id, :created_by_id, :management_department_id, :quantity, :specific_investment_id, :type, :updated_by_id
+  attr_accessible :asset_allocation_id, :transfering_asset_id, :construction_period_id, :cost_center_id, :created_by_id, :management_department_id, :quantity, :specific_investment_id, :type, :updated_by_id, :responsible_by
 
   belongs_to :asset_allocation, :class_name => "AssetAllocation", :foreign_key => "asset_allocation_id"
   belongs_to :transfering_asset, :class_name => "TransferingAsset", :foreign_key => "transfering_asset_id"

@@ -1,7 +1,7 @@
 - model_class = @asset_info_adjustment.class
 .row-fluid.page-header
   .span5
-    %h3= t(".title", title: "#{model_class.model_name.human}: #{@asset_info_adjustment.id}", default: t("helpers.views.edit.title", title: "#{model_class.model_name.human}: #{@asset_info_adjustment.id}"))
+    %h3= t(".title", title: "#{model_class.model_name.human}: #{@asset_info_adjustment.id}", default: t("helpers.views.edit.title", title: "#{model_class.model_name.human}: #{@asset_info_adjustment.id}", default: ""))
   .span7
     .pull-right
       .btn-group

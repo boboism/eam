@@ -46,4 +46,8 @@ class AssetCostAdjustment < ActiveRecord::Base
     }
   end
 
+  def changed_asset_html(use_locale = false, spliter = "")
+    changed_asset_contents(use_locale).inject([]){|acc, content| acc << "#{content.first}: \"#{content.last.first}\" => \"#{content.last.last}\""}.join(spliter) 
+  end
+
 end

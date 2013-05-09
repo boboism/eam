@@ -1,9 +1,26 @@
 - model_class = @asset.class
 .row-fluid.page-header
-  .span5
-    %h3= t(".title", title: "#{model_class.model_name.human}: #{@asset.id}", default: t("helpers.views.show.title", title: "#{model_class.model_name.human}: #{@asset.id}", default: ""))
-  .span7
+  .span4
+    %h3= "#{@asset.category.name}-#{@asset.sub_category.name} #{@asset.asset_no}"
+  .span8
     .pull-right
+      .btn-group
+        %a.btn.dropdown-toggle{ :"data-toggle" => "dropdown", :href => "javascript:void(0);" }
+          Action
+          %span.caret
+        %ul.dropdown-menu
+          %li
+            = link_to new_asset_info_adjustment_path(:asset_id => @asset.id) do
+              %i.icon-plus
+              %span= t(".new_asset_info", default: "New Asset Info Adjustment")
+          %li
+            = link_to new_asset_cost_adjustment_path(:asset_id => @asset.id) do
+              %i.icon-plus
+              %span= t(".new_asset_cost", default: "New Asset Cost Adjustment")
+          %li
+            = link_to new_asset_transfer_path(:asset_id => @asset.id) do
+              %i.icon-plus
+              %span= t(".new_asset_transfer", default: "New Asset Transfer")
       .btn-group
         = link_to edit_asset_path(@asset), class: "btn" do
           %i.icon-pencil

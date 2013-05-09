@@ -26,7 +26,6 @@
       %thead
         %tr
           %th= check_box_tag "check_#{model_class.name.underscore}"
-          %th= model_class.human_attribute_name(:asset_id)
           %th= model_class.human_attribute_name(:effective_date)
           %th= model_class.human_attribute_name(:created_at)
           %th= model_class.human_attribute_name(:submitted_at)
@@ -40,14 +39,13 @@
         - @asset_transfers.each do |asset_transfer|
           %tr{href: asset_transfer_path(asset_transfer)}
             %td= check_box_tag "#{model_class.name.underscore}_id_#{asset_transfer.id}"
-            %td= asset_transfer.asset
-            %td= asset_transfer.effective_date.to_date
-            %td= asset_transfer.created_at.to_date
-            %td= asset_transfer.submitted_at.to_date
-            %td= asset_transfer.confirmed_at.to_date
-            %td= asset_transfer.approved_at.to_date
-            %td= asset_transfer.rejected_at.to_date
-            %td= asset_transfer.published_at.to_date
+            %td= asset_transfer.effective_date
+            %td= asset_transfer.created_at
+            %td= asset_transfer.submitted_at
+            %td= asset_transfer.confirmed_at
+            %td= asset_transfer.approved_at
+            %td= asset_transfer.rejected_at
+            %td= asset_transfer.published_at
             %td= asset_transfer.document_status
             %td
               .btn-group.pull-right

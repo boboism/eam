@@ -16,7 +16,7 @@
     .row-fluid
       .span12
         %legend
-          %h3= "#{f.object.asset.asset_no} #{f.object.asset.asset_name} #{f.object.asset.category} #{f.object.asset.sub_category}"
+          %h3= "#{f.object.asset.category.name} - #{f.object.asset.sub_category.name} #{f.object.asset.asset_no}"
     .row-fluid
       .span4= f.input :effective_date, as: :string, input_html: { class: "input-block-level", :"data-behavior" => "datepicker" }
       .span8= f.input :asset_name_to, input_html: { class: "input-block-level" }

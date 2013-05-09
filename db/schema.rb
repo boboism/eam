@@ -28,6 +28,11 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.datetime "updated_at",               :null => false
   end
 
+  add_index "asset_allocations", ["asset_id"], :name => "asset_alloc_asset"
+  add_index "asset_allocations", ["cost_center_id"], :name => "asset_alloc_ccenter"
+  add_index "asset_allocations", ["enabled"], :name => "asset_alloc_enabled"
+  add_index "asset_allocations", ["management_department_id"], :name => "asset_alloc_mgmt_dept"
+
   create_table "asset_cost_adjustments", :force => true do |t|
     t.integer  "asset_id"
     t.date     "effective_date"
@@ -53,6 +58,9 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.datetime "created_at",         :null => false
     t.datetime "updated_at",         :null => false
   end
+
+  add_index "asset_cost_adjustments", ["asset_id"], :name => "cost_adj_asset"
+  add_index "asset_cost_adjustments", ["document_status"], :name => "cost_adj_stat"
 
   create_table "asset_info_adjustments", :force => true do |t|
     t.integer  "asset_id"
@@ -92,6 +100,9 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.datetime "updated_at",             :null => false
   end
 
+  add_index "asset_info_adjustments", ["asset_id"], :name => "info_adj_asset"
+  add_index "asset_info_adjustments", ["document_status"], :name => "info_adj_stat"
+
   create_table "asset_transfer_items", :force => true do |t|
     t.string   "type"
     t.integer  "transfering_asset_id"
@@ -110,7 +121,6 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
   add_index "asset_transfer_items", ["type"], :name => "trans_items_type"
 
   create_table "asset_transfers", :force => true do |t|
-    t.integer  "asset_id"
     t.date     "effective_date"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
@@ -128,6 +138,8 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
+
+  add_index "asset_transfers", ["document_status"], :name => "asset_transfers_stat"
 
   create_table "assets", :force => true do |t|
     t.string   "asset_no"
@@ -156,9 +168,18 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.integer  "updated_by_id"
     t.boolean  "published"
     t.datetime "published_at"
+    t.string   "approval_no"
+    t.string   "purchase_no"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end
+
+  add_index "assets", ["accepted"], :name => "assets_accepted"
+  add_index "assets", ["activated"], :name => "assets_activated"
+  add_index "assets", ["asset_no"], :name => "assets_asset_no"
+  add_index "assets", ["category_id"], :name => "assets_cat"
+  add_index "assets", ["published"], :name => "assets_published"
+  add_index "assets", ["sub_category_id"], :name => "assets_sub_cat"
 
   create_table "master_data", :force => true do |t|
     t.string   "code"
@@ -173,7 +194,12 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.datetime "updated_at",    :null => false
   end
 
+  add_index "master_data", ["enabled"], :name => "master_data_enabled"
+  add_index "master_data", ["type", "code"], :name => "master_data_type_code", :unique => true
+  add_index "master_data", ["type", "name"], :name => "master_data_type_name"
+
   create_table "model_relationships", :force => true do |t|
+    t.string   "type"
     t.integer  "refer_id_from"
     t.integer  "refer_id_to"
     t.integer  "created_by_id"
@@ -181,6 +207,10 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.datetime "created_at",    :null => false
     t.datetime "updated_at",    :null => false
   end
+
+  add_index "model_relationships", ["type", "refer_id_from", "refer_id_to"], :name => "model_rel_fm_to", :unique => true
+  add_index "model_relationships", ["type", "refer_id_from"], :name => "model_rel_fm", :unique => true
+  add_index "model_relationships", ["type", "refer_id_to"], :name => "model_rel_to", :unique => true
 
   create_table "roles", :force => true do |t|
     t.string   "name"

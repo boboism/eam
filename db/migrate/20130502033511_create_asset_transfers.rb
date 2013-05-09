@@ -15,6 +15,7 @@ class CreateAssetTransfers < ActiveRecord::Migration
       t.boolean :published
       t.datetime :published_at
       t.string :document_status
+      t.integer :transfer_type
 
       t.timestamps
     end

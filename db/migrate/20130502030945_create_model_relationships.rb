@@ -10,9 +10,9 @@ class CreateModelRelationships < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :model_relationships, [:type, :refer_id_from, :refer_id_to], "model_rel_fm_to", :unique => true
-    add_index :model_relationships, [:type, :refer_id_from], "model_rel_fm", :unique => true
-    add_index :model_relationships, [:type, :refer_id_to], "model_rel_to", :unique => true
+    add_index :model_relationships, [:type, :refer_id_from, :refer_id_to], :name => "model_rel_fm_to", :unique => true
+    add_index :model_relationships, [:type, :refer_id_from], :name => "model_rel_fm", :unique => true
+    add_index :model_relationships, [:type, :refer_id_to], :name => "model_rel_to", :unique => true
 
   end
 end

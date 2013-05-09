@@ -38,7 +38,6 @@ class CreateAssets < ActiveRecord::Migration
     add_index :assets, [:sub_category_id], :name => "assets_sub_cat"
     add_index :assets, [:accepted], :name => "assets_accepted"
     add_index :assets, [:activated], :name => "assets_activated"
-    add_index :assets, [:accepted], :name => "assets_accepted"
     add_index :assets, [:published], :name => "assets_published"
 
   end
