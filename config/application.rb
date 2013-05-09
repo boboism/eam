@@ -17,6 +17,8 @@ end
 
 module Eam
   class Application < Rails::Application
+    
+    #Dir[Rails.root.join('extras','**', '*.rb').to_s].sort.each{|f| require_dependency f}
 
     # don't generate RSpec tests for views and helpers
     config.generators do |g|
@@ -35,7 +37,7 @@ module Eam
     # -- all .rb files in that directory are automatically loaded.
 
     # Custom directories with classes and modules you want to be autoloadable.
-    # config.autoload_paths += %W(#{config.root}/extras)
+    #config.autoload_paths += %W(#{config.root}/extras)
     config.autoload_paths += %W(#{config.root}/lib)
 
 

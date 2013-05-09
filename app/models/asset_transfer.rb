@@ -1,3 +1,5 @@
+require_dependency './extras/eam_extension/array.rb'
+
 class AssetTransfer < ActiveRecord::Base
   attr_accessible :approved_at, :approved_by_id, :confirmed_at, :confirmed_by_id, :created_by_id, :document_status, :effective_date, :published, :published_at, :rejected_at, :rejected_by_id, :submitted_at, :submitted_by_id, :updated_by_id, :transfering_assets_attributes, :transfer_type
 
@@ -14,8 +16,8 @@ class AssetTransfer < ActiveRecord::Base
   }
 
   def self.description_for_transfer_type(type)
-    type = TransferType.collect{ |t| t.include?(type) && t }.first || TransferType.first
-    I18n.t("activerecord.attributes.asset_transfer.transfer_types.#{type.first.to_s}")
+    type = TransferType.select{ |t| t.include?(type) }.first 
+    type && I18n.t("activerecord.attributes.asset_transfer.transfer_types.#{type.first.to_s}")
   end
 
   def self.description_for_transfer_types
@@ -69,7 +71,8 @@ class AssetTransfer < ActiveRecord::Base
       trans_tos = tr.asset_transfer_item_tos.collect(&match.last).reject(&:nil?) 
       logger.debug "trans_fms:#{trans_fms.inspect}"
       logger.debug "trans_tos:#{trans_tos.inspect}"
-      !((trans_fms | trans_tos) - (trans_fms & trans_tos)).empty?
+      !(trans_fms ^ trans_tos).empty?
+      #!((trans_fms | trans_tos) - (trans_fms & trans_tos)).empty?
     end
   end
 
