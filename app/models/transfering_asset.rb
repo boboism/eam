@@ -4,9 +4,11 @@ class TransferingAsset < ModelRelationship
   belongs_to :asset_transfer, :class_name => "AssetTransfer", :foreign_key => "refer_id_from"
   belongs_to :asset, :class_name => "Asset", :foreign_key => "refer_id_to"
 
-  has_many :asset_transfer_item_froms, :class_name => "AssetTransferItemFrom", :foreign_key => "transfering_asset_id"
+  with_options :dependent => :destroy do |assoc|
+    assoc.has_many :asset_transfer_item_froms, :class_name => "AssetTransferItemFrom", :foreign_key => "transfering_asset_id"
+    assoc.has_many :asset_transfer_item_tos, :class_name => "AssetTransferItemTo", :foreign_key => "transfering_asset_id"
+  end
   accepts_nested_attributes_for :asset_transfer_item_froms
-  has_many :asset_transfer_item_tos, :class_name => "AssetTransferItemTo", :foreign_key => "transfering_asset_id"
   accepts_nested_attributes_for :asset_transfer_item_tos
 
   def asset_id=(value); self.refer_id_to=value;end

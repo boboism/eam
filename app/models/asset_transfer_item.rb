@@ -10,4 +10,6 @@ class AssetTransferItem < ActiveRecord::Base
   belongs_to :specific_investment, :class_name => "SpecificInvestment", :foreign_key => "specific_investment_id"
   belongs_to :updated_by, :class_name => "User", :foreign_key => "updated_by_id"
 
+  AllocationAttributes = [:construction_period_id, :cost_center_id, :management_department_id, :quantity, :specific_investment_id]
+
 end
