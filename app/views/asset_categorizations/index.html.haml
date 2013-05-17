@@ -1,0 +1,59 @@
+- model_class = AssetCategorization.new.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: model_class.model_name.human, default: t("helpers.views.index.title", title: model_class.model_name.human))
+  .span7
+    .pull-right
+      .btn-group
+        = link_to new_asset_categorization_path, class: "btn" do
+          %i.icon-plus
+          %span= t(".new", default: t("helpers.links.new"))
+      .btn-group
+        = render "layouts/toolbar"
+.row-fluid
+  .span12
+    = form_tag model_class, method: :get, class: "form-search" do
+      .row-fluid
+        .span12
+          .input-append
+            = text_field_tag "[search][text]", nil, class: "search-query", placeholder: t(".placehoder", default: t("helpers.links.search_placeholder"))
+            = button_tag class: "btn" do
+              %i.icon-search
+              %span= t(".search", default: t("helpers.links.search"))
+.row-fluid
+  .span12
+    %table.table.table-condensed.table-hover.my-table
+      %thead
+        %tr
+          %th= check_box_tag "check_#{model_class.name.underscore}"
+          %th= model_class.human_attribute_name(:categorize_type)
+          %th= model_class.human_attribute_name(:items_count)
+          %th= model_class.human_attribute_name(:created_at)
+          %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:confirmed)
+          %th= model_class.human_attribute_name(:approved)
+          %th
+      %tbody
+        - @asset_categorizations.each do |asset_categorization|
+          %tr{href: asset_categorization_path(asset_categorization)}
+            %td= check_box_tag "#{model_class.name.underscore}_id_#{asset_categorization.id}"
+            %td= asset_categorization.categorize_type_name
+            %td= asset_categorization.items_count
+            %td= asset_categorization.created_at && asset_categorization.created_at.to_date
+            %td= icon_true_false(asset_categorization.submitted)
+            %td= icon_true_false(asset_categorization.confirmed)
+            %td= icon_true_false(asset_categorization.approved)
+            %td
+              .btn-group.pull-right
+                = link_to asset_categorization, class: "btn" do
+                  %i.icon-eye-open
+                  %span= t(".show", default: t("helpers.links.show"))
+                = link_to edit_asset_categorization_path(asset_categorization), class: "btn" do
+                  %i.icon-pencil
+                  %span= t(".edit", default: t("helpers.links.edit"))
+                = link_to asset_categorization, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))}, class: "btn btn-danger" do
+                  %i.icon-trash.icon-white
+                  %span= t(".destroy", default: t("helpers.links.destroy"))
+.row-fluid
+  .span12
+    = paginate @asset_categorizations

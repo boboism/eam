@@ -2,5 +2,8 @@
 
 FactoryGirl.define do
   factory :category do
+    code "01"
+    name "C1"
+    enabled true
   end
 end

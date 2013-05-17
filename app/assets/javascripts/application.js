@@ -15,6 +15,7 @@
 //= require bootstrap
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN
+//= require jasny-bootstrap
 //= require_tree .
 
 
@@ -41,6 +42,7 @@ create_fields = function(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
   $(link).closest("tr").before(content.replace(regexp, new_id));
+  fire_datepicker();
 }
 
 // calculate total quantity of transfer

@@ -6,7 +6,7 @@ GIT
       railties (>= 3.0)
 
 GEM
-  remote: https://rubygems.org/
+  remote: http://ruby.taobao.org/
   specs:
     actionmailer (3.2.12)
       actionpack (= 3.2.12)
@@ -120,6 +120,7 @@ GEM
       hpricot (~> 0.8.6)
       ruby_parser (~> 3.1.1)
     i18n (0.6.4)
+    jasny_bootstrap_extension_rails (0.0.1)
     journey (1.0.4)
     jquery-rails (2.2.1)
       railties (>= 3.0, < 5.0)
@@ -274,6 +275,7 @@ DEPENDENCIES
   guard-rspec (>= 2.5.2)
   haml-rails (>= 0.4)
   html2haml (>= 1.0.1)
+  jasny_bootstrap_extension_rails
   jquery-rails
   kaminari
   libv8 (>= 3.11.8)

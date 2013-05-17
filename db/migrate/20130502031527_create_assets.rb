@@ -5,6 +5,7 @@ class CreateAssets < ActiveRecord::Migration
       t.string :asset_name
       t.string :brand
       t.string :model
+      t.string :specification
       t.string :serial_no
       t.integer :category_id
       t.integer :sub_category_id
@@ -29,6 +30,15 @@ class CreateAssets < ActiveRecord::Migration
       t.datetime :published_at
       t.string :approval_no
       t.string :purchase_no
+      t.date :arrival_date
+      t.string :design_company
+      t.string :construction_company
+      t.string :contract_no
+      t.string :supplier
+      t.date :construction_date_from
+      t.date :construction_date_to
+      t.text :remark
+      
 
       t.timestamps
     end

@@ -1,0 +1,70 @@
+zh-CN:
+  activerecord:
+    errors:
+      models:
+        user:
+          attributes:
+            current_password:
+              blank: "请填写当前密码"
+            password:
+              confirmation: "请再次填写密码确认"
+    models:
+      asset_categorization: 
+        one: "分类编码"
+        other: "分类编码"
+      asset_categorization_item: 
+        one: "资产项"
+        other: "资产项"
+
+    attributes:
+      asset_categorization:
+        categorize_type: "资产新增类型"
+        categorize_types:
+          purchase_via_oa: "采购新增（OA系统）"
+          purchase: "采购新增"
+          financial_lease: "融资租入"
+          commercial_lease: "经营租入"
+          borrow: "借入"
+          free: "赠送"
+          inventory_profit: "盘盈"
+          other: "其他"
+        items_count: "数量"
+        created_by_id: "创建人"
+        updated_by_id: "更新人"
+        created_at: "创建时间"
+        updated_at: "更新时间"
+        submitted: "已提交"
+        submitted_by_id: "提交人"
+        submitted_at: "提交时间"
+        confirmed: "已确认"
+        confirmed_by_id: "确认人"
+        confirmed_at: "确认时间"
+        approved: "已审核"
+        approved_by_id: "审核人"
+        approved_at: "审核时间"
+        asset_categorization_items: "资产项"
+      asset_categorization_item:
+        created_by_id: "创建人"
+        updated_by_id: "更新人"
+        created_at: "创建时间"
+        updated_at: "更新时间"
+        category_id: "资产类别"
+        sub_category_id: "资产子类"
+        asset_no: "资产号"
+        asset_name: "资产名称"
+        brand: "品牌"
+        model: "型号"
+        serial_no: "序列号"
+        specification: "规格"
+        purchase_no: "采购单号"
+        contract_no: "合同号"
+        supplier: "供应商"
+        arrival_date: "到货日期"
+        amount: "金额"
+        conversion_rate: "转固率"
+        design_company: "设计单位"
+        construction_company: "建设单位"
+        construction_date_from: "建设期（开始）"
+        construction_date_to: "建设期（结束）"
+        remark: "备注"
+

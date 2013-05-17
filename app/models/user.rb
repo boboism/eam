@@ -13,5 +13,7 @@ class User < ActiveRecord::Base
   has_many :activated_assets, :class_name => "Asset", :foreign_key => "activated_by_id"
   has_many :created_assets, :class_name => "Asset", :foreign_key => "created_by_id"
   has_many :updated_assets, :class_name => "Asset", :foreign_key => "updated_by_id"
+
+  def to_s; name; end
   
 end

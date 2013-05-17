@@ -12,6 +12,10 @@ module ApplicationHelper
     html.html_safe
   end
 
+  def icon_true_false(checked=false)
+    !!checked ? content_tag("i", "", class: "iconic-check", style: "color: #468847") : content_tag("i", "", class: "iconic-x", style: "color: #BD362F")
+  end
+
   def link_to_destroy_fields(name, f, options={})
     f.hidden_field(:_destroy) + link_to_function(name, "destroy_fields(this)", options)
   end

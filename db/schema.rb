@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130502033800) do
+ActiveRecord::Schema.define(:version => 20130517083336) do
 
   create_table "asset_allocations", :force => true do |t|
     t.integer  "asset_id"
@@ -32,6 +32,53 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
   add_index "asset_allocations", ["cost_center_id"], :name => "asset_alloc_ccenter"
   add_index "asset_allocations", ["enabled"], :name => "asset_alloc_enabled"
   add_index "asset_allocations", ["management_department_id"], :name => "asset_alloc_mgmt_dept"
+
+  create_table "asset_categorization_items", :force => true do |t|
+    t.integer  "asset_id"
+    t.integer  "category_id"
+    t.integer  "sub_category_id"
+    t.string   "asset_no"
+    t.string   "asset_name"
+    t.string   "brand"
+    t.string   "model"
+    t.string   "specification"
+    t.string   "serial_no"
+    t.string   "purchase_no"
+    t.date     "arrival_date"
+    t.string   "design_company"
+    t.string   "construction_company"
+    t.date     "construction_date_from"
+    t.date     "construction_date_to"
+    t.decimal  "quantity"
+    t.decimal  "amount"
+    t.decimal  "conversion_rate"
+    t.string   "supplier"
+    t.string   "contract_no"
+    t.string   "usage"
+    t.string   "remark"
+    t.integer  "asset_categorization_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+  end
+
+  create_table "asset_categorizations", :force => true do |t|
+    t.integer  "categorize_type"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.boolean  "submitted",       :default => false
+    t.integer  "submitted_by_id"
+    t.datetime "submitted_at"
+    t.boolean  "confirmed",       :default => false
+    t.integer  "confirmed_by_id"
+    t.datetime "confirmed_at"
+    t.boolean  "approved",        :default => false
+    t.integer  "approved_by_id"
+    t.datetime "approved_at"
+    t.string   "doc_status"
+    t.integer  "items_count",     :default => 0
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+  end
 
   create_table "asset_cost_adjustments", :force => true do |t|
     t.integer  "asset_id"
@@ -135,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.boolean  "published"
     t.datetime "published_at"
     t.string   "document_status"
+    t.integer  "transfer_type"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
@@ -170,8 +218,14 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
     t.datetime "published_at"
     t.string   "approval_no"
     t.string   "purchase_no"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.date     "arrival_date"
+    t.string   "design_company"
+    t.string   "construction_company"
+    t.date     "construction_date_from"
+    t.date     "construction_date_to"
+    t.text     "remark"
+    t.datetime "created_at",             :null => false
+    t.datetime "updated_at",             :null => false
   end
 
   add_index "assets", ["accepted"], :name => "assets_accepted"
@@ -211,6 +265,15 @@ ActiveRecord::Schema.define(:version => 20130502033800) do
   add_index "model_relationships", ["type", "refer_id_from", "refer_id_to"], :name => "model_rel_fm_to", :unique => true
   add_index "model_relationships", ["type", "refer_id_from"], :name => "model_rel_fm", :unique => true
   add_index "model_relationships", ["type", "refer_id_to"], :name => "model_rel_to", :unique => true
+
+  create_table "number_poolings", :force => true do |t|
+    t.string   "type"
+    t.string   "serial"
+    t.integer  "status"
+    t.integer  "owned_by_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
 
   create_table "roles", :force => true do |t|
     t.string   "name"

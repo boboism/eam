@@ -1,5 +1,10 @@
 require 'spec_helper'
 
 describe AssetInfoAdjustment do
-  pending "add some examples to (or delete) #{__FILE__}"
+  @asset = FactoryGirl.create(:asset)
+  before(:each) do
+    @attr = {
+    }
+  end
+
 end

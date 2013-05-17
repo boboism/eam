@@ -1,6 +1,10 @@
 class Department < MasterData
   attr_accessible :code, :name, :description, :parent_id, :created_by_id, :updated_by_id, :enabled
 
+  validates :code, :presence => true, :uniqueness => true
+  validates :name, :presence => true
+  validates :enabled, :presence => true
+
   belongs_to :parent, :class_name => "Department", :foreign_key => "parent_id"
   has_many :children, :class_name => "Department", :foreign_key => "parent_id"
 

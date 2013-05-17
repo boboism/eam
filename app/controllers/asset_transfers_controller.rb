@@ -8,7 +8,8 @@ class AssetTransfersController < ApplicationController
   # GET /asset_transfers.json
   # GET /asset_transfers.xml
   def index
-    @asset_transfers = AssetTransfer.accessible_by(current_ability).search(params[:search]).page(params[:page])
+    #@asset_transfers = AssetTransfer.accessible_by(current_ability).search(params[:search]).page(params[:page])
+    @asset_transfers = AssetTransfer.page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb

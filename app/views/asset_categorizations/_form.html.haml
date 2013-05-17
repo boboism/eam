@@ -1,0 +1,17 @@
+= simple_form_for(@asset_categorization, html: {class: "well form-horizontal small-labels"}) do |f|
+  = f.error_notification
+  = display_base_errors @asset_categorization
+  - @asset_categorization.errors.each do |err|
+    %li= err.inspect
+  .form-inputs
+    = f.input :categorize_type, as: :radio_buttons, collection: AssetCategorization::CategorizeType.delete_if{|k,v| k == :purchase_via_oa}.collect{|k,v| [v[:description],v[:weight]]}, item_wrapper_class: "inline"
+    %table.table-condensed
+      %tbody
+        = f.simple_fields_for :asset_categorization_items do |item|
+          = render 'asset_categorization_item_fields', f: item
+        %tr.sub_total
+          %td{colspan: 2}
+            = link_to_create_fields(content_tag("i", "", class: "icon-plus")+content_tag("span", t(".new", default: t("helpers.links.new"))), f, :asset_categorization_items, class: "btn create_button", href: "javascript:void(0);")
+
+  .form-actions
+    = f.button :submit, t('helpers.links.submit'), class: 'btn-primary'
