@@ -1,5 +1,9 @@
 Eam::Application.routes.draw do
-  resources :asset_categorizations
+  resources :asset_categorizations do
+    post :submit,  :on => :member
+    post :confirm, :on => :member
+    post :approve, :on => :member
+  end
 
 
   resources :asset_transfers do

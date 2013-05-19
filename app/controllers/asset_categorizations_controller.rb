@@ -1,14 +1,14 @@
 class AssetCategorizationsController < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
-  
-  before_filter :load_asset_categorization, only: [:show, :edit, :update, :destroy]
+
+  before_filter :load_asset_categorization, only: [:show, :edit, :update, :destroy, :submit]
 
   # GET /asset_categorizations
   # GET /asset_categorizations.json
   # GET /asset_categorizations.xml
   def index
-    @asset_categorizations = AssetCategorization.accessible_by(current_ability).search(params[:search]).page(params[:page])
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability).search(params[:search]).order("approved, confirmed, submitted, id desc").page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -33,7 +33,7 @@ class AssetCategorizationsController < ApplicationController
   # GET /asset_categorizations/new.xml
   def new
     @asset_categorization = AssetCategorization.new(categorize_type: AssetCategorization::CategorizeType.collect{|k,v| v[:weight]}.last) do |cat|
-      3.times{cat.asset_categorization_items.new}
+      1.times{cat.asset_categorization_items.new}
     end
     respond_to do |format|
       format.html # new.html.erb
@@ -87,9 +87,9 @@ class AssetCategorizationsController < ApplicationController
   # DELETE /asset_categorizations/1.xml
   def destroy
     #@asset_categorization = AssetCategorization.find(params[:id])
-    if @asset_categorization.destroy && @asset_categorization.destroy
+    if @asset_categorization.destroy
       respond_to do |format|
-        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.destroy_success', name: @asset_categorization.class.model_name.human) } 
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.destroy_success', name: @asset_categorization.class.model_name.human) }
         format.json { head :no_content }
         format.xml  { head :no_content }
       end
@@ -102,12 +102,72 @@ class AssetCategorizationsController < ApplicationController
     end
   end
 
+  # POST /asset_categorizations/1
+  # POST /asset_categorizations/1.json
+  # POST /asset_categorizations/1.xml
+  def submit
+    #@asset_categorization = AssetCategorization.find(params[:id])
+    if @asset_categorization.submit!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.submit_success', name: @asset_categorization.class.model_name.human) }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, flash: { error: @asset_categorization.errors.messages.values.join } }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # POST /asset_categorizations/1
+  # POST /asset_categorizations/1.json
+  # POST /asset_categorizations/1.xml
+  def confirm
+    #@asset_categorization = AssetCategorization.find(params[:id])
+    if @asset_categorization.confirm!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.confirm_success', name: @asset_categorization.class.model_name.human) }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, flash: { error: @asset_categorization.errors.messages.values.join } }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # POST /asset_categorizations/1
+  # POST /asset_categorizations/1.json
+  # POST /asset_categorizations/1.xml
+  def approve
+    #@asset_categorization = AssetCategorization.find(params[:id])
+    if @asset_categorization.approve!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.approve_success', name: @asset_categorization.class.model_name.human) }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, flash: { error: @asset_categorization.errors.messages.values.join } }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
   private
   # Use callback to share common setup or constraints between actions
   def load_asset_categorization
     @asset_categorization = AssetCategorization.accessible_by(current_ability).find(params[:id])
   end
-  
+
   # User this method to whitelist the permissible parameters. Example:
   #   params.require(:person).permit(:name, :age)
   #

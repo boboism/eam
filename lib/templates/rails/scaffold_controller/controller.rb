@@ -6,7 +6,7 @@ require_dependency "<%= namespaced_file_path %>/application_controller"
 class <%= controller_class_name %>Controller < ApplicationController
   before_filter :authenticate_user!
   load_and_authorize_resource
-  
+
   before_filter :load_<%= singular_table_name %>, only: [:show, :edit, :update, :destroy]
 
   # GET <%= route_url %>
@@ -89,15 +89,15 @@ class <%= controller_class_name %>Controller < ApplicationController
   # DELETE <%= route_url %>/1.xml
   def destroy
     #@<%= singular_table_name %> = <%= orm_class.find(class_name, "params[:id]") %>
-    if @<%= orm_instance.destroy %> && @<%= singular_table_name %>.destroy
+    if @<%= orm_instance.destroy %>
       respond_to do |format|
-        format.html { redirect_to <%= index_helper %>_url, notice: I18n.t('controllers.destroy_success', name: @<%= singular_table_name %>.class.model_name.human) } 
+        format.html { redirect_to <%= index_helper %>_url, notice: I18n.t('controllers.destroy_success', name: @<%= singular_table_name %>.class.model_name.human) }
         format.json { head :no_content }
         format.xml  { head :no_content }
       end
     else
       respond_to do |format|
-        format.html { redirect_to <%= index_helper %>_url, notice: I18n.t('controllers.destroy_fail', name: @<%= singular_table_name %>.class.model_name.human) }
+        format.html { redirect_to <%= index_helper %>_url, falsh: { error: I18n.t('controllers.destroy_fail', name: @<%= singular_table_name %>.class.model_name.human) } }
         format.json { head :no_content }
         format.xml  { head :no_content }
       end
@@ -109,7 +109,7 @@ class <%= controller_class_name %>Controller < ApplicationController
   def load_<%= singular_table_name %>
     @<%= singular_table_name %> = <%= class_name %>.accessible_by(current_ability).find(params[:id])
   end
-  
+
   # User this method to whitelist the permissible parameters. Example:
   #   params.require(:person).permit(:name, :age)
   #

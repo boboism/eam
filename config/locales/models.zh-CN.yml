@@ -9,16 +9,16 @@ zh-CN:
             password:
               confirmation: "请再次填写密码确认"
     models:
-      asset_categorization: 
+      asset_categorization:
         one: "分类编码"
         other: "分类编码"
-      asset_categorization_item: 
+      asset_categorization_item:
         one: "资产项"
         other: "资产项"
 
     attributes:
       asset_categorization:
-        categorize_type: "资产新增类型"
+        categorize_type: "新增类型"
         categorize_types:
           purchase_via_oa: "采购新增（OA系统）"
           purchase: "采购新增"
@@ -28,6 +28,7 @@ zh-CN:
           free: "赠送"
           inventory_profit: "盘盈"
           other: "其他"
+        id: "单号"
         items_count: "数量"
         created_by_id: "创建人"
         updated_by_id: "更新人"

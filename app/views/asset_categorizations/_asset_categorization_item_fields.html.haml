@@ -4,7 +4,7 @@
     %table.table.table-condensed.table-bordered
       %tr
         %th{colspan: 7}
-          %h4.info= "#{model_class.model_name.human}" 
+          %h4.info= "#{model_class.model_name.human}"
           =f.input_field :asset_id, as: :hidden
       %tr
         %th= model_class.human_attribute_name(:sub_category_id)
@@ -25,14 +25,14 @@
         %th= model_class.human_attribute_name(:contract_no)
         %th{colspan: 2}= model_class.human_attribute_name(:supplier)
         %th= model_class.human_attribute_name(:arrival_date)
-        %th= model_class.human_attribute_name(:original_cost)
+        %th= model_class.human_attribute_name(:amount)
         %th= model_class.human_attribute_name(:conversion_rate)
       %tr
         %td= f.input_field :purchase_no, class: "input-block-level"
         %td= f.input_field :contract_no, class: "input-block-level"
         %td{colspan: 2}= f.input_field :supplier, class: "input-block-level"
         %td= f.input_field :arrival_date, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
-        %td= f.input_field :original_cost, class: "input-block-level"
+        %td= f.input_field :amount, class: "input-block-level"
         %td= f.input_field :conversion_rate, class: "input-block-level"
       %tr
         %th= model_class.human_attribute_name(:design_company)

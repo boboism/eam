@@ -9,7 +9,7 @@ zh-CN:
         title: '【%{title}】列表'
       edit:
         title: '编辑【%{title}】'
-      new: 
+      new:
         title: '创建【%{title}】'
       show:
         title: '查看【%{title}】'
@@ -33,6 +33,8 @@ zh-CN:
       refresh: '刷新'
       search: '查找'
       close: '关闭'
+      approve: '审核'
+      operation: '操作'
       search_placeholder: '请填入需要查询的内容'
     file:
       unsupport_file_type: "不支持文件类型:%{name}"
