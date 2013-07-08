@@ -41,8 +41,8 @@ class AssetTransfer < ActiveRecord::Base
                   :management_department_transfer => {:weight => (1 << 1), :match => :management_department_id, :description => I18n.t("activerecord.attributes.asset_transfer.transfer_types.management_department_transfer")}, 
                   :cost_center_transfer           => {:weight => (1 << 2), :match => :cost_center_id, :description => I18n.t("activerecord.attributes.asset_transfer.transfer_types.management_department_transfer")}}
 
-  scope :search, lambda{ |search|
-    search = Hash(search)
+  scope :search, lambda{ |search={}|
+    search ||= {}
     if search[:text]
       joins{transfering_assets.asset}.where{transfering_assets.asset.asset_no =~ "%#{search[:text]}%"} 
     end
