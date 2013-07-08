@@ -11,6 +11,8 @@ class CreateAssetAllocations < ActiveRecord::Migration
       t.datetime :enabled_at
       t.integer :created_by_id
       t.integer :updated_by_id
+      t.string :responsible_by
+      t.integer :disabled_by_id
 
       t.timestamps
     end

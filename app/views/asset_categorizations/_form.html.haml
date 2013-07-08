@@ -1,8 +1,6 @@
 = simple_form_for(@asset_categorization, html: {class: "well form-horizontal small-labels"}) do |f|
   = f.error_notification
-  = display_base_errors @asset_categorization
-  - @asset_categorization.errors.each do |err|
-    %li= err.inspect
+  = display_error_messages @asset_categorization
   .form-inputs
     = f.input :categorize_type, as: :radio_buttons, collection: AssetCategorization::CategorizeType.delete_if{|k,v| k == :purchase_via_oa}.collect{|k,v| [v[:description],v[:weight]]}, item_wrapper_class: "inline"
     %table.table-condensed

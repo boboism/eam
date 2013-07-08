@@ -1,37 +1,46 @@
-- model_class = @asset.class
+- model_class = Asset
 .row-fluid.page-header
   .span4
-    %h3= "#{@asset.category.name}-#{@asset.sub_category.name} #{@asset.asset_no}"
+    %h3= "#{@asset.category.name}-#{@asset.sub_category.name} #{model_class.human_attribute_name(:asset_no)}: #{@asset.asset_no}"
   .span8
     .pull-right
       .btn-group
-        %a.btn.dropdown-toggle{ :"data-toggle" => "dropdown", :href => "javascript:void(0);" }
-          Action
+        %a.btn.btn-info.dropdown-toggle{ :"data-toggle" => "dropdown", :href => "javascript:void(0);" }
+          = t('.operation', default: t('helpers.links.operation'))
           %span.caret
         %ul.dropdown-menu
-          %li
-            = link_to new_asset_info_adjustment_path(:asset_id => @asset.id) do
-              %i.icon-plus
-              %span= t(".new_asset_info", default: "New Asset Info Adjustment")
-          %li
-            = link_to new_asset_cost_adjustment_path(:asset_id => @asset.id) do
-              %i.icon-plus
-              %span= t(".new_asset_cost", default: "New Asset Cost Adjustment")
-          %li
-            = link_to new_asset_transfer_path(:asset_id => @asset.id) do
-              %i.icon-plus
-              %span= t(".new_asset_transfer", default: "New Asset Transfer")
+          - if can? :create, AssetInfoAdjustment
+            %li
+              = link_to new_asset_info_adjustment_path(:asset_id => @asset.id) do
+                %i.icon-plus
+                %span= t(".new_info_adjustment", default: "New Asset Info Adjustment")
+          - if can? :create, AccessoryAdjustment
+            %li
+              = link_to new_accessory_adjustment_path(:asset_id => @asset.id) do
+                %i.icon-plus
+                %span= t(".new_accessory_adjustment", default: "New Accessory Adjustment")
+          - if can? :create, AssetCostAdjustment
+            %li
+              = link_to new_asset_cost_adjustment_path(:asset_id => @asset.id) do
+                %i.icon-plus
+                %span= t(".new_cost_adjustment", default: "New Asset Cost Adjustment")
+          - if can? :create, AssetTransfer
+            %li
+              = link_to new_asset_transfer_path(:asset_id => @asset.id) do
+                %i.icon-plus
+                %span= t(".new_asset_transfer", default: "New Asset Transfer")
       .btn-group
-        = link_to edit_asset_path(@asset), class: "btn" do
-          %i.icon-pencil
-          %span= t(".edit", default: t("helpers.links.edit"))
-
-        = link_to @asset, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destroy?"))}, class: "btn btn-danger" do
-          %i.icon-trash.icon-white
-          %span= t(".destroy", default: t("helpers.links.destroy"))
-        = link_to assets_path, class: "btn" do
-          %i.icon-list
-          %span= t(".index", default: t("helpers.links.index"))
+        - if can? :modify, @asset
+          = link_to edit_asset_path(@asset), class: "btn" do
+            %i.icon-pencil
+            %span= t(".edit", default: t("helpers.links.edit"))
+          = link_to @asset, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destroy?"))}, class: "btn btn-danger" do
+            %i.icon-trash.icon-white
+            %span= t(".destroy", default: t("helpers.links.destroy"))
+        - if can? :read, Asset
+          = link_to assets_path, class: "btn" do
+            %i.icon-list
+            %span= t(".index", default: t("helpers.links.index"))
       .btn-group
         = render "layouts/toolbar"
 
@@ -39,16 +48,24 @@
   .span12
     %ul#assetTab.nav.nav-tabs
       %li.active
-        %a{ :href => "#asset", :"data-toggle" => "tab" } Basic Info
+        %a{ :href => "#asset", :"data-toggle" => "tab" }= t('.base_info') 
       %li
-        %a{ :href => "#info_adj", :"" => "tab" } Info Adj.
+        %a{ :href => "#asset_cat", :"data-toggle" => "tab" }= t('.asset_categorization')
       %li
-        %a{ :href => "#cost_adj", :"" => "tab" } Cost Adj.
+        %a{ :href => "#accs_adj", :"data-toggle" => "tab" }= t('.accs_adjustments')
       %li
-        %a{ :href => "#transfer", :"" => "tab" } Transfer
+        %a{ :href => "#info_adj", :"data-toggle" => "tab" }= t('.info_adjustments') 
+      %li
+        %a{ :href => "#cost_adj", :"data-toggle" => "tab" }= t('.cost_adjustments') 
+      %li
+        %a{ :href => "#transfer", :"data-toggle" => "tab" }= t('.asset_transfers') 
     #assetTabContent.tab-content
       #asset.tab-pane.fade.active.in
         = render 'asset_info', :asset => @asset
+      #asset_cat.tab-pane.fade
+        = render 'asset_categorization_item', :asset => @asset
+      #accs_adj.tab-pane.fade
+        = render 'accs_adjustments', :asset => @asset
       #info_adj.tab-pane.fade
         = render 'info_adjustments', :asset => @asset
       #cost_adj.tab-pane.fade

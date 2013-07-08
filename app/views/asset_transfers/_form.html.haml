@@ -1,10 +1,16 @@
-= simple_form_for(@asset_transfer, html: {class: "well form-horizontal"}) do |f|
+= simple_form_for(@asset_transfer, html: {class: "well form-horizontal small-labels"}) do |f|
 
   = f.error_notification
   = display_base_errors @asset_transfer
 
   .form-inputs
     = f.input :effective_date, as: :string, input_html: { class: "input-block-level", :"data-behavior" => "datepicker" }
+    = f.input :created_by_id, as: :hidden
+    = f.input :updated_by_id, as: :hidden
+    = f.input :submitted, as: :hidden
+    = f.input :confirmed, as: :hidden
+    = f.input :approved, as: :hidden
+
     = render 'asset_transfer_asset', f: f
 
   .form-actions

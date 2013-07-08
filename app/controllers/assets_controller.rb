@@ -23,7 +23,9 @@ class AssetsController < ApplicationController
   def show
     @asset_info_adjustments = AssetInfoAdjustment.where(:asset_id => params[:id])
     @asset_cost_adjustments = AssetCostAdjustment.where(:asset_id => params[:id])
-    @asset_transfers        = AssetTransfer.joins{transfering_assets.asset}.where{(transfering_assets.asset.id == "#{params[:id]}")}
+    @asset_transfers        = @asset.asset_transfers
+    @asset_categorization_item   = @asset.asset_categorization_item
+    @accessory_adjusting_assets = @asset.accessory_adjusting_assets
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @asset }

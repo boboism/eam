@@ -5,9 +5,10 @@
   .span7
     .pull-right
       .btn-group
-        = link_to new_asset_transfer_path, class: "btn" do
-          %i.icon-plus
-          %span= t(".new", default: t("helpers.links.new"))
+        /
+          = link_to new_asset_transfer_path, class: "btn" do
+            %i.icon-plus
+            %span= t(".new", default: t("helpers.links.new"))
       .btn-group
         = render "layouts/toolbar"
 .row-fluid
@@ -26,38 +27,59 @@
       %thead
         %tr
           %th= check_box_tag "check_#{model_class.name.underscore}"
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:transfering_assets)
           %th= model_class.human_attribute_name(:effective_date)
-          %th= model_class.human_attribute_name(:created_at)
-          %th= model_class.human_attribute_name(:submitted_at)
-          %th= model_class.human_attribute_name(:confirmed_at)
-          %th= model_class.human_attribute_name(:approved_at)
-          %th= model_class.human_attribute_name(:rejected_at)
-          %th= model_class.human_attribute_name(:published_at)
-          %th= model_class.human_attribute_name(:document_status)
+          %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:confirmed)
+          %th= model_class.human_attribute_name(:approved)
           %th
       %tbody
         - @asset_transfers.each do |asset_transfer|
           %tr{href: asset_transfer_path(asset_transfer)}
             %td= check_box_tag "#{model_class.name.underscore}_id_#{asset_transfer.id}"
+            %td= asset_transfer.id
+            %td= asset_transfer.assets.collect(&:asset_no).join(",")
             %td= asset_transfer.effective_date
-            %td= asset_transfer.created_at
-            %td= asset_transfer.submitted_at
-            %td= asset_transfer.confirmed_at
-            %td= asset_transfer.approved_at
-            %td= asset_transfer.rejected_at
-            %td= asset_transfer.published_at
-            %td= asset_transfer.document_status
+            %td= icon_true_false(asset_transfer.submitted)
+            %td= icon_true_false(asset_transfer.confirmed)
+            %td= icon_true_false(asset_transfer.approved)
             %td
-              .btn-group.pull-right
-                = link_to asset_transfer, class: "btn" do
-                  %i.icon-eye-open
-                  %span= t(".show", default: t("helpers.links.show"))
-                = link_to edit_asset_transfer_path(asset_transfer), class: "btn" do
-                  %i.icon-pencil
-                  %span= t(".edit", default: t("helpers.links.edit"))
-                = link_to asset_transfer, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))}, class: "btn btn-danger" do
-                  %i.icon-trash.icon-white
-                  %span= t(".destroy", default: t("helpers.links.destroy"))
+              .btn-group
+                %button.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}
+                  %i.icon-wrench.icon-white
+                  = t(".operation", default: t("helpers.links.operation"))
+                  %span.caret
+                %ul.dropdown-menu
+                  - if can? :read, asset_transfer
+                    %li
+                      = link_to asset_transfer do
+                        %i.icon-eye-open
+                        %span= t('.show', default: t("helpers.links.show"))
+                  - if can? :modify, asset_transfer
+                    %li
+                      = link_to edit_asset_transfer_path(asset_transfer) do
+                        %i.icon-pencil
+                        %span= t(".edit", default: t("helpers.links.edit"))
+                    %li
+                      = link_to asset_transfer, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
+                        %i.icon-trash
+                        %span= t(".destroy", default: t("helpers.links.destroy"))
+                  - if can? :submit, asset_transfer
+                    %li
+                      = link_to submit_asset_transfer_path(asset_transfer), method: :put do
+                        %i.icon-upload
+                        %span= t(".submit", default: t("helpers.links.submit"))
+                  - if can? :confirm, asset_transfer
+                    %li
+                      = link_to confirm_asset_transfer_path(asset_transfer), method: :put do
+                        %i.icon-check
+                        %span= t(".confirm", default: t("helpers.links.confirm"))
+                  - if can? :approve, asset_transfer
+                    %li
+                      = link_to approve_asset_transfer_path(asset_transfer), method: :put do
+                        %i.icon-check
+                        %span= t(".approve", default: t("helpers.links.approve"))
 .row-fluid
   .span12
     = paginate @asset_transfers

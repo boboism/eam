@@ -2,6 +2,7 @@ class CreateAssets < ActiveRecord::Migration
   def change
     create_table :assets do |t|
       t.string :asset_no
+      t.string :device_no
       t.string :asset_name
       t.string :brand
       t.string :model
@@ -38,7 +39,7 @@ class CreateAssets < ActiveRecord::Migration
       t.date :construction_date_from
       t.date :construction_date_to
       t.text :remark
-      
+      t.integer :accessory_status 
 
       t.timestamps
     end
@@ -49,6 +50,7 @@ class CreateAssets < ActiveRecord::Migration
     add_index :assets, [:accepted], :name => "assets_accepted"
     add_index :assets, [:activated], :name => "assets_activated"
     add_index :assets, [:published], :name => "assets_published"
+    add_index :assets, [:accessory_status], :name => "assets_acc_stat"
 
   end
 end

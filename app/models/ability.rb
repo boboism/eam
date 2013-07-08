@@ -4,19 +4,68 @@ class Ability
   def initialize(user)
     alias_action :update, :destroy, :to => :modify
     user ||= User.new # guest user (not logged in)
-    can :manage, :all if user.has_role?(:admin)
+    #can :manage, :all if user.has_role?(:admin)
 
-    can :read, AssetCategorization, AssetCategorization.where(:created_by_id => user.id) do |ac|
-      ac.created_by_id == user.id
+    if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr)
+      can :read, AssetCategorization 
+    else
+      can :read, AssetCategorization, :created_by_id => user.id 
     end
-    can :read, AssetCategorization if user.has_any_role?(:finadmin,:acctadmin,:finmgr,:acctmgr)
-    can :create, AssetCategorization if user.has_role?(:costadmin)
-    can [:modify, :submit], AssetCategorization, AssetCategorization.where{(created_by_id == user.id) & (submitted == false)} do |ac|
-      ac.created_by_id == user.id && !ac.submitted?
+    can :create, AssetCategorization if user.has_any_role?(:admin,:costadmin)
+    can [:modify, :submit], AssetCategorization, :created_by_id => user.id, :submitted => false
+    can [:confirm, :index_confirmable], AssetCategorization, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
+    can [:approve, :index_approvable], AssetCategorization, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
+
+    if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr)
+      can :read, Asset
     end
-    can :confirm, AssetCategorization, AssetCategorization.where{(submitted == true) & (confirmed == false)} do |ac|
-      ac.submitted && !ac.confirmed
-    end if user.has_role?(:deptadmin)
+
+    if user.has_any_role?(:admin,:deptadmin)
+      can :create, AssetCostAdjustment
+    end
+    if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr)
+      can :read, AssetCostAdjustment
+    else
+      can :read, AssetCostAdjustment, :created_by_id => user.id
+    end
+
+    if user.has_any_role?(:admin,:finadmin,:deptadmin)
+      can :create, AssetTransfer
+    end
+    if user.has_any_role?(:admin,:finadmin,:deptadmin)
+      can :read, AssetTransfer
+    else
+      can :read, AssetTransfer, :created_by_id => user.id
+    end
+    can [:modify, :submit], AssetTransfer, :created_by_id => user.id, :submitted => false
+    if user.has_any_role?(:admin,:deptadmin)
+      can :confirm, AssetTransfer, :submitted => true, :confirmed => false
+    end
+    if user.has_any_role?(:admin, :findadmin, :finmgr)
+      can :approve, AssetTransfer, :confirmed => true, :approved => false
+    end
+
+    if user.has_any_role?(:admin,:costadmin)
+      can :create, AssetInfoAdjustment
+    end
+    if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr,:deptadmin)
+      can :read, AssetInfoAdjustment
+    else
+      can :read, AssetInfoAdjustment, :created_by_id => user.id
+    end
+
+    if user.has_any_role?(:admin, :deptadmin)
+      can :create, AccessoryAdjustment
+    end
+    if user.has_any_role?(:admin, :finadmin, :acctadmin)
+      can :read, AccessoryAdjustment
+    else 
+      can :read, AccessoryAdjustment, :created_by_id => user.id
+    end
+    can [:modify, :submit], AccessoryAdjustment, :created_by_id => user.id, :submitted => false 
+
+    can [:confirm, :index_confirmable], AccessoryAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
+    can [:approve, :index_approvable], AccessoryAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 
     # Define abilities for the passed in user here. For example:
     #

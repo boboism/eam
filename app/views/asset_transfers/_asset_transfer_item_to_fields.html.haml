@@ -3,6 +3,7 @@
   %td= f.input_field :specific_investment_id, collection: SpecificInvestment.selectable, class: "input-small"
   %td= f.input_field :management_department_id, collection: Department.selectable, class: "input-large"
   %td= f.input_field :cost_center_id, as: :select, collection: CostCenter.selectable, class: "input-large"
+  %td= f.input_field :responsible_by, as: :string, class: "input-medium"
   %td= f.input_field :quantity, class: "input-mini"
   %td
     = link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), f, href: "javascript:void(0);")

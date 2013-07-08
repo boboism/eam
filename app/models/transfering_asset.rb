@@ -8,8 +8,8 @@ class TransferingAsset < ModelRelationship
     assoc.has_many :asset_transfer_item_froms, :class_name => "AssetTransferItemFrom", :foreign_key => "transfering_asset_id"
     assoc.has_many :asset_transfer_item_tos, :class_name => "AssetTransferItemTo", :foreign_key => "transfering_asset_id"
   end
-  accepts_nested_attributes_for :asset_transfer_item_froms
-  accepts_nested_attributes_for :asset_transfer_item_tos
+  accepts_nested_attributes_for :asset_transfer_item_froms, :allow_destroy => true
+  accepts_nested_attributes_for :asset_transfer_item_tos, :allow_destroy => true
 
   def asset_id=(value); self.refer_id_to=value;end
   def asset_id;self.refer_id_to;end

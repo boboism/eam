@@ -1,9 +1,9 @@
-%a.btn{:onclick => "window.history.back();void(0);"}
-  %i.icon-hand-left
+%a.btn{:onclick => "window.history.back();void(0);", "data-placement" => "bottom", "data-toggle" => "tooltip", :title => t('helpers.links.back')}
+  %i.icon-arrow-left
   /%span= t('helpers.links.back')
-%a.btn{:onclick => "window.location.reload();void(0);"}
-  %i.icon-refresh
+%a.btn{:onclick => "window.location.reload();void(0);", "data-placement" => "bottom", "data-toggle" => "tooltip", :title => t('helpers.links.refresh')}
+  %i.icon-repeat
   /%span= t('helpers.links.refresh')
-%a.btn{:onclick => "window.history.forward();void(0);"}
-  %i.icon-hand-right
+%a.btn{:onclick => "window.history.forward();void(0);", "data-placement" => "bottom", "data-toggle" => "tooltip", :title => t('helpers.links.forward')}
+  %i.icon-arrow-right
   /%span= t('helpers.links.forward')

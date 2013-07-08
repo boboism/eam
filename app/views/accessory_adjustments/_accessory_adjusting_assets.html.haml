@@ -1,0 +1,6 @@
+= f.simple_fields_for :accessory_adjusting_assets do |asset|
+  = asset.input :refer_id_from, as: :hidden
+  = asset.input :refer_id_to, as: :hidden
+
+  = render 'accessory_adjustment_item_froms', :asset => asset
+  = render 'accessory_adjustment_item_tos', :asset => asset

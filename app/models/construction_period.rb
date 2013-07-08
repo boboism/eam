@@ -7,4 +7,6 @@ class ConstructionPeriod < MasterData
   def self.selectable
     enabled.collect{|p| [p.name, p.id]}
   end
+
+  def to_s;"#{name}";end
 end

@@ -1,11 +1,21 @@
 require_dependency './extras/eam_extension/array.rb'
 
 class AssetTransfer < ActiveRecord::Base
-  attr_accessible :approved_at, :approved_by_id, :confirmed_at, :confirmed_by_id, :created_by_id, :document_status, :effective_date, :published, :published_at, :rejected_at, :rejected_by_id, :submitted_at, :submitted_by_id, :updated_by_id, :transfering_assets_attributes, :transfer_type
+  attr_accessible :approved_at, :approved_by_id, :confirmed_at, :confirmed_by_id, :created_by_id, :effective_date, :published, :published_at, :rejected_at, :rejected_by_id, :submitted_at, :submitted_by_id, :updated_by_id, :transfering_assets_attributes, :transfer_type, :submitted, :approved, :confirmed
+
+  belongs_to :approved_by, :class_name => "User", :foreign_key => "approved_by_id"
+  belongs_to :confirmed_by, :class_name => "User", :foreign_key => "confirmed_by_id"
+  belongs_to :submitted_by, :class_name => "User", :foreign_key => "submitted_by_id"
+  belongs_to :updated_by, :class_name => "User", :foreign_key => "updated_by_id"
+  belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
+
 
   # association between transfer order & transfer_items and incase of the multi-asset transfer business case
   has_many :transfering_assets, :class_name => "TransferingAsset", :foreign_key => "refer_id_from", :dependent => :destroy
   accepts_nested_attributes_for :transfering_assets
+  has_many :assets, :class_name => "Asset", :through => :transfering_assets
+  has_many :asset_transfer_item_froms, :class_name => "AssetTranferItemFrom", :through => :transfering_assets
+  has_many :asset_transfer_item_tos, :class_name => "AssetTranferItemTo", :through => :transfering_assets
 
   # transfer items of the tranfer order, association of transfering assets 
   # total quantity of each transfering asset's transfer items(both froms and tos) should be 1
@@ -13,6 +23,10 @@ class AssetTransfer < ActiveRecord::Base
     assoc.has_many :asset_transfer_item_froms, :class_name => "AssetTransferItemFrom"
     assoc.has_many :asset_transfer_item_tos,   :class_name => "AssetTransferItemTo"
   end
+
+  validates :effective_date, :date => {:after => Date.current}
+  validates :created_by_id, :updated_by_id, :presence => true
+
 
   # |------------------------------|------|------------------------|
   # |TRANSFER TYPE                 |WEIGHT|MATCH CASE              |
@@ -28,19 +42,20 @@ class AssetTransfer < ActiveRecord::Base
                   :cost_center_transfer           => {:weight => (1 << 2), :match => :cost_center_id, :description => I18n.t("activerecord.attributes.asset_transfer.transfer_types.management_department_transfer")}}
 
   scope :search, lambda{ |search|
+    search = Hash(search)
     if search[:text]
       joins{transfering_assets.asset}.where{transfering_assets.asset.asset_no =~ "%#{search[:text]}%"} 
     end
   }
 
   class << self
-    def new_by_asset_and_user(targets = [], user_id = nil)
+    def new_by_asset_and_user(targets = [], user = nil)
       # by default business case, only one asset will be transfered each time,
       # but incase of clients want a multi-assets transfer function,
       # make it to an array(Asset), so that can satisfy the needs of 
       # business case change.
-      targets, default_attrs = Array(targets), {:created_by_id => user_id, :updated_by_id => user_id}
-      return new(default_attrs) do |instance|
+      targets, default_attrs = Array(targets), {:created_by_id => user.id, :updated_by_id => user.id}
+      return new(default_attrs.merge(:submitted => false, :confirmed => false, :approved => false)) do |instance|
         instance.transfering_assets << targets.collect do |asset|
           TransferingAsset.new(default_attrs.merge(:asset_id => asset.id)) do |tr|
             # initialize trans from
@@ -65,16 +80,6 @@ class AssetTransfer < ActiveRecord::Base
     end
 
   end
-
-  def method_missing(id, *args, &block)
-    # if methods like: responsible_transfer? / management_department_transfer? / ...
-    if id =~ /(.+)\?$/ && TransferType.keys.include?($1.to_sym)
-      match_transfer_type?($1)
-    else
-      super
-    end
-  end
-
 
   # make changes to assets' allocations from tranfer_item_tos
   def apply_tranfer_items_to_asset(user_id = nil)
@@ -107,11 +112,13 @@ class AssetTransfer < ActiveRecord::Base
   end
 
   # update the transfer_type automatically while transfer items have changed
-  before_save :update_trasfer_type
-  def update_trasfer_type
-    self.transfer_type = TransferType.keys.inject(0) do |acc, trans_type| 
-      # accumulate each bit of the weight
-      acc |= __send__("#{transfer_type}?") ? TransferType[trans_type] : 0
+  before_save :update_transfer_type
+  def update_transfer_type
+    unless submitted?
+      self.transfer_type = TransferType.keys.inject(0) do |acc, trans_type| 
+        # accumulate each bit of the weight
+        acc |= match_transfer_type?(trans_type) ? TransferType[trans_type][:weight] : 0
+      end
     end
   end
 
@@ -128,6 +135,34 @@ class AssetTransfer < ActiveRecord::Base
       logger.debug "trans_fms:#{trans_fms.inspect}"
       logger.debug "trans_tos:#{trans_tos.inspect}"
       !(trans_fms ^ trans_tos).empty?
+    end
+  end
+
+  def submit!(user)
+    errors.add(:submitted, I18n.t("activerecord.attributes.asset_transfer.transactions.already_submitted", :at => submitted_at, :by => submitted_by)) && return if submitted?
+    self.transaction do
+      update_attributes(:submitted => true, :submitted_by_id => user.id, :submitted_at => DateTime.now, :updated_by_id => user.id)
+    end
+  end
+
+  def confirm!(user)
+    errors.add(:confirmed, I18n.t("activerecord.attributes.asset_transfer.transactions.already_confirmed", :at => confirmed_at, :by => confirmed_by)) && return if confirmed?
+    self.transaction do
+      update_attributes(:confirmed => true, :confirmed_by_id => user.id, :confirmed_at => DateTime.now, :updated_by_id => user.id)
+    end
+  end
+
+  def approve!(user)
+    errors.add(:approved, I18n.t("activerecord.attributes.asset_transfer.transactions.already_approved", :at => approved_at, :by => approved_by)) && return if approved?
+    self.transaction do
+      asset_transfer_item_tos.each do |item|
+        alloc = AssetAllocation.new_by_asset_transfer_item_to(item, {:created_by_id => user.id, :updated_by_id => user.id})
+        alloc.save
+        item.update_attributes({:asset_allocation_id => alloc.id, :updated_by_id => user.id, :updated_at => DateTime.now})
+      end
+
+      asset_transfer_item_froms.collect(&:asset_allocation).each{|alloc| alloc.disabled_by(user) if alloc }
+      update_attributes(:approved => true, :approved_by_id => user.id, :approved_at => DateTime.now, :updated_by_id => user.id)
     end
   end
 

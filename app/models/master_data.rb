@@ -10,4 +10,6 @@ class MasterData < ActiveRecord::Base
     enabled.collect{|c| ["#{c.code} #{c.name}", c.id]}
   end
 
+  def to_s;"#{code} #{name}";end
+
 end

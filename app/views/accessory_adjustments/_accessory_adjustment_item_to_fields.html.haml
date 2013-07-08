@@ -1,0 +1,10 @@
+%tr.field
+  %td= f.input_field :name, class: "input-small"
+  %td= f.input_field :brand, class: "input-small"
+  %td= f.input_field :model, class: "input-small"
+  %td= f.input_field :specification, class: "input-small"
+  %td= f.input_field :serial_no, class: "input-small"
+  %td= f.input_field :store_location, class: "input-small"
+  %td= f.input_field :amount, class: "input-small"
+  %td
+    = link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), f)

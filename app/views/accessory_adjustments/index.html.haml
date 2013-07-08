@@ -1,0 +1,84 @@
+- model_class = AccessoryAdjustment.new.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: model_class.model_name.human, default: t("helpers.views.index.title", title: model_class.model_name.human))
+  .span7
+    .pull-right
+      .btn-group
+        = link_to new_accessory_adjustment_path, class: "btn" do
+          %i.icon-plus
+          %span= t(".new", default: t("helpers.links.new"))
+      .btn-group
+        = render "layouts/toolbar"
+.row-fluid
+  .span12
+    = form_tag model_class, method: :get, class: "form-search" do
+      .row-fluid
+        .span12
+          .input-append
+            = text_field_tag "[search][text]", nil, class: "search-query", placeholder: t(".placehoder", default: t("helpers.links.search_placeholder"))
+            = button_tag class: "btn" do
+              %i.icon-search
+              %span= t(".search", default: t("helpers.links.search"))
+.row-fluid
+  .span12
+    %table.table.table-condensed.table-hover.my-table
+      %thead
+        %tr
+          %th= check_box_tag "check_#{model_class.name.underscore}"
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:accessory_adjusting_assets)
+          %th= model_class.human_attribute_name(:effective_date)
+          %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:confirmed)
+          %th= model_class.human_attribute_name(:approved)
+          %th
+      %tbody
+        - @accessory_adjustments.each do |accessory_adjustment|
+          %tr{href: accessory_adjustment_path(accessory_adjustment)}
+            %td= check_box_tag "#{model_class.name.underscore}_id_#{accessory_adjustment.id}"
+            %td= accessory_adjustment.id
+            %td= accessory_adjustment.assets.collect(&:asset_no).join(",")
+            %td= accessory_adjustment.effective_date
+            %td= icon_true_false(accessory_adjustment.submitted)
+            %td= icon_true_false(accessory_adjustment.confirmed)
+            %td= icon_true_false(accessory_adjustment.approved)
+            %td
+              .btn-group
+                %button.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}
+                  %i.icon-wrench.icon-white
+                  = t(".operation", default: t("helpers.links.operation"))
+                  %span.caret
+                %ul.dropdown-menu
+                  - if can? :read, accessory_adjustment
+                    %li
+                      = link_to accessory_adjustment do
+                        %i.icon-eye-open
+                        %span= t('.show', default: t("helpers.links.show"))
+                  - if can? :modify, accessory_adjustment
+                    %li
+                      = link_to edit_accessory_adjustment_path(accessory_adjustment) do
+                        %i.icon-pencil
+                        %span= t(".edit", default: t("helpers.links.edit"))
+                    %li
+                      = link_to accessory_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
+                        %i.icon-trash
+                        %span= t(".destroy", default: t("helpers.links.destroy"))
+                  - if can? :submit, accessory_adjustment
+                    %li
+                      = link_to submit_accessory_adjustment_path(accessory_adjustment), method: :put do
+                        %i.icon-upload
+                        %span= t(".submit", default: t("helpers.links.submit"))
+                  - if can? :confirm, accessory_adjustment
+                    %li
+                      = link_to confirm_accessory_adjustment_path(accessory_adjustment), method: :put do
+                        %i.icon-check
+                        %span= t(".confirm", default: t("helpers.links.confirm"))
+                  - if can? :approve, accessory_adjustment
+                    %li
+                      = link_to approve_accessory_adjustment_path(accessory_adjustment), method: :put do
+                        %i.icon-check
+                        %span= t(".approve", default: t("helpers.links.approve"))
+.row-fluid
+  .span12
+    = paginate @accessory_adjustments

@@ -26,14 +26,14 @@
         %th{colspan: 2}= model_class.human_attribute_name(:supplier)
         %th= model_class.human_attribute_name(:arrival_date)
         %th= model_class.human_attribute_name(:amount)
-        %th= model_class.human_attribute_name(:conversion_rate)
+        %th= model_class.human_attribute_name(:conversion_rate_percentage)
       %tr
         %td= f.input_field :purchase_no, class: "input-block-level"
         %td= f.input_field :contract_no, class: "input-block-level"
         %td{colspan: 2}= f.input_field :supplier, class: "input-block-level"
         %td= f.input_field :arrival_date, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
         %td= f.input_field :amount, class: "input-block-level"
-        %td= f.input_field :conversion_rate, class: "input-block-level"
+        %td= f.input_field :conversion_rate_percentage, class: "input-block-level"
       %tr
         %th= model_class.human_attribute_name(:design_company)
         %th= model_class.human_attribute_name(:construction_company)

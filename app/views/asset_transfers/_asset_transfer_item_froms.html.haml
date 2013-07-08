@@ -1,6 +1,31 @@
-= ta.simple_fields_for :asset_transfer_item_froms do |fm|
-  = fm.input :construction_period_id, as: :hidden
-  = fm.input :cost_center_id, as: :hidden
-  = fm.input :management_department_id, as: :hidden
-  = fm.input :quantity, as: :hidden
-  = fm.input :specific_investment_id, as: :hidden
+- tfif_class = AssetTransferItemFrom
+%h3= tfif_class.model_name.human
+%table.table.table-striped.table-condensed
+  %thead
+    %tr
+      %th= tfif_class.human_attribute_name(:construction_period)
+      %th= tfif_class.human_attribute_name(:specific_investment)
+      %th= tfif_class.human_attribute_name(:management_department)
+      %th= tfif_class.human_attribute_name(:cost_center)
+      %th= tfif_class.human_attribute_name(:responsible_by)
+      %th= tfif_class.human_attribute_name(:quantity)
+  %tbody
+    - if ta.object.asset_transfer_item_froms.empty?
+      %tr
+        %td{colspan:6}= t('.empty')
+    - else
+      = ta.simple_fields_for :asset_transfer_item_froms do |fm|
+        %tr
+          %td
+            = fm.input :construction_period_id, as: :hidden
+            = fm.input :cost_center_id, as: :hidden
+            = fm.input :management_department_id, as: :hidden
+            = fm.input :quantity, as: :hidden
+            = fm.input :responsible_by, as: :hidden
+            = fm.input :specific_investment_id, as: :hidden
+            = fm.object.construction_period
+          %td= fm.object.specific_investment
+          %td= fm.object.management_department
+          %td= fm.object.cost_center
+          %td= fm.object.responsible_by
+          %td= fm.object.quantity

@@ -1,0 +1,91 @@
+- model_class = AccessoryAdjustment
+- item_fm_class = AccessoryAdjustmentItemFrom
+- item_to_class = AccessoryAdjustmentItemTo
+- @accessory_adjusting_assets.each do |adj|
+  .row-fluid
+    .span12
+      %table.table.table-bordered.table-hover.table-condensed
+        %thead
+          %tr
+            %th= model_class.human_attribute_name(:effective_date)
+            %th= model_class.human_attribute_name(:created_by_id)
+            %th= model_class.human_attribute_name(:created_at)
+            %th= model_class.human_attribute_name(:updated_by_id)
+            %th= model_class.human_attribute_name(:updated_at)
+        %tbody
+          %tr
+            %td= adj.accessory_adjustment.effective_date && adj.accessory_adjustment.effective_date.to_date
+            %td= adj.accessory_adjustment.created_by
+            %td= adj.accessory_adjustment.created_at && adj.accessory_adjustment.created_at.to_date
+            %td= adj.accessory_adjustment.updated_by
+            %td= adj.accessory_adjustment.updated_at && adj.accessory_adjustment.updated_at.to_date
+  .row-fluid
+    .span12
+      %table.table.table-bordered.table-hover.table-condensed
+        %thead
+          %tr
+            %th= model_class.human_attribute_name(:submitted)
+            %th= model_class.human_attribute_name(:submitted_by_id)
+            %th= model_class.human_attribute_name(:submitted_at)
+            %th= model_class.human_attribute_name(:confirmed)
+            %th= model_class.human_attribute_name(:confirmed_by_id)
+            %th= model_class.human_attribute_name(:confirmed_at)
+            %th= model_class.human_attribute_name(:approved)
+            %th= model_class.human_attribute_name(:approved_by_id)
+            %th= model_class.human_attribute_name(:approved_at)
+        %tbody
+          %tr
+            %td= icon_true_false(adj.accessory_adjustment.submitted)
+            %td= adj.accessory_adjustment.submitted_by
+            %td= adj.accessory_adjustment.submitted_at && adj.accessory_adjustment.submitted_at.to_date
+            %td= icon_true_false(adj.accessory_adjustment.confirmed)
+            %td= adj.accessory_adjustment.confirmed_by
+            %td= adj.accessory_adjustment.confirmed_at && adj.accessory_adjustment.confirmed_at.to_date
+            %td= icon_true_false(adj.accessory_adjustment.approved)
+            %td= adj.accessory_adjustment.approved_by
+            %td= adj.accessory_adjustment.approved_at && adj.accessory_adjustment.approved_at.to_date
+  
+    .row-fluid
+      .span12
+        %table.table.table-bordered.table-hover.table-condensed.my-table-sheet
+          %tbody
+            %tr
+              %th{colspan:7}= adj.asset.asset_no
+            %tr
+              %th= item_fm_class.human_attribute_name(:name)
+              %th= item_fm_class.human_attribute_name(:model)
+              %th= item_fm_class.human_attribute_name(:specification)
+              %th= item_fm_class.human_attribute_name(:serial_no)
+              %th= item_fm_class.human_attribute_name(:brand)
+              %th= item_fm_class.human_attribute_name(:store_location)
+              %th= item_fm_class.human_attribute_name(:amount)
+            %tr
+              %th{colspan:7}= item_fm_class.model_name.human
+            - if adj.accessory_adjustment_item_froms.empty?
+              %tr
+                %td{colspan:7}= t('.no_record')
+            - else
+              - adj.accessory_adjustment_item_froms.each do |fm|
+                %tr
+                  %td= fm.name
+                  %td= fm.model
+                  %td= fm.specification
+                  %td= fm.serial_no
+                  %td= fm.brand
+                  %td= fm.store_location
+                  %td= fm.amount
+            %tr
+              %th{colspan:7}= item_to_class.model_name.human
+            - if adj.accessory_adjustment_item_tos.empty?
+              %tr
+                %td{colspan:7}= t('.no_record')
+            - else 
+              - adj.accessory_adjustment_item_tos.each do |to|
+                %tr
+                  %td= to.name
+                  %td= to.model
+                  %td= to.specification
+                  %td= to.serial_no
+                  %td= to.brand
+                  %td= to.store_location
+                  %td= to.amount

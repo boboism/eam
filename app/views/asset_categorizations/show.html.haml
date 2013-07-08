@@ -5,29 +5,49 @@
   .span8
     .pull-right
       .btn-group
-        - if can? :submit, @asset_categorization
-          = link_to submit_asset_categorization_path(@asset_categorization), method: :post, class: "btn" do
-            %i.icon-eye-open
-            %span= t(".submit", default: t("helpers.links.submit"))
-        - if can? :confirm, @asset_categorization
-          = link_to confirm_asset_categorization_path(@asset_categorization), method: :post, class: "btn" do
-            %i.icon-eye-open
-            %span= t(".confirm", default: t("helpers.links.confirm"))
-        - if can? :approve, @asset_categorization
-          = link_to approve_asset_categorization_path(@asset_categorization), method: :post, class: "btn" do
-            %i.icon-eye-open
-            %span= t(".approve", default: t("helpers.links.approve"))
-        - if can? :modify, @asset_categorization
-          = link_to edit_asset_categorization_path(@asset_categorization), class: "btn" do
-            %i.icon-pencil
-            %span= t(".edit", default: t("helpers.links.edit"))
-          = link_to @asset_categorization, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))}, class: "btn btn-danger" do
-            %i.icon-trash.icon-white
-            %span= t(".destroy", default: t("helpers.links.destroy"))
-        - if can? :read, AssetCategorization
-          = link_to asset_categorizations_path, class: "btn" do
-            %i.icon-list
-            %span= t(".index", default: t("helpers.links.index"))
+        %a.btn.btn-info.dropdown-toggle{"data-toggle" => "dropdown", :href => "javascript:void(0);"}
+          %i.icon-wrench.icon-white
+          = t('.operation',default: t('helpers.links.operation'))
+          %span.caret
+        %ul.dropdown-menu
+          - if can? :submit, @asset_categorization
+            %li
+              = link_to submit_asset_categorization_path(@asset_categorization), method: :post do
+                %i.icon-upload
+                %span= t(".submit", default: t("helpers.links.submit"))
+          - if can? :confirm, @asset_categorization
+            %li
+              = link_to confirm_asset_categorization_path(@asset_categorization), method: :post do
+                %i.icon-check
+                %span= t(".confirm", default: t("helpers.links.confirm"))
+          - if can? :approve, @asset_categorization
+            %li
+              = link_to approve_asset_categorization_path(@asset_categorization), method: :post do
+                %i.icon-check
+                %span= t(".approve", default: t("helpers.links.approve"))
+          - if can? :modify, @asset_categorization
+            %li
+              = link_to edit_asset_categorization_path(@asset_categorization), class: "btn" do
+                %i.icon-pencil
+                %span= t(".edit", default: t("helpers.links.edit"))
+              = link_to @asset_categorization, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
+                %i.icon-trash.icon-white
+                %span= t(".destroy", default: t("helpers.links.destroy"))
+          - if can? :read, AssetCategorization
+            %li
+              = link_to asset_categorizations_path do
+                %i.icon-list
+                %span= t(".index", default: t("helpers.links.index"))
+          - if can? :index_confirmable, AssetCategorization
+            %li
+              = link_to confirmable_asset_categorizations_path do
+                %i.icon-list
+                %span= t(".index_confirmable", default: t("helpers.links.index"))
+          - if can? :index_approvable, AssetCategorization
+            %li
+              = link_to approvable_asset_categorizations_path do
+                %i.icon-list
+                %span= t(".index_approvable", default: t("helpers.links.index"))
       .btn-group
         = render "layouts/toolbar"
 
@@ -110,7 +130,7 @@
             %td{colspan:2}= item.supplier
             %td= item.arrival_date && item.arrival_date.to_date
             %td= item.amount
-            %td= item.conversion_rate
+            %td= item.conversion_rate_percentage
           %tr
             %th= item_class.human_attribute_name(:design_company)
             %th= item_class.human_attribute_name(:construction_company)

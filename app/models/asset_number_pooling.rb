@@ -28,12 +28,13 @@ class AssetNumberPooling < NumberPooling
         raise I18n.t("activerecord.attributes.asset_number_pooling.no_available_number", :cat => "#{sub_category.number_pooling_prefix}#{sub_category.name}")
       end
       self.transaction do
-        update_attributes(:status => StatusType[:reserved][:weight])
+        num.update_attributes(:status => StatusType[:reserved][:weight])
       end
+      num
     end
   end
 
-  def take!(asset)
+  def taken_by!(asset)
     self.transaction do
       update_attributes(:owned_by_id => asset.id, :status => StatusType[:taken][:weight])
     end

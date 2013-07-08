@@ -5,9 +5,10 @@
   .span7
     .pull-right
       .btn-group
-        = link_to new_asset_path, class: "btn" do
-          %i.icon-plus
-          %span= t(".new", default: t("helpers.links.new"))
+        - if can? :create, Asset
+          = link_to new_asset_path, class: "btn" do
+            %i.icon-plus
+            %span= t(".new", default: t("helpers.links.new"))
       .btn-group
         = render "layouts/toolbar"
 .row-fluid
@@ -16,7 +17,7 @@
       .row-fluid
         .span12
           .input-append
-            = text_field_tag "[search][text]", nil, class: "search-query", placeholder: t(".placehoder", default: t("helpers.links.search_placeholder", default: ""))
+            = text_field_tag "[search][text]", nil, class: "search-query", placeholder: t(".placehoder", default: t("helpers.links.search_placeholder", default: "")), "data-toggle" => "tooltip", "title" => t(".placehoder", default: t("helpers.links.search_placeholder", default: ""))
             = button_tag class: "btn" do
               %i.icon-search
               %span= t(".search", default: t("helpers.links.search"))
@@ -32,8 +33,8 @@
           %th= model_class.human_attribute_name(:brand)
           %th= model_class.human_attribute_name(:model)
           %th= model_class.human_attribute_name(:serial_no)
-          %th= model_class.human_attribute_name(:activated_at)
-          %th= model_class.human_attribute_name(:accepted_at)
+          %th= model_class.human_attribute_name(:activated)
+          %th= model_class.human_attribute_name(:accepted)
           %th
       %tbody
         - @assets.each do |asset|
@@ -45,35 +46,39 @@
             %td= asset.brand
             %td= asset.model
             %td= asset.serial_no
-            %td= asset.activated_at
-            %td= asset.accepted_at
+            %td= icon_true_false(asset.activated)
+            %td= icon_true_false(asset.accepted)
             %td
               .btn-group
-                %a.btn.dropdown-toggle{ :"data-toggle" => "dropdown", :href => "javascript:void(0);" }
-                  Action
+                %a.btn.btn-info.dropdown-toggle{ :"data-toggle" => "dropdown", :href => "javascript:void(0);" }
+                  = t('.operation', default: t('helpers.links.operation')) 
                   %span.caret
                 %ul.dropdown-menu
-                  %li
-                    = link_to asset do
-                      %i.icon-eye-open
-                      %span= t(".show", default: t("helpers.links.show"))
-                  %li
-                    = link_to edit_asset_path(asset) do
-                      %i.icon-pencil
-                      %span= t(".edit", default: t("helpers.links.edit"))
-                  %li
-                    = link_to asset, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destroy?"))} do
-                      %i.icon-trash
-                      %span= t(".destroy", default: t("helpers.links.destroy"))
-                  %li.divider
-                  %li
-                    = link_to new_asset_info_adjustment_path(:asset_id => asset.id) do
-                      %i.icon-plus
-                      %span= t(".new_asset_info", default: "New Asset Info Adjustment")
-                  %li
-                    = link_to new_asset_cost_adjustment_path(:asset_id => asset.id) do
-                      %i.icon-plus
-                      %span= t(".new_asset_cost", default: "New Asset Cost Adjustment")
+                  - if can? :modify, asset
+                    %li
+                      = link_to edit_asset_path(asset) do
+                        %i.icon-pencil
+                        %span= t(".edit", default: t("helpers.links.edit"))
+                    %li
+                      = link_to asset, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destroy?"))} do
+                        %i.icon-trash
+                        %span= t(".destroy", default: t("helpers.links.destroy"))
+                    %li.divider
+                  - if can? :create, AssetInfoAdjustment
+                    %li
+                      = link_to new_asset_info_adjustment_path(:asset_id => asset.id) do
+                        %i.icon-plus
+                        %span= t(".new_info_adjustment", default: "New Asset Info Adjustment")
+                  - if can? :create, AssetCostAdjustment
+                    %li
+                      = link_to new_asset_cost_adjustment_path(:asset_id => asset.id) do
+                        %i.icon-plus
+                        %span= t(".new_cost_adjustment", default: "New Asset Cost Adjustment")
+                  - if can? :create, AssetTransfer
+                    %li
+                      = link_to new_asset_transfer_path(:asset_id => asset.id) do
+                        %i.icon-plus
+                        %span= t(".new_asset_transfer", default: "New Asset Transfer")
 .row-fluid
   .span12
     = paginate @assets

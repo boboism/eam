@@ -1,0 +1,20 @@
+- aait_class = AccessoryAdjustmentItemTo
+%h3= aait_class.model_name.human
+%table.table.table-striped.table-condensed
+  %thead
+    %th= aait_class.human_attribute_name(:name)
+    %th= aait_class.human_attribute_name(:brand)
+    %th= aait_class.human_attribute_name(:model)
+    %th= aait_class.human_attribute_name(:specification)
+    %th= aait_class.human_attribute_name(:serial_no)
+    %th= aait_class.human_attribute_name(:store_location)
+    %th= aait_class.human_attribute_name(:amount)
+    %th
+  %tbody
+    = asset.simple_fields_for :accessory_adjustment_item_tos do |to|
+      = render 'accessory_adjustment_item_to_fields', f: to
+
+    %tr.sub_total
+      %td{colspan: 7}
+        = link_to_create_fields(content_tag("i", "", class: "icon-plus")+content_tag("span", t(".new", default: t("helpers.links.new"))), asset, :accessory_adjustment_item_tos, class: "btn create_button", href: "javascript:void(0);")
+      %td

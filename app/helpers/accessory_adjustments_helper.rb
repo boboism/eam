@@ -1,0 +1,2 @@
+module AccessoryAdjustmentsHelper
+end

@@ -1,6 +1,6 @@
 class AssetTransfersController < ApplicationController
-  #before_filter :authenticate_user!
-  #load_and_authorize_resource
+  before_filter :authenticate_user!
+  load_and_authorize_resource
   
   before_filter :load_asset_transfer, only: [:show, :edit, :update, :destroy]
 
@@ -8,8 +8,7 @@ class AssetTransfersController < ApplicationController
   # GET /asset_transfers.json
   # GET /asset_transfers.xml
   def index
-    #@asset_transfers = AssetTransfer.accessible_by(current_ability).search(params[:search]).page(params[:page])
-    @asset_transfers = AssetTransfer.page(params[:page])
+    @asset_transfers = AssetTransfer.accessible_by(current_ability).search(params[:search]).order("id desc").page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -33,7 +32,7 @@ class AssetTransfersController < ApplicationController
   # GET /asset_transfers/new.json
   # GET /asset_transfers/new.xml
   def new
-    @asset_transfer = AssetTransfer.new_with_asset(Asset.where(:id => params[:asset_id]).first)
+    @asset_transfer = AssetTransfer.new_by_asset_and_user(Asset.where(:id => params[:asset_id]).first, current_user)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @asset_transfer }
@@ -86,7 +85,7 @@ class AssetTransfersController < ApplicationController
   # DELETE /asset_transfers/1.xml
   def destroy
     #@asset_transfer = AssetTransfer.find(params[:id])
-    if @asset_transfer.destroy && @asset_transfer.destroy
+    if @asset_transfer.destroy 
       respond_to do |format|
         format.html { redirect_to asset_transfers_url, notice: I18n.t('controllers.destroy_success', name: @asset_transfer.class.model_name.human) } 
         format.json { head :no_content }
@@ -95,6 +94,66 @@ class AssetTransfersController < ApplicationController
     else
       respond_to do |format|
         format.html { redirect_to asset_transfers_url, notice: I18n.t('controllers.destroy_fail', name: @asset_transfer.class.model_name.human) }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_transfers/1/submit
+  # PUT /asset_transfers/1/submit.json
+  # PUT /asset_transfers/1/submit.xml
+  def submit
+    @asset_transfer = AssetTransfer.accessible_by(current_ability, :submit).find(params[:id])
+    if @asset_transfer.submit!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_transfers_url, notice: I18n.t('controllers.submit_success', name: @asset_transfer.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_transfers_url, flash: {error: @asset_transfer.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_transfers/1/confirm
+  # PUT /asset_transfers/1/confirm.json
+  # PUT /asset_transfers/1/confirm.xml
+  def confirm
+    @asset_transfer = AssetTransfer.accessible_by(current_ability, :confirm).find(params[:id])
+    if @asset_transfer.confirm!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_transfers_url, notice: I18n.t('controllers.confirm_success', name: @asset_transfer.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_transfers_url, flash: {error: @asset_transfer.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_transfers/1/approve
+  # PUT /asset_transfers/1/approve.json
+  # PUT /asset_transfers/1/approve.xml
+  def approve
+    @asset_transfer = AssetTransfer.accessible_by(current_ability, :approve).find(params[:id])
+    if @asset_transfer.approve!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_transfers_url, notice: I18n.t('controllers.approve_success', name: @asset_transfer.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_transfers_url, flash: {error: @asset_transfer.errors} }
         format.json { head :no_content }
         format.xml  { head :no_content }
       end

@@ -1,18 +1,19 @@
-- tfio_class = ta.object.asset_transfer_item_tos.first.class
-%h3= tfio_class.model_name.human
+- tfit_class = AssetTransferItemTo
+%h3= tfit_class.model_name.human
 %table.table.table-striped.table-condensed
   %thead
-    %th= tfio_class.human_attribute_name(:construction_period)
-    %th= tfio_class.human_attribute_name(:specific_investment)
-    %th= tfio_class.human_attribute_name(:management_department)
-    %th= tfio_class.human_attribute_name(:cost_center)
-    %th= tfio_class.human_attribute_name(:quantity)
+    %th= tfit_class.human_attribute_name(:construction_period)
+    %th= tfit_class.human_attribute_name(:specific_investment)
+    %th= tfit_class.human_attribute_name(:management_department)
+    %th= tfit_class.human_attribute_name(:cost_center)
+    %th= tfit_class.human_attribute_name(:responsible_by)
+    %th= tfit_class.human_attribute_name(:quantity)
     %th
   %tbody
     = ta.simple_fields_for :asset_transfer_item_tos do |to|
       = render 'asset_transfer_item_to_fields', f: to
     %tr.sub_total
-      %td{colspan: 4}
+      %td{colspan: 5}
         = link_to_create_fields(content_tag("i", "", class: "icon-plus")+content_tag("span", t(".new", default: t("helpers.links.new"))), ta, :asset_transfer_item_tos, class: "btn create_button", href: "javascript:void(0);")
       %td.quantity= ta.object.transfer_item_tos_total_quantity
       %td

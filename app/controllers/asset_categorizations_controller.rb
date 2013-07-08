@@ -17,6 +17,32 @@ class AssetCategorizationsController < ApplicationController
     end
   end
 
+  # GET /asset_categorizations
+  # GET /asset_categorizations.json
+  # GET /asset_categorizations.xml
+  def index_approvable
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability, :approve).search(params[:search]).order("approved, confirmed, submitted, id desc").page(params[:page])
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @asset_categorizations }
+      format.xml  { render xml: @asset_categorizations }
+    end
+  end
+
+  # GET /asset_categorizations
+  # GET /asset_categorizations.json
+  # GET /asset_categorizations.xml
+  def index_confirmable
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability, :confirm).search(params[:search]).order("approved, confirmed, submitted, id desc").page(params[:page])
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @asset_categorizations }
+      format.xml  { render xml: @asset_categorizations }
+    end
+  end
+
   # GET /asset_categorizations/1
   # GET /asset_categorizations/1.json
   # GET /asset_categorizations/1.xml

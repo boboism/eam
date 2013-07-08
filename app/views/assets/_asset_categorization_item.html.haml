@@ -1,0 +1,122 @@
+- model_class = AssetCategorization
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:categorize_type)
+          %th= model_class.human_attribute_name(:created_by_id)
+          %th= model_class.human_attribute_name(:created_at)
+          %th= model_class.human_attribute_name(:updated_by_id)
+          %th= model_class.human_attribute_name(:updated_at)
+      %tbody
+        %tr
+          %td= @asset_categorization_item.asset_categorization.id
+          %td= @asset_categorization_item.asset_categorization.categorize_type_name
+          %td= @asset_categorization_item.asset_categorization.created_by
+          %td= @asset_categorization_item.asset_categorization.created_at && @asset_categorization_item.asset_categorization.created_at.to_date
+          %td= @asset_categorization_item.asset_categorization.updated_by
+          %td= @asset_categorization_item.asset_categorization.updated_at && @asset_categorization_item.asset_categorization.updated_at.to_date
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed.my-table-sheet
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:submitted_by_id)
+          %th= model_class.human_attribute_name(:submitted_at)
+          %th= model_class.human_attribute_name(:confirmed)
+          %th= model_class.human_attribute_name(:confirmed_by_id)
+          %th= model_class.human_attribute_name(:confirmed_at)
+          %th= model_class.human_attribute_name(:approved)
+          %th= model_class.human_attribute_name(:approved_by_id)
+          %th= model_class.human_attribute_name(:approved_at)
+      %tbody
+        %tr
+          %td= icon_true_false(@asset_categorization_item.asset_categorization.submitted)
+          %td= @asset_categorization_item.asset_categorization.submitted_by
+          %td= @asset_categorization_item.asset_categorization.submitted_at && @asset_categorization_item.asset_categorization.submitted_at.to_date
+          %td= icon_true_false(@asset_categorization_item.asset_categorization.confirmed)
+          %td= @asset_categorization_item.asset_categorization.confirmed_by
+          %td= @asset_categorization_item.asset_categorization.confirmed_at && @asset_categorization_item.asset_categorization.confirmed_at.to_date
+          %td= icon_true_false(@asset_categorization_item.asset_categorization.approved)
+          %td= @asset_categorization_item.asset_categorization.approved_by
+          %td= @asset_categorization_item.asset_categorization.approved_at && @asset_categorization_item.asset_categorization.approved_at.to_date
+- item_class = AssetCategorizationItem
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed
+      %tbody
+        %tr
+          %th= item_class.model_name.human
+          %td{colspan:6}= @asset_categorization_item.asset_no
+        %tr
+          %th= item_class.human_attribute_name(:sub_category_id)
+          %th= item_class.human_attribute_name(:asset_name)
+          %th= item_class.human_attribute_name(:brand)
+          %th= item_class.human_attribute_name(:model)
+          %th= item_class.human_attribute_name(:serial_no)
+          %th{colspan:2}= item_class.human_attribute_name(:specification)
+        %tr
+          %td= @asset_categorization_item.sub_category
+          %td= @asset_categorization_item.asset_name
+          %td= @asset_categorization_item.brand
+          %td= @asset_categorization_item.model
+          %td= @asset_categorization_item.serial_no
+          %td{colspan:2}= @asset_categorization_item.specification
+        %tr
+          %th= item_class.human_attribute_name(:purchase_no)
+          %th= item_class.human_attribute_name(:contract_no)
+          %th{colspan:2}= item_class.human_attribute_name(:supplier)
+          %th= item_class.human_attribute_name(:arrival_date)
+          %th= item_class.human_attribute_name(:amount)
+          %th= item_class.human_attribute_name(:conversion_rate)
+        %tr
+          %td= @asset_categorization_item.purchase_no
+          %td= @asset_categorization_item.contract_no
+          %td{colspan:2}= @asset_categorization_item.supplier
+          %td= @asset_categorization_item.arrival_date && @asset_categorization_item.arrival_date.to_date
+          %td= @asset_categorization_item.amount
+          %td= @asset_categorization_item.conversion_rate_percentage
+        %tr
+          %th= item_class.human_attribute_name(:design_company)
+          %th= item_class.human_attribute_name(:construction_company)
+          %th= item_class.human_attribute_name(:construction_date_from)
+          %th= item_class.human_attribute_name(:construction_date_to)
+          %th{colspan:3}= item_class.human_attribute_name(:remark)
+        %tr
+          %td= @asset_categorization_item.design_company
+          %td= @asset_categorization_item.construction_company
+          %td= @asset_categorization_item.construction_date_from && @asset_categorization_item.construction_date_from.to_date
+          %td= @asset_categorization_item.construction_date_to && @asset_categorization_item.construction_date_to.to_date
+          %td{colspan:3}= @asset_categorization_item.remark
+
+.row-fluid
+  .span12
+    .form-actions
+      .btn-group
+        - if can? :submit, @asset_categorization_item.asset_categorization
+          = link_to submit_asset_categorization_path(@asset_categorization_item.asset_categorization), method: :post, class: "btn" do
+            %i.icon-upload
+            %span= t(".submit", default: t("helpers.links.submit"))
+        - if can? :confirm, @asset_categorization_item.asset_categorization
+          = link_to confirm_asset_categorization_path(@asset_categorization_item.asset_categorization), method: :post, class: "btn" do
+            %i.icon-check
+            %span= t(".confirm", default: t("helpers.links.confirm"))
+        - if can? :approve, @asset_categorization_item.asset_categorization
+          = link_to approve_asset_categorization_path(@asset_categorization_item.asset_categorization), method: :post, class: "btn" do
+            %i.icon-check
+            %span= t(".approve", default: t("helpers.links.approve"))
+        - if can? :modify, @asset_categorization_item.asset_categorization
+          = link_to edit_asset_categorization_path(@asset_categorization_item.asset_categorization), class: "btn" do
+            %i.icon-pencil
+            %span= t(".edit", default: t("helpers.links.edit"))
+          = link_to @asset_categorization_item.asset_categorization, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))}, class: "btn btn-danger" do
+            %i.icon-trash.icon-white
+            %span= t(".destroy", default: t("helpers.links.destroy"))
+        - if can? :read, AssetCategorization
+          = link_to @asset_categorization_item.asset_categorization, class: "btn" do
+            %i.icon-eye-open
+            %span= t(".show", default: t("helpers.links.show"))
+

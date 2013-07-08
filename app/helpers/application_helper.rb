@@ -12,6 +12,18 @@ module ApplicationHelper
     html.html_safe
   end
 
+  def display_error_messages resource
+    return '' if (resource.errors.empty?) or (resource.errors.messages.empty?)
+    messages = resource.errors.messages.values(&:first).flatten.map{ |msg| content_tag(:p, msg) }.join
+    html = <<-HTML
+    <div class="alert alert-error alert-block">
+      <button type="button" class="close" data-dismiss="alert">&#215;</button>
+      #{messages}
+    </div>
+    HTML
+    html.html_safe
+  end
+
   def icon_true_false(checked=false)
     !!checked ? content_tag("i", "", class: "iconic-check", style: "color: #468847") : content_tag("i", "", class: "iconic-x", style: "color: #BD362F")
   end
@@ -21,6 +33,7 @@ module ApplicationHelper
   end
 
   def link_to_create_fields(name, f, association, options={})
+    logger.debug "name: #{name} == f: #{f.object}"
     new_object = f.object.class.reflect_on_association(association).klass.new
     fields = f.simple_fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
       render("#{association.to_s.singularize}_fields", :f => builder)

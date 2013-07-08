@@ -16,8 +16,26 @@
 //= require bootstrap-datepicker/core
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN
 //= require jasny-bootstrap
+//= require select2
 //= require_tree .
 
+// make table rows of index page can link to each record show page.
+linkify_record_container = function() {
+  $("table.my-table tbody tr td:not(:last-child):not(:has(:checkbox))").on("click", function(){
+    var href = $(this).parent().attr("href");
+    if(href != "") {
+      window.location.href = href;
+    }
+  });
+}
+
+// check or uncheck all records  in gam table
+check_or_uncheck_all_records_in_my_table = function() {
+  $("table.my-table thead tr th input[type='checkbox']").on("change", function() {
+    var check_status = $(this).is(':checked');
+    $(this).parents("table.my-table").find("tbody tr td input[type='checkbox']").attr("checked", check_status);
+  });
+}
 
 // bootstrap-datepicker init
 fire_datepicker = function() {
@@ -43,6 +61,7 @@ create_fields = function(link, association, content) {
   var regexp = new RegExp("new_" + association, "g");
   $(link).closest("tr").before(content.replace(regexp, new_id));
   fire_datepicker();
+  fire_calculate_asset_transfer_total_quantity();
 }
 
 // calculate total quantity of transfer
@@ -57,6 +76,12 @@ calculate_total_quantity = function(elem) {
   $(elem).closest("tbody").find(".sub_total .quantity").html(total_quantity);
 }
 
+fire_calculate_asset_transfer_total_quantity = function() {
+  $("input[id$='_quantity']").on("change", function() {
+    calculate_total_quantity(this);
+  });
+}
+
 toggle_asset_tabs = function() {
   $("#assetTab a").on("click", function(e) {
     e.preventDefault();
@@ -64,15 +89,18 @@ toggle_asset_tabs = function() {
   });
 }
 
+toggle_tooltip = function() {
+  $("[data-toggle=tooltip]").tooltip();
+}
+
 $(function(){
   fire_datepicker();
   $("a:has(.icon-trash), .create_button").on("click", function() {
     calculate_total_quantity(this);
   });
-  
-  $("input[id$='_quantity']").on("change", function() {
-    calculate_total_quantity(this);
-  });
-
+  fire_calculate_asset_transfer_total_quantity();
+  linkify_record_container();
+  toggle_tooltip();
+  check_or_uncheck_all_records_in_my_table();
   toggle_asset_tabs();
 });

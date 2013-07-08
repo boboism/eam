@@ -32,7 +32,7 @@ class AssetCostAdjustmentsController < ApplicationController
   # GET /asset_cost_adjustments/new.json
   # GET /asset_cost_adjustments/new.xml
   def new
-    @asset_cost_adjustment = AssetCostAdjustment.new(:asset_id => Asset.first.id)
+    @asset_cost_adjustment = AssetCostAdjustment.new_with_asset(Asset.where(:id => params[:asset_id]).first)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @asset_cost_adjustment }

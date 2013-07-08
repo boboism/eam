@@ -11,7 +11,52 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130517083336) do
+ActiveRecord::Schema.define(:version => 20130521005103) do
+
+  create_table "accessories", :force => true do |t|
+    t.string   "name"
+    t.string   "brand"
+    t.string   "model"
+    t.string   "specification"
+    t.string   "serial_no"
+    t.string   "store_location"
+    t.decimal  "amount"
+    t.boolean  "enabled"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "accessory_adjustment_items", :force => true do |t|
+    t.string   "name"
+    t.string   "model"
+    t.string   "specification"
+    t.string   "serial_no"
+    t.string   "brand"
+    t.string   "store_location"
+    t.decimal  "amount"
+    t.string   "type"
+    t.integer  "accessory_adjusting_asset_id"
+    t.integer  "accessory_id"
+    t.datetime "created_at",                   :null => false
+    t.datetime "updated_at",                   :null => false
+  end
+
+  create_table "accessory_adjustments", :force => true do |t|
+    t.date     "effective_date"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
+    t.integer  "submitted_by_id"
+    t.datetime "submitted_at"
+    t.boolean  "submitted"
+    t.boolean  "confirmed"
+    t.integer  "confirmed_by_id"
+    t.datetime "confirmed_at"
+    t.boolean  "approved"
+    t.datetime "approved_at"
+    t.integer  "approved_by_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
 
   create_table "asset_allocations", :force => true do |t|
     t.integer  "asset_id"
@@ -59,6 +104,7 @@ ActiveRecord::Schema.define(:version => 20130517083336) do
     t.integer  "asset_categorization_id"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
+    t.decimal  "original_cost"
   end
 
   create_table "asset_categorizations", :force => true do |t|
@@ -194,7 +240,6 @@ ActiveRecord::Schema.define(:version => 20130517083336) do
     t.string   "asset_name"
     t.string   "brand"
     t.string   "model"
-    t.string   "specification"
     t.string   "serial_no"
     t.integer  "category_id"
     t.integer  "sub_category_id"
@@ -222,13 +267,15 @@ ActiveRecord::Schema.define(:version => 20130517083336) do
     t.date     "arrival_date"
     t.string   "design_company"
     t.string   "construction_company"
-    t.string   "contract_no"
-    t.string   "supplier"
     t.date     "construction_date_from"
     t.date     "construction_date_to"
     t.text     "remark"
     t.datetime "created_at",             :null => false
     t.datetime "updated_at",             :null => false
+    t.text     "contract_no"
+    t.text     "supplier"
+    t.text     "specification"
+    t.integer  "accessory_status"
   end
 
   add_index "assets", ["accepted"], :name => "assets_accepted"

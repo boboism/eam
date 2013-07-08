@@ -5,24 +5,39 @@
       %thead
         %tr
           %th= asset_transfer_class.human_attribute_name(:effective_date)
-          %th= asset_transfer_class.human_attribute_name(:document_status)
-          %th{style: "width:150px"}
+          %th= asset_transfer_class.human_attribute_name(:submitted)
+          %th= asset_transfer_class.human_attribute_name(:confirmed)
+          %th= asset_transfer_class.human_attribute_name(:approved)
+          %th
       %tbody
         - @asset_transfers.each do |asset_transfer|
           %tr{href: asset_transfer_path(asset_transfer)}
             %td= asset_transfer.effective_date
-            %td= asset_transfer.document_status
+            %td= icon_true_false(asset_transfer.submitted)
+            %td= icon_true_false(asset_transfer.confirmed)
+            %td= icon_true_false(asset_transfer.approved)
             %td
               .btn-group
-                = link_to asset_transfer, class: "btn" do
-                  %i.icon-eye-open
-                  %span= t(".show", default: t("helpers.links.show"))
-                = link_to edit_asset_transfer_path(asset_transfer), class: "btn" do
-                  %i.icon-pencil
-                  %span= t(".edit", default: t("helpers.links.edit"))
-                = link_to asset_transfer, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destory?"))}, class: "btn btn-danger" do
-                  %i.icon-trash.icon-white
-                  %span= t(".destroy", default: t("helpers.links.destroy", default: "Destroy"))
-                = link_to submit_asset_transfer_path(asset_transfer), class: "btn btn-primary" do
-                  %i.icon-ok.icon-white
-                  %span= t(".submit", default: t("helpers.links.submit"))
+                - if can? :read, asset_transfer
+                  = link_to asset_transfer ,:class => "btn" do
+                    %i.icon-eye-open
+                    %span= t('.show', default: t("helpers.links.show"))
+                - if can? :modify, asset_transfer
+                  = link_to edit_asset_transfer_path(asset_transfer) ,:class => "btn" do
+                    %i.icon-pencil
+                    %span= t(".edit", default: t("helpers.links.edit"))
+                  = link_to asset_transfer, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} ,:class => "btn" do
+                    %i.icon-trash
+                    %span= t(".destroy", default: t("helpers.links.destroy"))
+                - if can? :submit, asset_transfer
+                  = link_to submit_asset_transfer_path(asset_transfer), method: :put ,:class => "btn" do
+                    %i.icon-upload
+                    %span= t(".submit", default: t("helpers.links.submit"))
+                - if can? :confirm, asset_transfer
+                  = link_to confirm_asset_transfer_path(asset_transfer), method: :put ,:class => "btn" do
+                    %i.icon-check
+                    %span= t(".confirm", default: t("helpers.links.confirm"))
+                - if can? :approve, asset_transfer
+                  = link_to approve_asset_transfer_path(asset_transfer), method: :put ,:class => "btn" do
+                    %i.icon-check
+                    %span= t(".approve", default: t("helpers.links.approve"))

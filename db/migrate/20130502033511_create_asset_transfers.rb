@@ -4,23 +4,23 @@ class CreateAssetTransfers < ActiveRecord::Migration
       t.date :effective_date
       t.integer :created_by_id
       t.integer :updated_by_id
+      t.boolean :confirmed
       t.integer :confirmed_by_id
       t.datetime :confirmed_at
       t.datetime :approved_at
+      t.boolean :approved
       t.integer :approved_by_id
       t.datetime :rejected_at
       t.integer :rejected_by_id
+      t.bolean :submitted
       t.integer :submitted_by_id
-      t.integer :submitted_at
+      t.datetime :submitted_at
       t.boolean :published
       t.datetime :published_at
-      t.string :document_status
       t.integer :transfer_type
 
       t.timestamps
     end
-
-    add_index :asset_transfers, [:document_status], :name => "asset_transfers_stat"
 
   end
 end

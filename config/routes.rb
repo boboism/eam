@@ -1,13 +1,28 @@
 Eam::Application.routes.draw do
+  resources :accessory_adjustments do
+    put :submit,  :on => :member
+    put :confirm, :on => :member
+    put :approve, :on => :member
+    get :approvable, :action => "index_approvable", :on => :collection
+    get :confirmable, :action => "index_confirmable", :on => :collection
+  end
+
+
   resources :asset_categorizations do
-    post :submit,  :on => :member
-    post :confirm, :on => :member
-    post :approve, :on => :member
+    put :submit,  :on => :member
+    put :confirm, :on => :member
+    put :approve, :on => :member
+    get :approvable, :action => "index_approvable", :on => :collection
+    get :confirmable, :action => "index_confirmable", :on => :collection
   end
 
 
   resources :asset_transfers do
-    post :submit, :on => :member
+    put :submit, :on => :member
+    put :confirm, :on => :member
+    put :approve, :on => :member
+    get :approvable, :action => "index_approvable", :on => :collection
+    get :confirmable, :action => "index_confirmable", :on => :collection
   end
 
 
@@ -21,7 +36,7 @@ Eam::Application.routes.draw do
   end
 
 
-  resources :assets
+  resources :assets, :except => [:edit, :update]
 
 
   authenticated :user do

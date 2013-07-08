@@ -44,14 +44,14 @@ class AssetCategorization < ActiveRecord::Base
   def categorize_type_name;CategorizeType.select{|k,v| v[:weight] == categorize_type}.first.last[:description];end
 
   def submit!(user)
-    errors.add(:approved, I18n.t("activerecord.attributes.asset_categorization.transactions.already_submitted", :at => submitted_at, :by => submitted_by)) && return if submitted?
+    errors.add(:submitted, I18n.t("activerecord.attributes.asset_categorization.transactions.already_submitted", :at => submitted_at, :by => submitted_by)) && return if submitted?
     self.transaction do
       update_attributes(:submitted => true, :submitted_by_id => user.id, :submitted_at => DateTime.now, :updated_by_id => user.id)
     end
   end
 
   def confirm!(user)
-    errors.add(:approved, I18n.t("activerecord.attributes.asset_categorization.transactions.already_confirmed", :at => confirmed_at, :by => confirmed_by)) && return if confirmed?
+    errors.add(:confirmed, I18n.t("activerecord.attributes.asset_categorization.transactions.already_confirmed", :at => confirmed_at, :by => confirmed_by)) && return if confirmed?
     self.transaction do
       update_attributes(:confirmed => true, :confirmed_by_id => user.id, :confirmed_at => DateTime.now, :updated_by_id => user.id)
     end
@@ -67,7 +67,7 @@ class AssetCategorization < ActiveRecord::Base
         asset = Asset.new_by_asset_categorization_item(item, user)
         asset.save
         item.asset_id = asset.id
-        asset_no_in_pool.owned_by!(asset)
+        asset_no_in_pool.taken_by!(asset)
       end
       update_attributes(:approved => true, :approved_by_id => user.id, :approved_at => DateTime.now, :updated_by_id => user.id)
     end
