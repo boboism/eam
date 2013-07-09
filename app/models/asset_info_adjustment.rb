@@ -1,5 +1,5 @@
 class AssetInfoAdjustment < ActiveRecord::Base
-  attr_accessible :approved_at, :approved_by_id, :asset_id, :asset_name_from, :asset_name_to, :brand_from, :brand_to, :confirmed_at, :confirmed_by_id, :created_by_id, :effective_date, :is_specific_fund_from, :is_specific_fund_to, :is_tariff_free_from, :is_tariff_free_to, :is_vat_free_from, :is_vat_free_to, :model_from, :model_to, :rejected_at, :rejected_by_id, :serial_no_from, :serial_no_to, :submitted_at, :submitted_by_id, :tax_preference_id_from, :tax_preference_id_to, :updated_by_id, :vat_from, :vat_rate_from, :vat_rate_to, :vat_to, :document_status
+  attr_accessible :approved_at, :approved_by_id, :asset_id, :asset_name_from, :asset_name_to, :brand_from, :brand_to, :confirmed_at, :confirmed_by_id, :created_by_id, :effective_date, :is_specific_fund_from, :is_specific_fund_to, :is_tariff_free_from, :is_tariff_free_to, :is_vat_free_from, :is_vat_free_to, :model_from, :model_to, :rejected_at, :rejected_by_id, :serial_no_from, :serial_no_to, :submitted_at, :submitted_by_id, :tax_preference_id_from, :tax_preference_id_to, :updated_by_id, :vat_from, :vat_rate_from, :vat_rate_to, :vat_to, :submitted, :approved, :confirmed
 
   AssetAttributes = [:asset_name, :brand, :model, :serial_no, :is_tariff_free, :is_specific_fund, :tax_preference_id, :is_vat_free, :vat, :vat_rate]
 
@@ -16,6 +16,12 @@ class AssetInfoAdjustment < ActiveRecord::Base
   belongs_to :asset, :class_name => "Asset", :foreign_key => "asset_id"
   belongs_to :tax_preference_from, :class_name => "TaxPreference", :foreign_key => "tax_preference_id_from"
   belongs_to :tax_preference_to, :class_name => "TaxPreference", :foreign_key => "tax_preference_id_to"
+  belongs_to :created_by, :class_name => "User", :foreign_key => "created_by_id"
+  belongs_to :updated_by, :class_name => "User", :foreign_key => "updated_by_id"
+  belongs_to :submitted_by, class_name: "User", foreign_key: "submitted_by_id"
+  belongs_to :confirmed_by, class_name: "User", foreign_key: "confirmed_by_id"
+  belongs_to :approved_by, class_name: "User", foreign_key: "approved_by_id"
+  belongs_to :rejected_by, class_name: "User", foreign_key: "rejected_by_id"
 
   scope :search, lambda{|search| }
 
@@ -54,4 +60,17 @@ class AssetInfoAdjustment < ActiveRecord::Base
   def changed_asset_html(use_locale = false, spliter = "")
     changed_asset_contents(use_locale).inject([]){|acc, content| acc << "#{content.first}: \"#{content.last.first}\" => \"#{content.last.last}\""}.join(spliter) 
   end
+
+#  STATUS_TYPE = {
+#    editable:  {weight: 1 << 0},
+#    submitted: {weight: 1 << 1},
+#    confirmed: {weight: 1 << 2},
+#    approved:  {weight: 1 << 3}
+#  }
+#  STATUS_TYPE.each do |key, value|
+#    send(:define_method, "#{key}?") do
+#      self.status == value[:weight]
+#    end
+#  end
+
 end

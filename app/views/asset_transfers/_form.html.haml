@@ -1,7 +1,8 @@
 = simple_form_for(@asset_transfer, html: {class: "well form-horizontal small-labels"}) do |f|
 
   = f.error_notification
-  = display_base_errors @asset_transfer
+  = display_error_messages @asset_transfer
+
 
   .form-inputs
     = f.input :effective_date, as: :string, input_html: { class: "input-block-level", :"data-behavior" => "datepicker" }

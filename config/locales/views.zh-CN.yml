@@ -55,3 +55,7 @@ zh-CN:
   asset_transfers:
     asset_transfer_item_froms:
       empty: "无记录"
+  asset_info_adjustments:
+    show:
+      from: "从"
+      to: "到"

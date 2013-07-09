@@ -27,7 +27,7 @@
         %tr
           %th= check_box_tag "check_#{model_class.name.underscore}"
           %th= model_class.human_attribute_name(:effective_date)
-          %th{colspan: 2}= model_class.human_attribute_name(:asset_id)
+          %th{colspan: 2}= model_class.human_attribute_name(:asset)
           %th= model_class.human_attribute_name(:changed_asset_attributes)
           %th= model_class.human_attribute_name(:submitted_at)
           %th= model_class.human_attribute_name(:confirmed_at)
@@ -41,22 +41,47 @@
             %td= asset_info_adjustment.effective_date
             %td= asset_info_adjustment.asset.sub_category
             %td= asset_info_adjustment.asset.asset_no
-            %td= asset_info_adjustment.changed_asset_contents(true)
+            %td= raw asset_info_adjustment.changed_asset_html(true, "<br>")
             %td= asset_info_adjustment.submitted_at
             %td= asset_info_adjustment.confirmed_at
             %td= asset_info_adjustment.approved_at
             %td= asset_info_adjustment.rejected_at
             %td
-              .btn-group.pull-right
-                = link_to asset_info_adjustment, class: "btn" do
-                  %i.icon-eye-open
-                  %span= t(".show", default: t("helpers.links.show"))
-                = link_to edit_asset_info_adjustment_path(asset_info_adjustment), class: "btn" do
-                  %i.icon-pencil
-                  %span= t(".edit", default: t("helpers.links.edit"))
-                = link_to asset_info_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destory?"))}, class: "btn btn-danger" do
-                  %i.icon-trash.icon-white
-                  %span= t(".destroy", default: t("helpers.links.destroy", default: "Destroy"))
+              .btn-group
+                %button.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}
+                  %i.icon-wrench.icon-white
+                  = t(".operation", default: t("helpers.links.operation"))
+                  %span.caret
+                %ul.dropdown-menu
+                  - if can? :read, asset_info_adjustment
+                    %li
+                      = link_to asset_info_adjustment do
+                        %i.icon-eye-open
+                        %span= t('.show', default: t("helpers.links.show"))
+                  - if can? :modify, asset_info_adjustment
+                    %li
+                      = link_to edit_asset_info_adjustment_path(asset_info_adjustment) do
+                        %i.icon-pencil
+                        %span= t(".edit", default: t("helpers.links.edit"))
+                    %li
+                      = link_to asset_info_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
+                        %i.icon-trash
+                        %span= t(".destroy", default: t("helpers.links.destroy"))
+                  - if can? :submit, asset_info_adjustment
+                    %li
+                      = link_to submit_asset_info_adjustment_path(asset_info_adjustment), method: :put do
+                        %i.icon-upload
+                        %span= t(".submit", default: t("helpers.links.submit"))
+                  - if can? :confirm, asset_info_adjustment
+                    %li
+                      = link_to confirm_asset_info_adjustment_path(asset_info_adjustment), method: :put do
+                        %i.icon-check
+                        %span= t(".confirm", default: t("helpers.links.confirm"))
+                  - if can? :approve, asset_info_adjustment
+                    %li
+                      = link_to approve_asset_info_adjustment_path(asset_info_adjustment), method: :put do
+                        %i.icon-check
+                        %span= t(".approve", default: t("helpers.links.approve"))
 .row-fluid
   .span12
     = paginate @asset_info_adjustments

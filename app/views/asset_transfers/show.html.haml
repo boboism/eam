@@ -90,7 +90,10 @@
       %table.table.table-bordered.table-hover.table-condensed
         %tbody
           %tr
-            %th{colspan:7}= adj.asset.asset_no
+            %th= Asset.human_attribute_name(:asset_no)
+            %th{colspan:2}= adj.asset.asset_no
+            %th= Asset.human_attribute_name(:device_no)
+            %th{colspan:2}= adj.asset.device_no
           %tr
             %th= item_fm_class.human_attribute_name(:construction_period)
             %th= item_fm_class.human_attribute_name(:specific_investment)
@@ -99,10 +102,10 @@
             %th= item_fm_class.human_attribute_name(:responsible_by)
             %th= item_fm_class.human_attribute_name(:quantity)
           %tr
-            %th{colspan:7}= item_fm_class.model_name.human
+            %th{colspan:6}= item_fm_class.model_name.human
           - if adj.asset_transfer_item_froms.empty?
             %tr
-              %td{colspan:7}= t('.no_record')
+              %td{colspan:6}= t('.no_record')
           - else
             - adj.asset_transfer_item_froms.each do |fm|
               %tr
@@ -113,10 +116,10 @@
                 %td= fm.responsible_by
                 %td= fm.quantity
           %tr
-            %th{colspan:7}= item_to_class.model_name.human
+            %th{colspan:6}= item_to_class.model_name.human
           - if adj.asset_transfer_item_tos.empty?
             %tr
-              %td{colspan:7}= t('.no_record')
+              %td{colspan:6}= t('.no_record')
           - else 
             - adj.asset_transfer_item_tos.each do |to|
               %tr.text-danger

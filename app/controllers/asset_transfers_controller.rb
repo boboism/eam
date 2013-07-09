@@ -48,7 +48,12 @@ class AssetTransfersController < ApplicationController
   # POST /asset_transfers.json
   # POST /asset_transfers.xml
   def create
-    @asset_transfer = AssetTransfer.new(params[:asset_transfer])
+    default_attrs = {created_by_id: current_user.id, updated_by_id: current_user.id}
+    at_params = default_attrs.merge(params[:asset_transfer])
+    @asset_transfer = AssetTransfer.new(at_params)
+    @asset_transfer.asset_transfer_item_froms.each{|item| item.created_by_id, item.updated_by_id = default_attrs[:created_by_id], default_attrs[:updated_by_id]}
+    @asset_transfer.asset_transfer_item_tos.each{|item| item.created_by_id, item.updated_by_id = default_attrs[:created_by_id], default_attrs[:updated_by_id]}
+    
 
     respond_to do |format|
       if @asset_transfer.save

@@ -29,6 +29,7 @@
           %th= check_box_tag "check_#{model_class.name.underscore}"
           %th= model_class.human_attribute_name(:category_description)
           %th= model_class.human_attribute_name(:asset_no)
+          %th= model_class.human_attribute_name(:device_no)
           %th= model_class.human_attribute_name(:asset_name)
           %th= model_class.human_attribute_name(:brand)
           %th= model_class.human_attribute_name(:model)
@@ -42,6 +43,7 @@
             %td= check_box_tag "#{model_class.name.underscore}_id_#{asset.id}"
             %td= asset.category_description
             %td= asset.asset_no
+            %td= asset.device_no
             %td= asset.asset_name
             %td= asset.brand
             %td= asset.model

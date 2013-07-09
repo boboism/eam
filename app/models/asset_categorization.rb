@@ -36,7 +36,7 @@ class AssetCategorization < ActiveRecord::Base
   accepts_nested_attributes_for :asset_categorization_items
 
   scope :search, lambda{|search|
-    search = Hash(search)
+    search ||= {}
     text, criteria = search[:text], scoped
     criteria = criteria.where{(id == text.to_i)} unless text.blank?
   }

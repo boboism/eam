@@ -25,8 +25,9 @@ class AssetTransfer < ActiveRecord::Base
   end
 
   validates :effective_date, :date => {:after => Date.current}
-  validates :created_by_id, :updated_by_id, :presence => true
-
+  validates :created_by, :updated_by_id, :presence => true
+  validates :updated_by, :updated_by_id, :presence => true
+  #validate :validate_item_tos_total_quantity_euqals_to_one
 
   # |------------------------------|------|------------------------|
   # |TRANSFER TYPE                 |WEIGHT|MATCH CASE              |
@@ -165,5 +166,12 @@ class AssetTransfer < ActiveRecord::Base
       update_attributes(:approved => true, :approved_by_id => user.id, :approved_at => DateTime.now, :updated_by_id => user.id)
     end
   end
+
+  private
+  def validate_item_tos_total_quantity_euqals_to_one
+    current_quantity = asset_transfer_item_tos.map(&:quantity).inject(0,&:+)
+    errors.add(:base, I18n.t('activerecord.errors.models.asset_transfer.item_tos_total_quantity_euqals_to_one', current_quantity: current_quantity)) unless current_quantity == 1
+  end
+
 
 end

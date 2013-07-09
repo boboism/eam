@@ -53,6 +53,9 @@ class Ability
     else
       can :read, AssetInfoAdjustment, :created_by_id => user.id
     end
+    can [:modify, :submit], AssetInfoAdjustment, :created_by_id => user.id, :submitted => false 
+    can [:confirm, :index_confirmable], AssetInfoAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
+    can [:approve, :index_approvable], AssetInfoAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 
     if user.has_any_role?(:admin, :deptadmin)
       can :create, AccessoryAdjustment
@@ -63,7 +66,6 @@ class Ability
       can :read, AccessoryAdjustment, :created_by_id => user.id
     end
     can [:modify, :submit], AccessoryAdjustment, :created_by_id => user.id, :submitted => false 
-
     can [:confirm, :index_confirmable], AccessoryAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AccessoryAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 

@@ -6,14 +6,12 @@
         %tr
           %th= info_adj_class.human_attribute_name(:effective_date)
           %th= info_adj_class.human_attribute_name(:changed_asset_attributes)
-          %th= info_adj_class.human_attribute_name(:document_status)
           %th{style: "width:150px"}
       %tbody
         - @asset_info_adjustments.each do |asset_info_adjustment|
           %tr{href: asset_info_adjustment_path(asset_info_adjustment)}
             %td= asset_info_adjustment.effective_date
             %td= raw asset_info_adjustment.changed_asset_html(true, "<br>")
-            %td= asset_info_adjustment.document_status
             %td
               .btn-group
                 = link_to asset_info_adjustment, class: "btn" do
@@ -26,5 +24,5 @@
                   %i.icon-trash.icon-white
                   %span= t(".destroy", default: t("helpers.links.destroy", default: "Destroy"))
                 = link_to submit_asset_info_adjustment_path(asset_info_adjustment), class: "btn btn-primary" do
-                  %i.icon-ok.icon-white
+                  %i.icon-upload.icon-white
                   %span= t(".submit", default: t("helpers.links.submit"))

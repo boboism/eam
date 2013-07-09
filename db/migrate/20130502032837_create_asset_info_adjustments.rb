@@ -27,13 +27,16 @@ class CreateAssetInfoAdjustments < ActiveRecord::Migration
       t.integer :updated_by_id
       t.integer :confirmed_by_id
       t.datetime :confirmed_at
+      t.boolean :confirmed
       t.datetime :approved_at
       t.integer :approved_by_id
+      t.boolean :approved
       t.datetime :rejected_at
       t.integer :rejected_by_id
+      t.boolean :rejected
       t.datetime :submitted_at
       t.integer :submitted_by_id
-      t.string :document_status
+      t.boolean :submitted
 
       t.timestamps
     end
