@@ -1,4 +1,6 @@
 zh-CN:
+  'true': '是'
+  'false': '否'
   date:
     abbr_day_names:
     - 日

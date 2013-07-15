@@ -5,6 +5,7 @@ class CreateMasterData < ActiveRecord::Migration
       t.string :name
       t.string :description
       t.integer :parent_id
+      t.text :profiles
       t.string :type
       t.boolean :enabled
       t.integer :created_by_id

@@ -21,7 +21,9 @@ class CreateAssetCostAdjustments < ActiveRecord::Migration
       t.datetime :published_at
       t.integer :submitted_by_id
       t.datetime :submitted_at
-      t.string :document_status
+      t.boolean :submitted
+      t.boolean :confirmed
+      t.boolean :approved
 
       t.timestamps
     end

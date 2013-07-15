@@ -74,7 +74,7 @@ class AccessoryAdjustmentsController < ApplicationController
   # POST /accessory_adjustments.json
   # POST /accessory_adjustments.xml
   def create
-    @accessory_adjustment = AccessoryAdjustment.new(params[:accessory_adjustment])
+    @accessory_adjustment = current_user.accessory_adjustments.build(params[:accessory_adjustment])
 
     respond_to do |format|
       if @accessory_adjustment.save

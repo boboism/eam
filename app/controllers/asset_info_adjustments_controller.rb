@@ -22,9 +22,13 @@ class AssetInfoAdjustmentsController < ApplicationController
   # GET /asset_info_adjustments/1.xml
   def show
     respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @asset_info_adjustment }
-      format.xml  { render xml: @asset_info_adjustment }
+      if @asset_info_adjustment
+        format.html # show.html.erb
+        format.json { render json: @asset_info_adjustment }
+        format.xml  { render xml: @asset_info_adjustment }
+      else
+        format.html { redirect_to asset_info_adjustments_url, flash: { error: I18n.t('controllers.find_fail', name: AssetInfoAdjustment.model_name.human) } }
+      end
     end
   end
 
@@ -32,7 +36,7 @@ class AssetInfoAdjustmentsController < ApplicationController
   # GET /asset_info_adjustments/new.json
   # GET /asset_info_adjustments/new.xml
   def new
-    @asset_info_adjustment = AssetInfoAdjustment.new_with_asset(Asset.find(params[:asset_id]))
+    @asset_info_adjustment = AssetInfoAdjustment.new_with_asset(Asset.find(params[:asset_id]), default_attributes)
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @asset_info_adjustment }
@@ -48,7 +52,7 @@ class AssetInfoAdjustmentsController < ApplicationController
   # POST /asset_info_adjustments.json
   # POST /asset_info_adjustments.xml
   def create
-    @asset_info_adjustment = AssetInfoAdjustment.new(params[:asset_info_adjustment])
+    @asset_info_adjustment = AssetInfoAdjustment.new(default_attributes.merge(params[:asset_info_adjustment]))
 
     respond_to do |format|
       if @asset_info_adjustment.save
@@ -100,10 +104,70 @@ class AssetInfoAdjustmentsController < ApplicationController
     end
   end
 
+  # PUT /asset_info_adjustments/1/submit
+  # PUT /asset_info_adjustments/1/submit.json
+  # PUT /asset_info_adjustments/1/submit.xml
+  def submit
+    @asset_info_adjustment = AssetInfoAdjustment.accessible_by(current_ability, :submit).find(params[:id])
+    if @asset_info_adjustment.submit!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_info_adjustments_url, notice: I18n.t('controllers.submit_success', name: @asset_info_adjustment.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_info_adjustments_url, flash: {error: @asset_info_adjustment.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_info_adjustments/1/confirm
+  # PUT /asset_info_adjustments/1/confirm.json
+  # PUT /asset_info_adjustments/1/confirm.xml
+  def confirm
+    @asset_info_adjustment = AssetInfoAdjustment.accessible_by(current_ability, :confirm).find(params[:id])
+    if @asset_info_adjustment.confirm!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_info_adjustments_url, notice: I18n.t('controllers.confirm_success', name: @asset_info_adjustment.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_info_adjustments_url, flash: {error: @asset_info_adjustment.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_info_adjustments/1/approve
+  # PUT /asset_info_adjustments/1/approve.json
+  # PUT /asset_info_adjustments/1/approve.xml
+  def approve
+    @asset_info_adjustment = AssetInfoAdjustment.accessible_by(current_ability, :approve).find(params[:id])
+    if @asset_info_adjustment.approve!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_info_adjustments_url, notice: I18n.t('controllers.approve_success', name: @asset_info_adjustment.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_info_adjustments_url, flash: {error: @asset_info_adjustment.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
   private
   # Use callback to share common setup or constraints between actions
   def load_asset_info_adjustment
-    @asset_info_adjustment = AssetInfoAdjustment.accessible_by(current_ability).find(params[:id])
+    @asset_info_adjustment = AssetInfoAdjustment.accessible_by(current_ability).where(id: params[:id]).limit(1).first
   end
   
   # User this method to whitelist the permissible parameters. Example:
@@ -113,5 +177,21 @@ class AssetInfoAdjustmentsController < ApplicationController
   # attributes.
   def asset_info_adjustment_params
     params.require(:asset_info_adjustment).permit()
+  end
+
+  def default_attributes
+    defaults = {effective_date: Date.current, 
+                is_tariff_free_to: false,
+                is_specific_fund_to: false,
+                tax_preference_id_to: TaxPreference.first.id,
+                is_vat_free_to: true,
+                vat_to: 0,
+                vat_rate_to: 0,
+                submitted: false,
+                confirmed: false,
+                approved: false,
+                created_by_id: current_user.id,
+                updated_by_id: current_user.id
+    }
   end
 end

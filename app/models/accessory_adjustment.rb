@@ -16,6 +16,7 @@ class AccessoryAdjustment < ActiveRecord::Base
   validates :created_by_id, :updated_by_id, :presence => true
   validates :effective_date, :presence => true, :date => {:after => Date.current}
 
+  default_scope { order("accessory_adjustments.id DESC") }
 
   scope :search, lambda{|search|}
 

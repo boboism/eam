@@ -41,6 +41,9 @@ zh-CN:
       asset:
         one: "固定资产"
         other: "固定资产"
+      asset_cost_adjustment:
+        one: "原值调整单"
+        other: "原值调整单"
 
     attributes:
       asset_categorization:
@@ -239,3 +242,27 @@ zh-CN:
         updated_at: "最后更新时间"
         published: "已发布"
         published_at: "发布时间"
+      asset_cost_adjustment:
+        effective_date: "生效日期"
+        original_cost_to: "原值"
+        salvage_to: "残值"
+        salvage_rate_to: "残值率"
+        original_cost_from: "原值"
+        salvage_from: "残值"
+        salvage_rate_from: "残值率"
+        asset: "资产"
+        created_by: "创建人"
+        updated_by: "更新人"
+        created_at: "创建时间"
+        updated_at: "更新时间"
+        submitted: "已提交"
+        submitted_at: "提交时间"
+        submitted_by: "提交人"
+        confirmed: "已确定"
+        confirmed_by: "确定人"
+        confirmed_at: "确定时间"
+        approved: "已审核"
+        approved_at: "审核时间"
+        approved_by: "审核人"
+        changed_asset_attributes: "修改内容"
+        rejected_at: "作废时间"

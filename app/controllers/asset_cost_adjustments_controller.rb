@@ -48,7 +48,7 @@ class AssetCostAdjustmentsController < ApplicationController
   # POST /asset_cost_adjustments.json
   # POST /asset_cost_adjustments.xml
   def create
-    @asset_cost_adjustment = AssetCostAdjustment.new(params[:asset_cost_adjustment])
+    @asset_cost_adjustment = current_user.asset_cost_adjustments.build(params[:asset_cost_adjustment])
 
     respond_to do |format|
       if @asset_cost_adjustment.save
@@ -99,6 +99,67 @@ class AssetCostAdjustmentsController < ApplicationController
       end
     end
   end
+
+  # PUT /asset_cost_adjustments/1/submit
+  # PUT /asset_cost_adjustments/1/submit.json
+  # PUT /asset_cost_adjustments/1/submit.xml
+  def submit
+    @asset_cost_adjustment = AssetCostAdjustment.accessible_by(current_ability, :submit).find(params[:id])
+    if @asset_cost_adjustment.submit!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_cost_adjustments_url, notice: I18n.t('controllers.submit_success', name: @asset_cost_adjustment.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_cost_adjustments_url, flash: {error: @asset_cost_adjustment.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_cost_adjustments/1/confirm
+  # PUT /asset_cost_adjustments/1/confirm.json
+  # PUT /asset_cost_adjustments/1/confirm.xml
+  def confirm
+    @asset_cost_adjustment = AssetCostAdjustment.accessible_by(current_ability, :confirm).find(params[:id])
+    if @asset_cost_adjustment.confirm!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_cost_adjustments_url, notice: I18n.t('controllers.confirm_success', name: @asset_cost_adjustment.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_cost_adjustments_url, flash: {error: @asset_cost_adjustment.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_cost_adjustments/1/approve
+  # PUT /asset_cost_adjustments/1/approve.json
+  # PUT /asset_cost_adjustments/1/approve.xml
+  def approve
+    @asset_cost_adjustment = AssetCostAdjustment.accessible_by(current_ability, :approve).find(params[:id])
+    if @asset_cost_adjustment.approve!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_cost_adjustments_url, notice: I18n.t('controllers.approve_success', name: @asset_cost_adjustment.class.model_name.human) } 
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_cost_adjustments_url, flash: {error: @asset_cost_adjustment.errors} }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
 
   private
   # Use callback to share common setup or constraints between actions

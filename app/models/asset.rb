@@ -19,14 +19,15 @@ class Asset < ActiveRecord::Base
     a.validates :accepted_at, :presence => true
     a.validates :asset_name, :presence => true, :if => :activated
     a.validates :category_id, :presence => true, :if => :activated
-    a.validates :is_specific_fund, :presence => true
-    a.validates :is_tariff_free, :presence => true
-    a.validates :is_vat_free, :presence => true
+    #a.validates :is_specific_fund, :presence => true
+    #a.validates :is_tariff_free, :presence => true
+    #a.validates :is_vat_free, :presence => true
     a.validates :sub_category_id, :presence => true
     a.validates :tax_preference_id, :presence => true
     a.validates :salvage, :presence => true, :numericality => {:greater_than => 0}
     a.validates :salvage_rate, :presence => true, :numericality => {:greater_than_or_equal_to => 0}
-    a.validates :vat_rate, :presence => true, :numericality => {:greater_than_or_equal_to => 0}
+    a.validates :vat_rate, :presence => true, :numericality => {:greater_than_or_equal_to => 0}, unless: :is_vat_free
+    a.validates :vat, presence: true, numericality: {greater_than_or_euqal_to: 0}, unless: :is_vat_free
   end
 
   #validates :activated, :presence => true

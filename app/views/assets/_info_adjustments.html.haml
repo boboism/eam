@@ -17,12 +17,15 @@
                 = link_to asset_info_adjustment, class: "btn" do
                   %i.icon-eye-open
                   %span= t(".show", default: t("helpers.links.show"))
-                = link_to edit_asset_info_adjustment_path(asset_info_adjustment), class: "btn" do
-                  %i.icon-pencil
-                  %span= t(".edit", default: t("helpers.links.edit"))
-                = link_to asset_info_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destory?"))}, class: "btn btn-danger" do
-                  %i.icon-trash.icon-white
-                  %span= t(".destroy", default: t("helpers.links.destroy", default: "Destroy"))
-                = link_to submit_asset_info_adjustment_path(asset_info_adjustment), class: "btn btn-primary" do
-                  %i.icon-upload.icon-white
-                  %span= t(".submit", default: t("helpers.links.submit"))
+                - if can? :edit, asset_info_adjustment
+                  = link_to edit_asset_info_adjustment_path(asset_info_adjustment), class: "btn" do
+                    %i.icon-pencil
+                    %span= t(".edit", default: t("helpers.links.edit"))
+                - if can? :destroy, asset_info_adjustment
+                  = link_to asset_info_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destory?"))}, class: "btn btn-danger" do
+                    %i.icon-trash.icon-white
+                    %span= t(".destroy", default: t("helpers.links.destroy", default: "Destroy"))
+                - if can? :submit, asset_info_adjustment
+                  = link_to submit_asset_info_adjustment_path(asset_info_adjustment), class: "btn btn-primary" do
+                    %i.icon-upload.icon-white
+                    %span= t(".submit", default: t("helpers.links.submit"))

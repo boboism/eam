@@ -59,3 +59,7 @@ zh-CN:
     show:
       from: "从"
       to: "到"
+  asset_cost_adjustments:
+    show:
+      from: "从"
+      to: "到"

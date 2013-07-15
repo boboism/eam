@@ -25,13 +25,14 @@ class AssetInfoAdjustment < ActiveRecord::Base
 
   scope :search, lambda{|search| }
 
-  def self.new_with_asset(target=nil)
+  def self.new_with_asset(target=nil, defaults={})
     instance = new
+    instance.attributes = defaults
     if target && target.is_a?(Asset)
       instance.__send__("asset_id=", target.id)
       AssetAttributes.each{|m|
-        instance.__send__("#{m.to_s}_from=", target.__send__("#{m.to_s}"))
-        instance.__send__("#{m.to_s}_to=", target.__send__("#{m.to_s}"))
+        instance.__send__("#{m}_from=", target.__send__("#{m}"))
+        instance.__send__("#{m}_to=", target.__send__("#{m}")) unless target.__send__(m).nil?
       }
     end
     return instance
@@ -59,6 +60,29 @@ class AssetInfoAdjustment < ActiveRecord::Base
 
   def changed_asset_html(use_locale = false, spliter = "")
     changed_asset_contents(use_locale).inject([]){|acc, content| acc << "#{content.first}: \"#{content.last.first}\" => \"#{content.last.last}\""}.join(spliter) 
+  end
+
+  def submit!(user=nil)
+    errors.add(:submitted, I18n.t("activerecord.attributes.asset_info_adjustment.transactions.already_submitted", :at => submitted_at, :by => submitted_by)) && return if submitted?
+    self.transaction do
+      update_attributes(:submitted => true, :submitted_by_id => user.id, :submitted_at => DateTime.now, :updated_by_id => user.id)
+    end
+  end
+
+  def confirm!(user=nil)
+    errors.add(:confirmed, I18n.t("activerecord.attributes.asset_info_adjustment.transactions.already_confirmed", :at => confirmed_at, :by => confirmed_by)) && return if confirmed?
+    self.transaction do
+      update_attributes(:confirmed => true, :confirmed_by_id => user.id, :confirmed_at => DateTime.now, :updated_by_id => user.id)
+    end
+  end
+
+  def approve!(user=nil)
+    errors.add(:approved, I18n.t("activerecord.attributes.asset_transfer.transactions.already_approved", :at => approved_at, :by => approved_by)) && return if approved?
+    self.transaction do
+      AssetAttributes.each{|m| asset.__send__("#{m}=", __send__("#{m}_to")); }
+      asset.save
+      update_attributes(:approved => true, :approved_by_id => user.id, :approved_at => DateTime.now, :updated_by_id => user.id)
+    end
   end
 
 #  STATUS_TYPE = {

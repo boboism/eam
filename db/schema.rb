@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.string   "store_location"
     t.decimal  "amount"
     t.boolean  "enabled"
+    t.integer  "asset_id"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
     t.datetime "created_at",     :null => false
     t.datetime "updated_at",     :null => false
   end
@@ -37,6 +40,8 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.string   "type"
     t.integer  "accessory_adjusting_asset_id"
     t.integer  "accessory_id"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
     t.datetime "created_at",                   :null => false
     t.datetime "updated_at",                   :null => false
   end
@@ -69,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.datetime "enabled_at"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
+    t.string   "responsible_by"
+    t.integer  "disabled_by_id"
     t.datetime "created_at",               :null => false
     t.datetime "updated_at",               :null => false
   end
@@ -104,7 +111,6 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.integer  "asset_categorization_id"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
-    t.decimal  "original_cost"
   end
 
   create_table "asset_categorizations", :force => true do |t|
@@ -182,19 +188,21 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.integer  "updated_by_id"
     t.integer  "confirmed_by_id"
     t.datetime "confirmed_at"
+    t.boolean  "confirmed"
     t.datetime "approved_at"
     t.integer  "approved_by_id"
+    t.boolean  "approved"
     t.datetime "rejected_at"
     t.integer  "rejected_by_id"
+    t.boolean  "rejected"
     t.datetime "submitted_at"
     t.integer  "submitted_by_id"
-    t.string   "document_status"
+    t.boolean  "submitted"
     t.datetime "created_at",             :null => false
     t.datetime "updated_at",             :null => false
   end
 
   add_index "asset_info_adjustments", ["asset_id"], :name => "info_adj_asset"
-  add_index "asset_info_adjustments", ["document_status"], :name => "info_adj_stat"
 
   create_table "asset_transfer_items", :force => true do |t|
     t.string   "type"
@@ -217,29 +225,31 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.date     "effective_date"
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
+    t.boolean  "confirmed"
     t.integer  "confirmed_by_id"
     t.datetime "confirmed_at"
     t.datetime "approved_at"
+    t.boolean  "approved"
     t.integer  "approved_by_id"
     t.datetime "rejected_at"
     t.integer  "rejected_by_id"
+    t.boolean  "submitted"
     t.integer  "submitted_by_id"
-    t.integer  "submitted_at"
+    t.datetime "submitted_at"
     t.boolean  "published"
     t.datetime "published_at"
-    t.string   "document_status"
     t.integer  "transfer_type"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
 
-  add_index "asset_transfers", ["document_status"], :name => "asset_transfers_stat"
-
   create_table "assets", :force => true do |t|
     t.string   "asset_no"
+    t.string   "device_no"
     t.string   "asset_name"
     t.string   "brand"
     t.string   "model"
+    t.string   "specification"
     t.string   "serial_no"
     t.integer  "category_id"
     t.integer  "sub_category_id"
@@ -267,18 +277,18 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.date     "arrival_date"
     t.string   "design_company"
     t.string   "construction_company"
+    t.string   "contract_no"
+    t.string   "supplier"
     t.date     "construction_date_from"
     t.date     "construction_date_to"
     t.text     "remark"
+    t.integer  "accessory_status"
     t.datetime "created_at",             :null => false
     t.datetime "updated_at",             :null => false
-    t.text     "contract_no"
-    t.text     "supplier"
-    t.text     "specification"
-    t.integer  "accessory_status"
   end
 
   add_index "assets", ["accepted"], :name => "assets_accepted"
+  add_index "assets", ["accessory_status"], :name => "assets_acc_stat"
   add_index "assets", ["activated"], :name => "assets_activated"
   add_index "assets", ["asset_no"], :name => "assets_asset_no"
   add_index "assets", ["category_id"], :name => "assets_cat"
@@ -290,6 +300,7 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.string   "name"
     t.string   "description"
     t.integer  "parent_id"
+    t.text     "profiles"
     t.string   "type"
     t.boolean  "enabled"
     t.integer  "created_by_id"
@@ -313,8 +324,6 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
   end
 
   add_index "model_relationships", ["type", "refer_id_from", "refer_id_to"], :name => "model_rel_fm_to", :unique => true
-  add_index "model_relationships", ["type", "refer_id_from"], :name => "model_rel_fm", :unique => true
-  add_index "model_relationships", ["type", "refer_id_to"], :name => "model_rel_to", :unique => true
 
   create_table "number_poolings", :force => true do |t|
     t.string   "type"

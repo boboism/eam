@@ -69,6 +69,18 @@ class Ability
     can [:confirm, :index_confirmable], AccessoryAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AccessoryAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 
+    if user.has_any_role?(:admin,:costadmin)
+      can :create, AssetCostAdjustment
+    end
+    if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr,:deptadmin)
+      can :read, AssetCostAdjustment
+    else
+      can :read, AssetCostAdjustment, :created_by_id => user.id
+    end
+    can [:modify, :submit], AssetCostAdjustment, :created_by_id => user.id, :submitted => false 
+    can [:confirm, :index_confirmable], AssetCostAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
+    can [:approve, :index_approvable], AssetCostAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)

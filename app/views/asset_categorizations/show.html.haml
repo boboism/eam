@@ -12,26 +12,26 @@
         %ul.dropdown-menu
           - if can? :submit, @asset_categorization
             %li
-              = link_to submit_asset_categorization_path(@asset_categorization), method: :post do
+              = link_to submit_asset_categorization_path(@asset_categorization), method: :put do
                 %i.icon-upload
                 %span= t(".submit", default: t("helpers.links.submit"))
           - if can? :confirm, @asset_categorization
             %li
-              = link_to confirm_asset_categorization_path(@asset_categorization), method: :post do
+              = link_to confirm_asset_categorization_path(@asset_categorization), method: :put do
                 %i.icon-check
                 %span= t(".confirm", default: t("helpers.links.confirm"))
           - if can? :approve, @asset_categorization
             %li
-              = link_to approve_asset_categorization_path(@asset_categorization), method: :post do
+              = link_to approve_asset_categorization_path(@asset_categorization), method: :put do
                 %i.icon-check
                 %span= t(".approve", default: t("helpers.links.approve"))
           - if can? :modify, @asset_categorization
             %li
-              = link_to edit_asset_categorization_path(@asset_categorization), class: "btn" do
+              = link_to edit_asset_categorization_path(@asset_categorization) do
                 %i.icon-pencil
                 %span= t(".edit", default: t("helpers.links.edit"))
               = link_to @asset_categorization, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
-                %i.icon-trash.icon-white
+                %i.icon-trash
                 %span= t(".destroy", default: t("helpers.links.destroy"))
           - if can? :read, AssetCategorization
             %li

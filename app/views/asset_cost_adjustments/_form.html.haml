@@ -8,10 +8,10 @@
     = f.input :salvage_rate_from, as: :hidden
     .row-fluid
       .span6
-        %h3= "#{f.object.asset.asset_no} #{f.object.asset.category.name} - #{f.object.asset.sub_category.name}"
+        %h3= "#{f.object.asset.asset_no} #{f.object.asset.asset_name}"
       .span6
         .pull-right
-          %h3= "#{f.object.asset}"
+          %h3= "#{f.object.asset.category.name} - #{f.object.asset.sub_category.name}"
     .row-fluid
       .span6= f.input :effective_date, as: :string, input_html: { class: "input-block-level", :"data-behavior" => "datepicker" }
       .span6= f.input :original_cost_to, input_html: { class: "input-block-level" }

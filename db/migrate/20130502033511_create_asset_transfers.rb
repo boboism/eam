@@ -12,7 +12,7 @@ class CreateAssetTransfers < ActiveRecord::Migration
       t.integer :approved_by_id
       t.datetime :rejected_at
       t.integer :rejected_by_id
-      t.bolean :submitted
+      t.boolean :submitted
       t.integer :submitted_by_id
       t.datetime :submitted_at
       t.boolean :published

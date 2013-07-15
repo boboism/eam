@@ -5,9 +5,10 @@
   .span7
     .pull-right
       .btn-group
-        = link_to new_asset_info_adjustment_path, class: "btn" do
-          %i.icon-plus
-          %span= t(".new", default: t("helpers.links.new"))
+        /
+          = link_to new_asset_info_adjustment_path, class: "btn" do
+            %i.icon-plus
+            %span= t(".new", default: t("helpers.links.new"))
       .btn-group
         = render "layouts/toolbar"
 .row-fluid
@@ -38,14 +39,14 @@
         - @asset_info_adjustments.each do |asset_info_adjustment|
           %tr{href: asset_info_adjustment_path(asset_info_adjustment)}
             %td= check_box_tag "#{model_class.name.underscore}_id_#{asset_info_adjustment.id}"
-            %td= asset_info_adjustment.effective_date
+            %td= asset_info_adjustment.effective_date.try(:to_date)
             %td= asset_info_adjustment.asset.sub_category
             %td= asset_info_adjustment.asset.asset_no
             %td= raw asset_info_adjustment.changed_asset_html(true, "<br>")
-            %td= asset_info_adjustment.submitted_at
-            %td= asset_info_adjustment.confirmed_at
-            %td= asset_info_adjustment.approved_at
-            %td= asset_info_adjustment.rejected_at
+            %td= asset_info_adjustment.submitted_at.try(:to_date)
+            %td= asset_info_adjustment.confirmed_at.try(:to_date)
+            %td= asset_info_adjustment.approved_at.try(:to_date)
+            %td= asset_info_adjustment.rejected_at.try(:to_date)
             %td
               .btn-group
                 %button.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}

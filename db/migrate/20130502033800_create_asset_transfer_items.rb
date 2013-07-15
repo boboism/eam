@@ -11,6 +11,7 @@ class CreateAssetTransferItems < ActiveRecord::Migration
       t.decimal :quantity
       t.integer :created_by_id
       t.integer :updated_by_id
+      t.string :responsible_by
 
       t.timestamps
     end

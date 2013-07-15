@@ -5,44 +5,98 @@
   .span7
     .pull-right
       .btn-group
-        = link_to edit_asset_cost_adjustment_path(@asset_cost_adjustment), class: "btn" do
-          %i.icon-pencil
-          %span= t(".edit", default: t("helpers.links.edit"))
-
-        = link_to @asset_cost_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: ""))}, class: "btn btn-danger" do
-          %i.icon-trash.icon-white
-          %span= t(".destroy", default: t("helpers.links.destroy"))
-        = link_to asset_cost_adjustments_path, class: "btn" do
-          %i.icon-list
-          %span= t(".index", default: t("helpers.links.index"))
+        %a.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}
+          %i.icon-wrench.icon-white
+          = t('.operation', default: t('helpers.links.operation'))
+          %span.caret
+        %ul.dropdown-menu
+          - if can? :modify, @asset_cost_adjustment
+            %li
+              = link_to edit_asset_cost_adjustment_path(@asset_cost_adjustment) do
+                %i.icon-pencil
+                %span= t(".edit", default: t("helpers.links.edit"))
+            %li
+              = link_to @asset_cost_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destroy?"))} do
+                %i.icon-trash
+                %span= t(".destroy", default: t("helpers.links.destroy"))
+          - if can? :submit, @asset_cost_adjustment
+            %li
+              = link_to submit_asset_cost_adjustment_path(@asset_cost_adjustment), method: :put do
+                %i.icon-upload
+                %span= t(".submit", default: t("helpers.links.submit"))
+          - if can? :confirm, @asset_cost_adjustment
+            %li
+              = link_to confirm_asset_cost_adjustment_path(@asset_cost_adjustment), method: :put do
+                %i.icon-check
+                %span= t(".confirm", default: t("helpers.links.confirm"))
+          - if can? :approve, @asset_cost_adjustment
+            %li
+              = link_to approve_asset_cost_adjustment_path(@asset_cost_adjustment), method: :put do
+                %i.icon-check
+                %span= t(".approve", default: t("helpers.links.approve"))
+      = link_to asset_cost_adjustments_path, class: "btn" do
+        %i.icon-list
+        %span= t(".index", default: t("helpers.links.index"))
       .btn-group
         = render "layouts/toolbar"
 
 .row-fluid
   .span12
-    %table.table.table-bordered.table-hover.table-condensed.my-table-sheet
+    %table.table.table-bordered.table-hover.table-condensed
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:asset)
+          %th= model_class.human_attribute_name(:effective_date)
+          %th= model_class.human_attribute_name(:created_by)
+          %th= model_class.human_attribute_name(:created_at)
+          %th= model_class.human_attribute_name(:updated_by)
+          %th= model_class.human_attribute_name(:updated_at)
       %tbody
         %tr
-          %th.span2= model_class.human_attribute_name(:asset_id)
-          %td.span10= @asset_cost_adjustment.asset_id
+          %td= @asset_cost_adjustment.asset.try(:asset_no) 
+          %td= @asset_cost_adjustment.effective_date.try(:to_date) 
+          %td= @asset_cost_adjustment.created_by
+          %td= @asset_cost_adjustment.created_at.try(:to_date)
+          %td= @asset_cost_adjustment.updated_by
+          %td= @asset_cost_adjustment.updated_at.try(:to_date)
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed
+      %thead
         %tr
-          %th.span2= model_class.human_attribute_name(:effective_date)
-          %td.span10= @asset_cost_adjustment.effective_date
+          %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:submitted_by)
+          %th= model_class.human_attribute_name(:submitted_at)
+          %th= model_class.human_attribute_name(:confirmed)
+          %th= model_class.human_attribute_name(:confirmed_by)
+          %th= model_class.human_attribute_name(:confirmed_at)
+          %th= model_class.human_attribute_name(:approved)
+          %th= model_class.human_attribute_name(:approved_by)
+          %th= model_class.human_attribute_name(:approved_at)
+      %tbody
         %tr
-          %th.span2= model_class.human_attribute_name(:original_cost_from)
-          %td.span10= @asset_cost_adjustment.original_cost_from
+          %td= icon_true_false(@asset_cost_adjustment.submitted)
+          %td= @asset_cost_adjustment.submitted_by
+          %td= @asset_cost_adjustment.submitted_at.try(:to_date)
+          %td= icon_true_false(@asset_cost_adjustment.confirmed)
+          %td= @asset_cost_adjustment.confirmed_by
+          %td= @asset_cost_adjustment.confirmed_at.try(:to_date)
+          %td= icon_true_false(@asset_cost_adjustment.approved)
+          %td= @asset_cost_adjustment.approved_by
+          %td= @asset_cost_adjustment.approved_at.try(:to_date)
+
+
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed
+      %tbody
         %tr
-          %th.span2= model_class.human_attribute_name(:original_cost_to)
-          %td.span10= @asset_cost_adjustment.original_cost_to
-        %tr
-          %th.span2= model_class.human_attribute_name(:salvage_from)
-          %td.span10= @asset_cost_adjustment.salvage_from
-        %tr
-          %th.span2= model_class.human_attribute_name(:salvage_to)
-          %td.span10= @asset_cost_adjustment.salvage_to
-        %tr
-          %th.span2= model_class.human_attribute_name(:salvage_rate_from)
-          %td.span10= @asset_cost_adjustment.salvage_rate_from
-        %tr
-          %th.span2= model_class.human_attribute_name(:salvage_rate_to)
-          %td.span10= @asset_cost_adjustment.salvage_rate_to
+          %th
+          %th= t('.from')
+          %th= t('.to')
+        - AssetCostAdjustment::AssetAttributes.each do |attr|
+          %tr
+            %th.span2= model_class.human_attribute_name("#{attr}_from")
+            - attr = attr.to_s.scan(/(\w+)_id$/).flatten.first if attr =~ /_id$/
+            %td= [TrueClass, FalseClass].include?(@asset_cost_adjustment.send("#{attr}_from").class) ? icon_true_false(@asset_cost_adjustment.send("#{attr}_from")) : @asset_cost_adjustment.send("#{attr}_from")
+            %td= [TrueClass, FalseClass].include?(@asset_cost_adjustment.send("#{attr}_to").class) ? icon_true_false(@asset_cost_adjustment.send("#{attr}_to")) : @asset_cost_adjustment.send("#{attr}_to")

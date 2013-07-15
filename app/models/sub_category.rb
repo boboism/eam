@@ -1,5 +1,6 @@
 class SubCategory < MasterData
-  attr_accessible :code, :name, :enabled, :parent_id
+  attr_accessible :code, :name, :enabled, :parent_id, :profiles
+  serialize :profiles
   validates :code, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :enabled, :presence => true

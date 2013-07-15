@@ -1,5 +1,6 @@
 class Category < MasterData
-  attr_accessible :code, :name, :enabled, :description
+  attr_accessible :code, :name, :enabled, :description, :profiles
+  serialize :profiles
   validates :code, :presence => true, :uniqueness => true
   validates :name, :presence => true
   validates :enabled, :presence => true

@@ -1,8 +1,8 @@
 - model_class = Asset
 .row-fluid.page-header
-  .span4
-    %h3= "#{@asset.category.name}-#{@asset.sub_category.name} #{model_class.human_attribute_name(:asset_no)}: #{@asset.asset_no}"
-  .span8
+  .span7
+    %h3= "#{@asset.asset_no} #{@asset.asset_name} (#{@asset.category.name}-#{@asset.sub_category.name})"
+  .span5
     .pull-right
       .btn-group
         %a.btn.btn-info.dropdown-toggle{ :"data-toggle" => "dropdown", :href => "javascript:void(0);" }

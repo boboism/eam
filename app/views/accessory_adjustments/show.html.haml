@@ -10,31 +10,26 @@
           = t(".operation", default: t("helpers.links.operation"))
           %span.caret
         %ul.dropdown-menu
-          - if can? :read, @accessory_adjsutment
-            %li
-              = link_to @accessory_adjsutment do
-                %i.icon-eye-open
-                %span= t('.show', default: t("helpers.links.show"))
-          - if can? :modify, @accessory_adjsutment
+          - if can? :modify, @accessory_adjustment
             %li
               = link_to edit_accessory_adjustment_path(@accessory_adjustment) do
                 %i.icon-pencil
                 %span= t(".edit", default: t("helpers.links.edit"))
             %li
-              = link_to @accessory_adjsutment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
+              = link_to @accessory_adjustment, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
                 %i.icon-trash
                 %span= t(".destroy", default: t("helpers.links.destroy"))
-          - if can? :submit, @accessory_adjsutment
+          - if can? :submit, @accessory_adjustment
             %li
               = link_to submit_accessory_adjustment_path(@accessory_adjustment), method: :put do
                 %i.icon-upload
                 %span= t(".submit", default: t("helpers.links.submit"))
-          - if can? :confirm, @accessory_adjsutment
+          - if can? :confirm, @accessory_adjustment
             %li
               = link_to confirm_accessory_adjustment_path(@accessory_adjustment), method: :put do
                 %i.icon-check
                 %span= t(".confirm", default: t("helpers.links.confirm"))
-          - if can? :approve, @accessory_adjsutment
+          - if can? :approve, @accessory_adjustment
             %li
               = link_to approve_accessory_adjustment_path(@accessory_adjustment), method: :put do
                 %i.icon-check

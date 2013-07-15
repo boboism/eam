@@ -42,17 +42,17 @@
                         %span= t(".destroy", default: t("helpers.links.destroy"))
                   - if can? :submit, asset_categorization
                     %li
-                      = link_to submit_asset_categorization_path(asset_categorization), method: :post do
+                      = link_to submit_asset_categorization_path(asset_categorization), method: :put do
                         %i.icon-upload
                         %span= t(".submit", default: t("helpers.links.submit"))
                   - if can? :confirm, asset_categorization
                     %li
-                      = link_to confirm_asset_categorization_path(asset_categorization), method: :post do
+                      = link_to confirm_asset_categorization_path(asset_categorization), method: :put do
                         %i.icon-check
                         %span= t(".confirm", default: t("helpers.links.confirm"))
                   - if can? :approve, asset_categorization
                     %li
-                      = link_to approve_asset_categorization_path(asset_categorization), method: :post do
+                      = link_to approve_asset_categorization_path(asset_categorization), method: :put do
                         %i.icon-check
                         %span= t(".approve", default: t("helpers.links.approve"))
 .row-fluid

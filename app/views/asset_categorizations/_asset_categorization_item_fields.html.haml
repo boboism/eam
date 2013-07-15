@@ -14,7 +14,7 @@
         %th= model_class.human_attribute_name(:serial_no)
         %th{colspan: 2}= model_class.human_attribute_name(:specification)
       %tr
-        %td= f.input_field :sub_category_id, as: :select, :collection => SubCategory.all.collect{|c| ["#{c.code} #{c.name}", c.id]}, class: "input-block-level"
+        %td= f.input_field :sub_category_id, as: :select, :collection => SubCategory.order('code').all.collect{|c| ["#{c.code} #{c.name}", c.id]}, class: "input-block-level"
         %td= f.input_field :asset_name, class: "input-block-level"
         %td= f.input_field :brand, class: "input-block-level"
         %td= f.input_field :model, class: "input-block-level"

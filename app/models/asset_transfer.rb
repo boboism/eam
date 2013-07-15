@@ -27,6 +27,7 @@ class AssetTransfer < ActiveRecord::Base
   validates :effective_date, :date => {:after => Date.current}
   validates :created_by, :updated_by_id, :presence => true
   validates :updated_by, :updated_by_id, :presence => true
+  #validates :asset_transfer_item_tos, presence: true
   #validate :validate_item_tos_total_quantity_euqals_to_one
 
   # |------------------------------|------|------------------------|
