@@ -8,5 +8,10 @@ class CreateNumberPoolings < ActiveRecord::Migration
 
       t.timestamps
     end
+    
+    add_index :number_poolings, [:type], :name => "number_poolings_type"
+    add_index :number_poolings, [:status], :name => "number_poolings_status"
+    add_index :number_poolings, [:own_by_id], :name => "number_poolings_own"
+    add_index :number_poolings, [:serial], :name => "number_poolings_serial"
   end
 end

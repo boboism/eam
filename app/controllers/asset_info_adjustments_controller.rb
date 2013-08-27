@@ -17,6 +17,32 @@ class AssetInfoAdjustmentsController < ApplicationController
     end
   end
 
+  # GET /asset_info_adjustments/confirmable
+  # GET /asset_info_adjustments/confirmable.json
+  # GET /asset_info_adjustments/confirmable.xml
+  def index_confirmable
+    @asset_info_adjustments = AssetInfoAdjustment.accessible_by(current_ability, :confirm).search(params[:search]).page(params[:page])
+
+    respond_to do |format|
+      format.html { render "index" }
+      format.json { render json: @asset_info_adjustments }
+      format.xml  { render xml: @asset_info_adjustments }
+    end
+  end
+
+  # GET /asset_info_adjustments/approvable
+  # GET /asset_info_adjustments/approvable.json
+  # GET /asset_info_adjustments/approvable.xml
+  def index_approvable
+    @asset_info_adjustments = AssetInfoAdjustment.accessible_by(current_ability, :approve).search(params[:search]).page(params[:page])
+
+    respond_to do |format|
+      format.html { render "index" }
+      format.json { render json: @asset_info_adjustments }
+      format.xml  { render xml: @asset_info_adjustments }
+    end
+  end
+
   # GET /asset_info_adjustments/1
   # GET /asset_info_adjustments/1.json
   # GET /asset_info_adjustments/1.xml

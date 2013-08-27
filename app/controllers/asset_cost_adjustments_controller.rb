@@ -17,6 +17,32 @@ class AssetCostAdjustmentsController < ApplicationController
     end
   end
 
+  # GET /asset_cost_adjustments/confirmable
+  # GET /asset_cost_adjustments/confirmable.json
+  # GET /asset_cost_adjustments/confirmable.xml
+  def index_confirmable
+    @asset_cost_adjustments = AssetCostAdjustment.accessible_by(current_ability, :confirm).search(params[:search]).page(params[:page])
+
+    respond_to do |format|
+      format.html { render "index" }
+      format.json { render json: @asset_cost_adjustments }
+      format.xml  { render xml: @asset_cost_adjustments }
+    end
+  end
+
+  # GET /asset_cost_adjustments/approvable
+  # GET /asset_cost_adjustments/approvable.json
+  # GET /asset_cost_adjustments/approvable.xml
+  def index_approvable
+    @asset_cost_adjustments = AssetCostAdjustment.accessible_by(current_ability, :approve).search(params[:search]).page(params[:page])
+
+    respond_to do |format|
+      format.html { render "index" }
+      format.json { render json: @asset_cost_adjustments }
+      format.xml  { render xml: @asset_cost_adjustments }
+    end
+  end
+
   # GET /asset_cost_adjustments/1
   # GET /asset_cost_adjustments/1.json
   # GET /asset_cost_adjustments/1.xml

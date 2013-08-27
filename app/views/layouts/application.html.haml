@@ -15,9 +15,16 @@
     = render "layouts/navigation"
     .container#main{:role => "main"}
       .row
-        .span12
-          = render "layouts/messages"
-          = yield
+        - if current_user
+          .span2
+            = render "layouts/menu"
+          .span10
+            = render "layouts/messages"
+            = yield
+        - else
+          .span12
+            = render "layouts/messages"
+            = yield
     / ! end of .container#main
     .footer
     / ! end of .footer

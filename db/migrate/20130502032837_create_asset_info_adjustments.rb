@@ -16,7 +16,7 @@ class CreateAssetInfoAdjustments < ActiveRecord::Migration
       t.boolean :is_specific_fund_from
       t.boolean :is_specific_fund_to, default: false
       t.integer :tax_preference_id_from
-      t.integer :tax_preference_id_to, default: TaxPreference.first.id
+      t.integer :tax_preference_id_to, default: TaxPreference.first.try(:id)
       t.boolean :is_vat_free_from
       t.boolean :is_vat_free_to, default: false
       t.decimal :vat_from

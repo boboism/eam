@@ -171,6 +171,27 @@ class AssetCategorizationsController < ApplicationController
   # POST /asset_categorizations/1
   # POST /asset_categorizations/1.json
   # POST /asset_categorizations/1.xml
+  def reject
+    #@asset_categorization = AssetCategorization.find(params[:id])
+    @asset_categorization = AssetCategorization.accessible_by(current_ability, :reject).where(params[:id]).first
+    if @asset_categorization && @asset_categorization.reject!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.confirm_success', name: @asset_categorization.class.model_name.human) }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, flash: { error: @asset_categorization.errors.messages.values.join } }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # POST /asset_categorizations/1
+  # POST /asset_categorizations/1.json
+  # POST /asset_categorizations/1.xml
   def approve
     #@asset_categorization = AssetCategorization.find(params[:id])
     if @asset_categorization.approve!(current_user)

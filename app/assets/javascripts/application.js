@@ -20,7 +20,7 @@
 //= require_tree .
 
 // make table rows of index page can link to each record show page.
-linkify_record_container = function() {
+var linkify_record_container = function() {
   $("table.my-table tbody tr td:not(:last-child):not(:has(:checkbox))").on("click", function(){
     var href = $(this).parent().attr("href");
     if(href != "") {
@@ -30,7 +30,7 @@ linkify_record_container = function() {
 }
 
 // check or uncheck all records  in gam table
-check_or_uncheck_all_records_in_my_table = function() {
+var check_or_uncheck_all_records_in_my_table = function() {
   $("table.my-table thead tr th input[type='checkbox']").on("change", function() {
     var check_status = $(this).is(':checked');
     $(this).parents("table.my-table").find("tbody tr td input[type='checkbox']").attr("checked", check_status);
@@ -38,7 +38,7 @@ check_or_uncheck_all_records_in_my_table = function() {
 }
 
 // bootstrap-datepicker init
-fire_datepicker = function() {
+var fire_datepicker = function() {
   default_options = {
     format: "yyyy-mm-dd",
     weekStart: 1
@@ -47,16 +47,16 @@ fire_datepicker = function() {
 }
 
 // destroy the fields(
-destroy_fields = function(link) {
+var destroy_fields = function(link) {
   // will NOT remove while there's only one left
-  var total_size = $(link).closest(".field").parent().find(".field input[type='hidden'][value!='true']").size();
+  var total_size = $(link).closest(".field").parent().find(".field input[type='hidden'][id$='_destroy'][value!='true']").size();
   if(total_size > 1) {
     $(link).prev("input[type='hidden']").val("true");
     $(link).closest(".field").hide();
   }
 }
 
-create_fields = function(link, association, content) {
+var create_fields = function(link, association, content) {
   var new_id = new Date().getTime();
   var regexp = new RegExp("new_" + association, "g");
   $(link).closest("tr").before(content.replace(regexp, new_id));
@@ -65,7 +65,7 @@ create_fields = function(link, association, content) {
 }
 
 // calculate total quantity of transfer
-calculate_total_quantity = function(elem) {
+var calculate_total_quantity = function(elem) {
   var total_quantity = 0;
   $(elem).closest("tbody").find(".field:has(:hidden[value='false']) input[id$='_quantity']").each(function(index, elem) {
     var qty = $(this).val();
@@ -76,21 +76,33 @@ calculate_total_quantity = function(elem) {
   $(elem).closest("tbody").find(".sub_total .quantity").html(total_quantity);
 }
 
-fire_calculate_asset_transfer_total_quantity = function() {
+var fire_calculate_asset_transfer_total_quantity = function() {
   $("input[id$='_quantity']").on("change", function() {
     calculate_total_quantity(this);
   });
 }
 
-toggle_asset_tabs = function() {
+var toggle_asset_tabs = function() {
   $("#assetTab a").on("click", function(e) {
     e.preventDefault();
     $(this).tab('show');
   });
 }
 
-toggle_tooltip = function() {
+var toggle_tooltip = function() {
   $("[data-toggle=tooltip]").tooltip();
+}
+
+var hightlight_menu = function() {
+  var main_path = window.location.pathname.split(/\//);
+  while(main_path.length > 0) {
+    var current_path = main_path.join('/');
+    if ($(".nav.nav-list li:has(a[href$='"+current_path+"']):first").length > 0) {
+      $(".nav.nav-list li:has(a[href$='"+current_path+"']):first").addClass("active");
+      break;
+    }
+    main_path.pop();
+  }
 }
 
 $(function(){
@@ -103,4 +115,5 @@ $(function(){
   toggle_tooltip();
   check_or_uncheck_all_records_in_my_table();
   toggle_asset_tabs();
+  hightlight_menu();
 });

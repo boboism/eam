@@ -29,7 +29,6 @@ class CreateAssetCostAdjustments < ActiveRecord::Migration
     end
 
     add_index :asset_cost_adjustments, [:asset_id], :name => "cost_adj_asset"
-    add_index :asset_cost_adjustments, [:document_status], :name => "cost_adj_stat"
 
   end
 end

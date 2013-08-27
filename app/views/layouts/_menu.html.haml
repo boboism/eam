@@ -1,0 +1,94 @@
+.menu.well
+  %ul.nav.nav-list
+    %li.nav-header= t('.master_data') 
+    %li= link_to t('.home'), root_path
+
+    %li.divider
+    
+    %li.nav-header= t('.asset_categorization')
+    - if can?(:new, AssetCategorization)
+      %li
+        = link_to t('.new_asset_categorization'), new_asset_categorization_path
+    - if can?(:index, AssetCategorization)
+      %li
+        - asset_categorization_count = AssetCategorization.accessible_by(current_ability, :index).count 
+        = link_to asset_categorizations_path do
+          %span= t('.index_asset_categorizations')
+          %span.badge.badge-success= asset_categorization_count
+    - if can?(:confirm, AssetCategorization)
+      %li
+        - confirmable_asset_categorization_count = AssetCategorization.accessible_by(current_ability, :confirm).count 
+        = link_to confirmable_asset_categorizations_path do
+          %span= t('.index_confirmable_asset_categorizations')
+          - if confirmable_asset_categorization_count > 0
+            %span.badge.badge-important= confirmable_asset_categorization_count 
+    - if can?(:approve, AssetCategorization)
+      %li
+        - approvable_asset_categorization_count = AssetCategorization.accessible_by(current_ability, :approve).count 
+        = link_to approvable_asset_categorizations_path do
+          %span= t('.index_approvable_asset_categorizations')
+          - if approvable_asset_categorization_count > 0
+            %span.badge.badge-important= approvable_asset_categorization_count
+
+    %li.divider
+    
+    %li.nav-header= t('.assets')
+    - if can?(:index, Asset)
+      %li
+        - assets_count = Asset.accessible_by(current_ability, :index).count 
+        = link_to assets_path do
+          %span= t('.index_assets')
+          - if assets_count > 0
+            %span.badge.badge-success= assets_count
+
+    %li.divider
+    
+    %li.nav-header= t('.asset_info_adjustments')
+    - if can?(:index, AssetInfoAdjustment)
+      %li
+        - asset_info_adjustments_count = AssetInfoAdjustment.accessible_by(current_ability, :index).count 
+        = link_to asset_info_adjustments_path do
+          %span= t('.index_asset_info_adjustments')
+          - if asset_info_adjustments_count > 0
+            %span.badge.badge-success= asset_info_adjustments_count  
+    - if can?(:confirm, AssetInfoAdjustment)
+      %li
+        - confirmable_asset_info_adjustments_count = AssetInfoAdjustment.accessible_by(current_ability, :confirm).count 
+        = link_to confirmable_asset_info_adjustments_path do
+          %span= t('.index_confirmable_asset_info_adjustments')
+          - if confirmable_asset_info_adjustments_count > 0
+            %span.badge.badge-important= confirmable_asset_info_adjustments_count 
+    - if can?(:approve, AssetInfoAdjustment)
+      %li
+        - approvable_asset_info_adjustment_count = AssetInfoAdjustment.accessible_by(current_ability, :approve).count 
+        = link_to approvable_asset_info_adjustments_path do
+          %span= t('.index_approvable_asset_info_adjustments')
+          - if approvable_asset_info_adjustment_count > 0
+            %span.badge.badge-important= approvable_asset_info_adjustment_count
+
+    %li.divider
+    
+    %li.nav-header= t('.asset_cost_adjustments')
+    - if can?(:index, AssetInfoAdjustment)
+      %li
+        - asset_cost_adjustments_count = AssetCostAdjustment.accessible_by(current_ability, :index).count 
+        = link_to asset_cost_adjustments_path do
+          %span= t('.index_asset_cost_adjustments')
+          - if asset_cost_adjustments_count > 0
+            %span.badge.badge-success= asset_cost_adjustments_count  
+    - if can?(:confirm, AssetCostAdjustment)
+      %li
+        - confirmable_asset_cost_adjustments_count = AssetCostAdjustment.accessible_by(current_ability, :confirm).count 
+        = link_to confirmable_asset_cost_adjustments_path do
+          %span= t('.index_confirmable_asset_cost_adjustments')
+          - if confirmable_asset_cost_adjustments_count > 0
+            %span.badge.badge-important= confirmable_asset_cost_adjustments_count 
+    - if can?(:approve, AssetCostAdjustment)
+      %li
+        - approvable_asset_cost_adjustment_count = AssetCostAdjustment.accessible_by(current_ability, :approve).count 
+        = link_to approvable_asset_cost_adjustments_path do
+          %span= t('.index_approvable_asset_cost_adjustments')
+          - if approvable_asset_cost_adjustment_count > 0
+            %span.badge.badge-important= approvable_asset_cost_adjustment_count
+
+

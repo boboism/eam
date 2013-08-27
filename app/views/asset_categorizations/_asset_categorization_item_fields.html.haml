@@ -46,4 +46,5 @@
         %td= f.input_field :construction_date_from, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
         %td= f.input_field :construction_date_to, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
         %td{colspan:3}= f.input_field :remark, class: "input-block-level"
-  %td.pull-right= link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), f, href: "javascript:void(0);")
+  %td.pull-right
+    = link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), f, href: "javascript:void(0);")

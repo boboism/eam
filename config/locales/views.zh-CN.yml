@@ -13,6 +13,24 @@ zh-CN:
         store_locations: '存放地点'
         cost_centers: '成本费用中心'
         departments: '组织架构'
+    menu:
+      master_data: "基础数据"
+      home: "首页"
+      asset_categorization: "资产分类"
+      new_asset_categorization: "新建分类资产"
+      index_asset_categorizations: "分类资产清单"
+      index_confirmable_asset_categorizations: "待确认清单"
+      index_approvable_asset_categorizations: "待审核清单"
+      assets: "资产台账"
+      index_assets: "资产台账"
+      asset_info_adjustments: "资产信息调整"
+      index_asset_info_adjustments: "资产信息调整清单"
+      index_confirmable_asset_info_adjustments: "待确认资产信息"
+      index_approvable_asset_info_adjustments: "待审核资产信息"
+      asset_cost_adjustments: "资产原值调整"
+      index_asset_cost_adjustments: "资产原值调整清单"
+      index_confirmable_asset_cost_adjustments: "待确认资产原值"
+      index_approvable_asset_cost_adjustments: "待审核资产原值"
       asset_mgmt:
         title: '归口功能'
         unclassified_goods_lists: '待判断资产'
@@ -49,6 +67,10 @@ zh-CN:
       index: "我的分类编码列表"
       index_approvable: "待审核列表"
       index_confirmable: "待确认列表"
+    form:
+      new: "增加资产项"
+    new:
+      title: "新增资产分类信息"
   accessory_adjustments:
     show:
       no_record: "无数据"
