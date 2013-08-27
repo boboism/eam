@@ -1,5 +1,6 @@
 source 'http://ruby.taobao.org'
-gem 'rails', '3.2.13'
+ruby '1.9.3'
+gem 'rails', '~> 3.2.14'
 gem 'sqlite3'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -39,11 +40,8 @@ gem "select2-rails"
 gem "quiet_assets", ">= 1.0.2", :group => :development
 gem "figaro", ">= 0.6.3"
 gem "better_errors", ">= 0.7.2", :group => :development
-gem 'pry'
-gem 'pry-remote'
-gem 'pry-stack_explorer'
-gem 'pry-debugger'
 gem "binding_of_caller", ">= 0.7.1", :group => :development, :platforms => [:mri_19, :rbx]
 gem "libv8", ">= 3.11.8"
 gem "therubyracer", ">= 0.11.3", :group => :assets, :platform => :ruby, :require => "v8"
 gem "rails-erd", :group => :development
+gem "pry-rails", :group => [:development, :test]
