@@ -1,4 +1,4 @@
-require_dependency './extras/eam_extension/array.rb'
+require_dependency "#{Rails.root}/extras/eam_extension/array.rb"
 
 class AssetTransfer < ActiveRecord::Base
   attr_accessible :approved_at, :approved_by_id, :confirmed_at, :confirmed_by_id, :created_by_id, :effective_date, :published, :published_at, :rejected_at, :rejected_by_id, :submitted_at, :submitted_by_id, :updated_by_id, :transfering_assets_attributes, :transfer_type, :submitted, :approved, :confirmed
