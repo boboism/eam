@@ -38,7 +38,7 @@ CSV.foreach("./db/asset_category.csv") do |row|
                                depreciation_life: row[4].to_f, 
                                inv_verify_percent: row[5].to_f})
   else
-    SubCategory.create(code: row[0],
+    SubCategory.create(code: row[0][-2,2],
                        name: row[1].gsub(/\s*$/,''), 
                        enabled: true, 
                        profiles: {salvage_rate: row[2].to_f, 
