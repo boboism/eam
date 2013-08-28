@@ -6,6 +6,13 @@ class Ability
     user ||= User.new # guest user (not logged in)
     #can :manage, :all if user.has_role?(:admin)
 
+    if user.has_any_role?(:admin)
+      master_datas = (MasterData.types.map{|md| md.last.constantize} << MasterData)
+      can [:create, :read, :modify], master_datas
+      can [:enable], master_datas, :enabled => false 
+      can [:disable], master_datas, :enabled => true
+    end
+
     if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr)
       can :read, AssetCategorization 
     else
@@ -39,10 +46,10 @@ class Ability
     end
     can [:modify, :submit], AssetTransfer, :created_by_id => user.id, :submitted => false
     if user.has_any_role?(:admin,:deptadmin)
-      can :confirm, AssetTransfer, :submitted => true, :confirmed => false
+      can [:confirm, :index_confirmable], AssetTransfer, :submitted => true, :confirmed => false
     end
     if user.has_any_role?(:admin, :findadmin, :finmgr)
-      can :approve, AssetTransfer, :confirmed => true, :approved => false
+      can [:approve, :index_approvable], AssetTransfer, :confirmed => true, :approved => false
     end
 
     if user.has_any_role?(:admin,:costadmin)

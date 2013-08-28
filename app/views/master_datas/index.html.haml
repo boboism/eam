@@ -1,0 +1,76 @@
+- model_class = MasterData.new.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: model_class.model_name.human, default: t("helpers.views.index.title", title: model_class.model_name.human, default: ""))
+  .span7
+    .pull-right
+      .btn-group
+        /
+          = link_to new_master_data_path, class: "btn" do
+            %i.icon-plus
+            %span= t(".new", default: t("helpers.links.new"))
+      .btn-group
+        = render "layouts/toolbar"
+.row-fluid
+  .span12
+    = form_tag master_datas_path, method: :get, class: "form-search" do
+      .row-fluid
+        .span12
+          .input-append
+            = text_field_tag "[search][text]", nil, class: "search-query", placeholder: t(".placehoder", default: t("helpers.links.search_placeholder", default: ""))
+            = button_tag class: "btn" do
+              %i.icon-search
+              %span= t(".search", default: t("helpers.links.search"))
+.row-fluid
+  .span12
+    %table.table.table-condensed.table-hover.my-table
+      %thead
+        %tr
+          %th= check_box_tag "check_#{model_class.name.underscore}"
+          %th= model_class.human_attribute_name(:id)
+          %th= model_class.human_attribute_name(:type)
+          %th= model_class.human_attribute_name(:code)
+          %th= model_class.human_attribute_name(:name)
+          %th= model_class.human_attribute_name(:description)
+          %th= model_class.human_attribute_name(:enabled)
+          %th
+      %tbody
+        - @master_datas.each do |master_data|
+          %tr{href: master_data_path(master_data)}
+            %td= check_box_tag "#{model_class.name.underscore}_id_#{master_data.id}"
+            %td= master_data.id
+            %td= master_data.type.constantize.model_name.human
+            %td= master_data.code
+            %td= master_data.name
+            %td= master_data.description
+            %td= icon_true_false(master_data.enabled)
+            %td
+              .btn-group
+                %button.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}
+                  %i.icon-wrench.icon-white
+                  = t(".operation", default: t("helpers.links.operation"))
+                  %span.caret
+                %ul.dropdown-menu
+                  - if can? :read, master_data
+                    %li
+                      = link_to master_data_path(master_data) do
+                        %i.icon-eye-open
+                        %span= t('.show', default: t("helpers.links.show"))
+                  - if can? :modify, master_data
+                    %li
+                      = link_to edit_master_data_path(master_data) do
+                        %i.icon-pencil
+                        %span= t(".edit", default: t("helpers.links.edit"))
+                  - if can? :enable, master_data
+                    %li
+                      = link_to enable_master_data_path(master_data), method: :put, data: {confirm: t(".enable_confirm")} do
+                        %i.icon-ok
+                        %span= t(".enable")
+                  - if can? :diable, master_data
+                    %li
+                      = link_to disable_master_data_path(master_data), method: :put, data: {confirm: t(".disable_confirm")} do
+                        %i.icon-remove
+                        %span= t(".disable")
+.row-fluid
+  .span12
+    = paginate @master_datas

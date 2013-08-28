@@ -1,0 +1,22 @@
+= simple_form_for(@master_data, as: :master_data, url: @master_data.new_record? ? master_datas_path : master_data_path(@master_data), method: (@master_data.new_record? ? :post : :put), html: {class: "well form-horizontal small-labels"}) do |f|
+
+  = f.error_notification
+  = display_error_messages @master_data
+
+
+  .row-fluid
+    .span6
+      = f.input :code, :input_html => {class: "input-block-level"}
+    .span6
+      = f.input :name, :input_html => {class: "input-block-level"}
+  .row-fluid
+    .span6
+      = f.input :type, as: :select, collection: MasterData.types, :input_html => {class: "input-block-level"}
+    .span6
+      = f.input :parent_id, collection: MasterData.enabled.selectable, :input_html => {class: "input-block-level"}
+  .row-fluid
+    .span12
+      = f.input :description, as: :text, :input_html => {class: "input-block-level", rows: 3}
+
+  .form-actions
+    = f.button :submit, t('helpers.links.submit'), class: 'btn-primary'

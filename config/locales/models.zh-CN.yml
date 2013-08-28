@@ -10,7 +10,32 @@ zh-CN:
               confirmation: "请再次填写密码确认"
         asset_transfer:
           item_tos_total_quantity_euqals_to_one: "当前数量为%{current_quantity},转移总数量必须为1"
+        master_data:
+          attributes:
+            already_disabled: "当前基础数据原状态为禁用，无法再次禁用"
+            already_enabled: "当前基础数据原状态为启用，无法再次启用"
     models:
+      category:
+        one: "资产类别"
+        other: "资产类别"
+      sub_category:
+        one: "资产子类别"
+        other: "资产子类别"
+      construction_period:
+        one: "一期/二期"
+        other: "一期/二期"
+      cost_center:
+        one: "成本费用中心"
+        other: "成本费用中心"
+      department:
+        one: "部门"
+        other: "部门"
+      specific_investment:
+        one: "通用/专用"
+        other: "通用/专用"
+      tax_preference:
+        one: "税收优惠类型"
+        other: "税收优惠类型"
       asset_info_adjustment: 
         one: "资产信息调整单"
         other: "资产信息调整单"
@@ -266,3 +291,9 @@ zh-CN:
         approved_by: "审核人"
         changed_asset_attributes: "修改内容"
         rejected_at: "作废时间"
+      master_data:
+        type: "类型"
+        code: "编码"
+        name: "名称"
+        description: "描述"
+        enabled: "启用"

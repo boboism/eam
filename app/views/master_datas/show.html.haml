@@ -1,0 +1,131 @@
+- model_class = @asset_transfer.class
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: "#{model_class.model_name.human}: #{@asset_transfer.id}", default: t("helpers.views.show.title", title: "#{model_class.model_name.human}: #{@asset_transfer.id}", default: ""))
+  .span7
+    .pull-right
+      .btn-group
+        %a.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}
+          %i.icon-wrench.icon-white
+          = t('.operation', default: t('helpers.links.operation'))
+          %span.caret
+        %ul.dropdown-menu
+          - if can? :modify, @asset_transfer
+            %li
+              = link_to edit_asset_transfer_path(@asset_transfer) do
+                %i.icon-pencil
+                %span= t(".edit", default: t("helpers.links.edit"))
+            %li
+              = link_to @asset_transfer, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm", default: "Confirm destroy?"))} do
+                %i.icon-trash
+                %span= t(".destroy", default: t("helpers.links.destroy"))
+          - if can? :submit, @asset_transfer
+            %li
+              = link_to submit_asset_transfer_path(@asset_transfer), method: :put do
+                %i.icon-upload
+                %span= t(".submit", default: t("helpers.links.submit"))
+          - if can? :confirm, @asset_transfer
+            %li
+              = link_to confirm_asset_transfer_path(@asset_transfer), method: :put do
+                %i.icon-check
+                %span= t(".confirm", default: t("helpers.links.confirm"))
+          - if can? :approve, @asset_transfer
+            %li
+              = link_to approve_asset_transfer_path(@asset_transfer), method: :put do
+                %i.icon-check
+                %span= t(".approve", default: t("helpers.links.approve"))
+      = link_to asset_transfers_path, class: "btn" do
+        %i.icon-list
+        %span= t(".index", default: t("helpers.links.index"))
+      .btn-group
+        = render "layouts/toolbar"
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:effective_date)
+          %th= model_class.human_attribute_name(:created_by_id)
+          %th= model_class.human_attribute_name(:created_at)
+          %th= model_class.human_attribute_name(:updated_by_id)
+          %th= model_class.human_attribute_name(:updated_at)
+      %tbody
+        %tr
+          %td= @asset_transfer.effective_date && @asset_transfer.effective_date.to_date
+          %td= @asset_transfer.created_by
+          %td= @asset_transfer.created_at && @asset_transfer.created_at.to_date
+          %td= @asset_transfer.updated_by
+          %td= @asset_transfer.updated_at && @asset_transfer.updated_at.to_date
+.row-fluid
+  .span12
+    %table.table.table-bordered.table-hover.table-condensed
+      %thead
+        %tr
+          %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:submitted_by_id)
+          %th= model_class.human_attribute_name(:submitted_at)
+          %th= model_class.human_attribute_name(:confirmed)
+          %th= model_class.human_attribute_name(:confirmed_by_id)
+          %th= model_class.human_attribute_name(:confirmed_at)
+          %th= model_class.human_attribute_name(:approved)
+          %th= model_class.human_attribute_name(:approved_by_id)
+          %th= model_class.human_attribute_name(:approved_at)
+      %tbody
+        %tr
+          %td= icon_true_false(@asset_transfer.submitted)
+          %td= @asset_transfer.submitted_by
+          %td= @asset_transfer.submitted_at && @asset_transfer.submitted_at.to_date
+          %td= icon_true_false(@asset_transfer.confirmed)
+          %td= @asset_transfer.confirmed_by
+          %td= @asset_transfer.confirmed_at && @asset_transfer.confirmed_at.to_date
+          %td= icon_true_false(@asset_transfer.approved)
+          %td= @asset_transfer.approved_by
+          %td= @asset_transfer.approved_at && @asset_transfer.approved_at.to_date
+
+- item_fm_class = AssetTransferItemFrom 
+- item_to_class = AssetTransferItemTo
+- @asset_transfer.transfering_assets.each do |adj|
+  .row-fluid
+    .span12
+      %table.table.table-bordered.table-hover.table-condensed
+        %tbody
+          %tr
+            %th= Asset.human_attribute_name(:asset_no)
+            %th{colspan:2}= adj.asset.asset_no
+            %th= Asset.human_attribute_name(:device_no)
+            %th{colspan:2}= adj.asset.device_no
+          %tr
+            %th= item_fm_class.human_attribute_name(:construction_period)
+            %th= item_fm_class.human_attribute_name(:specific_investment)
+            %th= item_fm_class.human_attribute_name(:management_department)
+            %th= item_fm_class.human_attribute_name(:cost_center)
+            %th= item_fm_class.human_attribute_name(:responsible_by)
+            %th= item_fm_class.human_attribute_name(:quantity)
+          %tr
+            %th{colspan:6}= item_fm_class.model_name.human
+          - if adj.asset_transfer_item_froms.empty?
+            %tr
+              %td{colspan:6}= t('.no_record')
+          - else
+            - adj.asset_transfer_item_froms.each do |fm|
+              %tr
+                %td= fm.construction_period
+                %td= fm.specific_investment
+                %td= fm.management_department
+                %td= fm.cost_center
+                %td= fm.responsible_by
+                %td= fm.quantity
+          %tr
+            %th{colspan:6}= item_to_class.model_name.human
+          - if adj.asset_transfer_item_tos.empty?
+            %tr
+              %td{colspan:6}= t('.no_record')
+          - else 
+            - adj.asset_transfer_item_tos.each do |to|
+              %tr.text-danger
+                %td= to.construction_period
+                %td= to.specific_investment
+                %td= to.management_department
+                %td= to.cost_center
+                %td= to.responsible_by
+                %td= to.quantity

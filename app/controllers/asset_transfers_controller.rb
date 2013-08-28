@@ -17,6 +17,32 @@ class AssetTransfersController < ApplicationController
     end
   end
 
+  # GET /asset_transfers/confirmable
+  # GET /asset_transfers/confirmable.json
+  # GET /asset_transfers/confirmable.xml
+  def index_confirmable
+    @asset_transfers = AssetTransfer.accessible_by(current_ability, :confirm).search(params[:search]).order("id desc").page(params[:page])
+
+    respond_to do |format|
+      format.html { render "index" }
+      format.json { render json: @asset_transfers }
+      format.xml  { render xml: @asset_transfers }
+    end
+  end
+
+  # GET /asset_transfers/approvable
+  # GET /asset_transfers/approvable.json
+  # GET /asset_transfers/approvable.xml
+  def index_approvable
+    @asset_transfers = AssetTransfer.accessible_by(current_ability, :approve).search(params[:search]).order("id desc").page(params[:page])
+
+    respond_to do |format|
+      format.html { render "index" }
+      format.json { render json: @asset_transfers }
+      format.xml  { render xml: @asset_transfers }
+    end
+  end
+
   # GET /asset_transfers/1
   # GET /asset_transfers/1.json
   # GET /asset_transfers/1.xml

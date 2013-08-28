@@ -15,6 +15,7 @@ zh-CN:
         departments: '组织架构'
     menu:
       master_data: "基础数据"
+      new_master_data: "新增基础数据"
       home: "首页"
       asset_categorization: "资产分类"
       new_asset_categorization: "新建分类资产"
@@ -31,6 +32,10 @@ zh-CN:
       index_asset_cost_adjustments: "资产原值调整清单"
       index_confirmable_asset_cost_adjustments: "待确认资产原值"
       index_approvable_asset_cost_adjustments: "待审核资产原值"
+      asset_transfers: "资产转移"
+      index_asset_transfers: "资产转移历史"
+      index_confirmable_asset_transfers: "待确认资产转移"
+      index_approvable_asset_transfers: "待审核资产转移"
       asset_mgmt:
         title: '归口功能'
         unclassified_goods_lists: '待判断资产'
@@ -85,3 +90,19 @@ zh-CN:
     show:
       from: "从"
       to: "到"
+  master_datas:
+    index:
+      enable_confirm: "请确认是否启用"
+      disable_confirm: "请确认是否禁用"
+      enable: "启用"
+      disable: "禁用"
+    edit:
+      enable_confirm: "请确认是否启用"
+      disable_confirm: "请确认是否禁用"
+      enable: "启用"
+      disable: "禁用"
+    new:
+      enable_confirm: "请确认是否启用"
+      disable_confirm: "请确认是否禁用"
+      enable: "启用"
+      disable: "禁用"

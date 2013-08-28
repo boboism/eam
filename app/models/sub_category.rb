@@ -3,7 +3,6 @@ class SubCategory < MasterData
   serialize :profiles
   validates :code, :presence => true, :uniqueness => true
   validates :name, :presence => true
-  validates :enabled, :presence => true
 
   belongs_to :parent, :class_name => "Category", :foreign_key => "parent_id"
 

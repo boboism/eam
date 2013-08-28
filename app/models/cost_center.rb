@@ -3,7 +3,6 @@ class CostCenter < MasterData
 
   validates :code, :presence => true, :uniqueness => true
   validates :name, :presence => true
-  validates :enabled, :presence => true
 
   belongs_to :parent, :class_name => "CostCenter", :foreign_key => "parent_id"
   has_many :children, :class_name => "CostCenter", :foreign_key => "parent_id"

@@ -1,0 +1,28 @@
+- model_class = MasterData
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: "#{model_class.model_name.human}: #{@master_data.id}", default: t("helpers.views.edit.title", title: "#{model_class.model_name.human}: #{@master_data.id}"))
+  .span7
+    .pull-right
+      .btn-group
+        - if can? :read, @master_data
+          = link_to edit_master_data_path(@master_data), class: "btn" do
+            %i.icon-eye-open
+            %span= t(".show", default: t("helpers.links.show"))
+        - if can? :enable, @master_data
+          = link_to enable_master_data_path(@master_data), method: :put, data: {confirm: t(".enable_confirm")}, class: "btn" do
+            %i.icon-ok
+            %span= t(".enable")
+        - if can? :disable, @master_data
+          = link_to disable_master_data_path(@master_data), method: :put, data: {confirm: t(".disable_confirm")}, class: "btn" do
+            %i.icon-remove
+            %span= t(".disable")
+        - if can? :read, MasterData
+          = link_to master_datas_path, class: "btn" do
+            %i.icon-list
+            %span= t(".index", default: t("helpers.links.index"))
+      .btn-group
+        = render "layouts/toolbar"
+.row-fluid
+  .span12
+    = render "form"

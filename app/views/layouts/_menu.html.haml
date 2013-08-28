@@ -1,7 +1,10 @@
 .menu.well
   %ul.nav.nav-list
     %li.nav-header= t('.master_data') 
-    %li= link_to t('.home'), root_path
+    - if can?(:new, MasterData)
+      %li= link_to t('.new_master_data'), new_master_data_path
+    - if can?(:index, AssetCategorization)
+      %li= link_to t('.master_data'), master_datas_path
 
     %li.divider
     
@@ -69,7 +72,7 @@
     %li.divider
     
     %li.nav-header= t('.asset_cost_adjustments')
-    - if can?(:index, AssetInfoAdjustment)
+    - if can?(:index, AssetCostAdjustment)
       %li
         - asset_cost_adjustments_count = AssetCostAdjustment.accessible_by(current_ability, :index).count 
         = link_to asset_cost_adjustments_path do
@@ -91,4 +94,26 @@
           - if approvable_asset_cost_adjustment_count > 0
             %span.badge.badge-important= approvable_asset_cost_adjustment_count
 
+    %li.nav-header= t('.asset_transfers')
+    - if can?(:index, AssetTransfer)
+      %li
+        - asset_transfers_count = AssetTransfer.accessible_by(current_ability, :index).count 
+        = link_to asset_transfers_path do
+          %span= t('.index_asset_transfers')
+          - if asset_transfers_count > 0
+            %span.badge.badge-success= asset_transfers_count  
+    - if can?(:confirm, AssetTransfer)
+      %li
+        - confirmable_asset_transfers_count = AssetTransfer.accessible_by(current_ability, :confirm).count 
+        = link_to confirmable_asset_transfers_path do
+          %span= t('.index_confirmable_asset_transfers')
+          - if confirmable_asset_transfers_count > 0
+            %span.badge.badge-important= confirmable_asset_transfers_count 
+    - if can?(:approve, AssetTransfer)
+      %li
+        - approvable_asset_transfer_count = AssetTransfer.accessible_by(current_ability, :approve).count 
+        = link_to approvable_asset_transfers_path do
+          %span= t('.index_approvable_asset_transfers')
+          - if approvable_asset_transfer_count > 0
+            %span.badge.badge-important= approvable_asset_transfer_count
 

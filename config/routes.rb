@@ -46,6 +46,11 @@ Eam::Application.routes.draw do
 
   resources :assets, :except => [:edit, :update]
 
+  resources :master_datas, except: [:destroy] do
+    put :enable, :action => "enable", :on => :member
+    put :disable, :action => "disable", :on => :member
+  end
+
 
   authenticated :user do
     root :to => 'home#index'
