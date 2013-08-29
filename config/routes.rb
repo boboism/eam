@@ -12,6 +12,7 @@ Eam::Application.routes.draw do
     put :submit,  :on => :member
     put :confirm, :on => :member
     put :approve, :on => :member
+    put :reject,  :on => :member
     get :approvable, :action => "index_approvable", :on => :collection
     get :confirmable, :action => "index_confirmable", :on => :collection
   end
@@ -21,6 +22,7 @@ Eam::Application.routes.draw do
     put :submit, :on => :member
     put :confirm, :on => :member
     put :approve, :on => :member
+    put :reject,  :on => :member
     get :approvable, :action => "index_approvable", :on => :collection
     get :confirmable, :action => "index_confirmable", :on => :collection
   end

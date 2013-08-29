@@ -76,6 +76,11 @@
                       = link_to new_asset_cost_adjustment_path(:asset_id => asset.id) do
                         %i.icon-plus
                         %span= t(".new_cost_adjustment", default: "New Asset Cost Adjustment")
+                  - if can? :create, AccessoryAdjustment
+                    %li
+                      = link_to new_accessory_adjustment_path(:asset_id => asset.id) do
+                        %i.icon-plus
+                        %span= t(".new_accessory_adjustment", default: "New Accessory Adjustment")
                   - if can? :create, AssetTransfer
                     %li
                       = link_to new_asset_transfer_path(:asset_id => asset.id) do

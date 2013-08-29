@@ -24,7 +24,7 @@ class AccessoryAdjustmentsController < ApplicationController
     @accessory_adjustments = AccessoryAdjustment.accessible_by(current_ability, :confirm).search(params[:search]).page(params[:page])
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render "index" }
       format.json { render json: @accessory_adjustments }
       format.xml  { render xml: @accessory_adjustments }
     end
@@ -37,7 +37,7 @@ class AccessoryAdjustmentsController < ApplicationController
     @accessory_adjustments = AccessoryAdjustment.accessible_by(current_ability, :approve).search(params[:search]).page(params[:page])
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html { render "index" }
       format.json { render json: @accessory_adjustments }
       format.xml  { render xml: @accessory_adjustments }
     end

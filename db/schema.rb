@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130521005103) do
+ActiveRecord::Schema.define(:version => 20130829040512) do
 
   create_table "accessories", :force => true do |t|
     t.string   "name"
@@ -316,16 +316,16 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
   add_index "master_data", ["type", "name"], :name => "master_data_type_name"
 
   create_table "model_relationships", :force => true do |t|
+    t.integer  "refer_from_id"
+    t.string   "refer_from_type"
+    t.integer  "refer_from_status"
+    t.integer  "refer_to_id"
+    t.string   "refer_to_type"
+    t.integer  "refer_to_status"
     t.string   "type"
-    t.integer  "refer_id_from"
-    t.integer  "refer_id_to"
-    t.integer  "created_by_id"
-    t.integer  "updated_by_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
   end
-
-  add_index "model_relationships", ["type", "refer_id_from", "refer_id_to"], :name => "model_rel_fm_to", :unique => true
 
   create_table "number_poolings", :force => true do |t|
     t.string   "type"
@@ -335,6 +335,11 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
+
+  add_index "number_poolings", ["owned_by_id"], :name => "number_poolings_owned"
+  add_index "number_poolings", ["serial"], :name => "number_poolings_serial"
+  add_index "number_poolings", ["status"], :name => "number_poolings_status"
+  add_index "number_poolings", ["type"], :name => "number_poolings_type"
 
   create_table "roles", :force => true do |t|
     t.string   "name"

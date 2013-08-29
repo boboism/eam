@@ -77,7 +77,6 @@ class AssetCategorizationsController < ApplicationController
   # POST /asset_categorizations.xml
   def create
     @asset_categorization = AssetCategorization.new(params[:asset_categorization].merge(:created_by_id => current_user.id, :updated_by_id => current_user.id))
-    binding.pry
     respond_to do |format|
       if @asset_categorization.save
         format.html { redirect_to @asset_categorization, notice: I18n.t('controllers.create_success', name: @asset_categorization.class.model_name.human) }
@@ -173,10 +172,10 @@ class AssetCategorizationsController < ApplicationController
   # POST /asset_categorizations/1.xml
   def reject
     #@asset_categorization = AssetCategorization.find(params[:id])
-    @asset_categorization = AssetCategorization.accessible_by(current_ability, :reject).where(params[:id]).first
+    @asset_categorization = AssetCategorization.accessible_by(current_ability, :reject).where(id: params[:id]).first
     if @asset_categorization && @asset_categorization.reject!(current_user)
       respond_to do |format|
-        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.confirm_success', name: @asset_categorization.class.model_name.human) }
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.reject_success', name: @asset_categorization.class.model_name.human) }
         format.json { head :no_content }
         format.xml  { head :no_content }
       end

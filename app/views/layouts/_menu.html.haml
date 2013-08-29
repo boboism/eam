@@ -17,7 +17,8 @@
         - asset_categorization_count = AssetCategorization.accessible_by(current_ability, :index).count 
         = link_to asset_categorizations_path do
           %span= t('.index_asset_categorizations')
-          %span.badge.badge-success= asset_categorization_count
+          - if asset_categorization_count > 0
+            %span.badge.badge-success= asset_categorization_count
     - if can?(:confirm, AssetCategorization)
       %li
         - confirmable_asset_categorization_count = AssetCategorization.accessible_by(current_ability, :confirm).count 
@@ -117,3 +118,25 @@
           - if approvable_asset_transfer_count > 0
             %span.badge.badge-important= approvable_asset_transfer_count
 
+    %li.nav-header= t('.accessory_adjustments')
+    - if can?(:index, AccessoryAdjustment)
+      %li
+        - accessory_adjustments_count = AccessoryAdjustment.accessible_by(current_ability, :index).not_approved.count 
+        = link_to accessory_adjustments_path do
+          %span= t('.index_accessory_adjustments')
+          - if accessory_adjustments_count > 0
+            %span.badge.badge-success= accessory_adjustments_count  
+    - if can?(:confirm, AccessoryAdjustment)
+      %li
+        - confirmable_accessory_adjustments_count = AccessoryAdjustment.accessible_by(current_ability, :confirm).count 
+        = link_to confirmable_accessory_adjustments_path do
+          %span= t('.index_confirmable_accessory_adjustments')
+          - if confirmable_accessory_adjustments_count > 0
+            %span.badge.badge-important= confirmable_accessory_adjustments_count 
+    - if can?(:approve, AccessoryAdjustment)
+      %li
+        - approvable_accessory_adjustment_count = AccessoryAdjustment.accessible_by(current_ability, :approve).count 
+        = link_to approvable_accessory_adjustments_path do
+          %span= t('.index_approvable_accessory_adjustments')
+          - if approvable_accessory_adjustment_count > 0
+            %span.badge.badge-important= approvable_accessory_adjustment_count
