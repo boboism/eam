@@ -90,7 +90,7 @@ class AssetsController < ApplicationController
   # DELETE /assets/1.xml
   def destroy
     #@asset = Asset.find(params[:id])
-    if @asset.destroy && @asset.destroy
+    if @asset && @asset.destroy
       respond_to do |format|
         format.html { redirect_to assets_url, notice: I18n.t('controllers.destroy_success', name: @asset.class.model_name.human) } 
         format.json { head :no_content }
@@ -101,6 +101,17 @@ class AssetsController < ApplicationController
         format.html { redirect_to assets_url, notice: I18n.t('controllers.destroy_fail', name: @asset.class.model_name.human) }
         format.json { head :no_content }
         format.xml  { head :no_content }
+      end
+    end
+  end
+
+  def no_accessory
+    @asset = Asset.accessible_by(current_ability, :no_accessory).where(id: params[:id]).first
+    respond_to do |format|
+      if @asset && @asset.no_accessories!(current_user)
+        format.html { redirect_to @asset, notice: I18n.t('controllers.no_accessory_success', name: @asset.class.model_name.human) }
+      else
+        format.html { redirect_to @asset, notice: I18n.t('controllers.no_accessory_fail', name: @asset.class.model_name.human) }
       end
     end
   end

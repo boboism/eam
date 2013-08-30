@@ -46,7 +46,9 @@ Eam::Application.routes.draw do
   end
 
 
-  resources :assets, :except => [:edit, :update]
+  resources :assets, :except => [:edit, :update] do 
+    put :no_accessory, :on => :member
+  end
 
   resources :master_datas, except: [:destroy] do
     put :enable, :action => "enable", :on => :member

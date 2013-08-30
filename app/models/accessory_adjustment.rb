@@ -65,6 +65,8 @@ class AccessoryAdjustment < ActiveRecord::Base
       end
       accessory_adjustment_item_froms.collect(&:accessory).each{|acc| acc.disable_by(user); }
       update_attributes(:approved => true, :approved_by_id => user.id, :approved_at => DateTime.now, :updated_by_id => user.id)
+      asset.update_attributes(accessory_status: AccessoryStatusType[:exists][:weight],
+                              updated_by_id: user.id)
     end
   end
 

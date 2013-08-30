@@ -26,6 +26,7 @@ class Ability
 
     if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr)
       can :read, Asset
+      can :no_accessory, Asset, accessory_status: Asset::AccessoryStatusType[:to_be_defined][:weight], created_by_id: user.id
     end
 
     if user.has_any_role?(:admin,:deptadmin)
