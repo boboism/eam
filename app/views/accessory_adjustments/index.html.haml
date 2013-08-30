@@ -5,9 +5,10 @@
   .span7
     .pull-right
       .btn-group
-        = link_to new_accessory_adjustment_path, class: "btn" do
-          %i.icon-plus
-          %span= t(".new", default: t("helpers.links.new"))
+        /
+          = link_to new_accessory_adjustment_path, class: "btn" do
+            %i.icon-plus
+            %span= t(".new", default: t("helpers.links.new"))
       .btn-group
         = render "layouts/toolbar"
 .row-fluid

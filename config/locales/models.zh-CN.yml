@@ -293,6 +293,7 @@ zh-CN:
         rejected_at: "作废时间"
       master_data:
         type: "类型"
+        parent_id: "父节点"
         code: "编码"
         name: "名称"
         description: "描述"
