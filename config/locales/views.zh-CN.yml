@@ -92,16 +92,19 @@ zh-CN:
       to: "到"
   master_datas:
     index:
+      title: "基础数据清单"
       enable_confirm: "请确认是否启用"
       disable_confirm: "请确认是否禁用"
       enable: "启用"
       disable: "禁用"
     edit:
+      title: "编辑基础数据"
       enable_confirm: "请确认是否启用"
       disable_confirm: "请确认是否禁用"
       enable: "启用"
       disable: "禁用"
     new:
+      title: "新建基础数据"
       enable_confirm: "请确认是否启用"
       disable_confirm: "请确认是否禁用"
       enable: "启用"
