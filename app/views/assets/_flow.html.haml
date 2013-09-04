@@ -1,13 +1,13 @@
 .row-fluid
   .span12
-    %legend= t('acceptance_flow')
+    .page-header= t('.acceptance_flow')
 .row-fluid
   .span12
 
     - unless asset.asset_categorization_item
       = link_to t('.new_asset_categorization'), new_asset_categorization_path, class: "btn btn-danger"
     - else
-      %a.btn.btn-success.disabled= t('.asset_categorization_added')
+      %a.btn.btn-success= t('.asset_categorization_added')
 
     %i.icon-chevron-right
 
@@ -16,7 +16,29 @@
         = link_to t('.no_accessories'), no_accessory_asset_path(asset_id: asset.id), method: :put, class: "btn btn-danger"
         = link_to t('.exists_accessories'), new_accessory_adjustment_path(asset_id: asset.id), class: "btn btn-danger"
     - else
-      %a.btn.btn-success.disabled= t('.accessory_adjustment_added')
+      %a.btn.btn-success= t('.accessory_adjustment_added')
 
     %i.icon-chevron-right
 
+    - unless asset.allocations.empty?
+      = link_to t('.new_asset_transfer'), new_asset_transfer_path(asset_id: asset.id), class: "btn btn-danger"
+    - else
+      %a.btn.btn-success= t('.asset_transfer_added')
+
+
+    %i.icon-chevron-right
+
+    - unless false
+      %a.btn.btn-danger= t('.new_final_acceptance')
+    - else
+      %a.btn.btn-success= t('.asset_transfer_added')
+
+    %i.icon-chevron-right
+    - unless true
+      %a.btn.btn-success
+        %i.icon-ok.icon-white
+        = t('.activated')
+    - else
+      %a.btn.btn-danger
+        %i.icon-remove.icon-white
+        = t('.deactivated') 
