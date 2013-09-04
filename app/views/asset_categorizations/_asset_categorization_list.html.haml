@@ -40,6 +40,11 @@
                       = link_to asset_categorization, method: :delete, data: {confirm: t(".destroy_confirm", default: t("helpers.links.destroy_confirm"))} do
                         %i.icon-trash
                         %span= t(".destroy", default: t("helpers.links.destroy"))
+                  - if can? :reject, asset_categorization
+                    %li
+                      = link_to reject_asset_categorization_path(asset_categorization), method: :put do
+                        %i.icon-thumbs-down
+                        %span= t(".reject", default: t("helpers.links.reject"))
                   - if can? :submit, asset_categorization
                     %li
                       = link_to submit_asset_categorization_path(asset_categorization), method: :put do

@@ -336,6 +336,11 @@ ActiveRecord::Schema.define(:version => 20130521005103) do
     t.datetime "updated_at",  :null => false
   end
 
+  add_index "number_poolings", ["owned_by_id"], :name => "number_poolings_owned"
+  add_index "number_poolings", ["serial"], :name => "number_poolings_serial"
+  add_index "number_poolings", ["status"], :name => "number_poolings_status"
+  add_index "number_poolings", ["type"], :name => "number_poolings_type"
+
   create_table "roles", :force => true do |t|
     t.string   "name"
     t.integer  "resource_id"

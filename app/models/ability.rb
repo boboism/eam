@@ -15,8 +15,10 @@ class Ability
 
     if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr)
       can :read, AssetCategorization 
+      can :reject, AssetCategorization, :approved => false, :submitted => true
     else
       can :read, AssetCategorization, :created_by_id => user.id 
+      can :reject, AssetCategorization, :approved => false, :submitted => true, :created_by_id => user.id
     end
     can :create, AssetCategorization if user.has_any_role?(:admin,:costadmin)
     can [:modify, :submit], AssetCategorization, :created_by_id => user.id, :submitted => false

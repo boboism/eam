@@ -8,8 +8,12 @@ class SubCategory < MasterData
 
   has_many :assets, :class_name => "Asset", :foreign_key => "category_id" 
 
-  def to_s; "#{code} #{name}"; end
+  def to_s; "#{name}"; end
 
   def number_pooling_prefix; parent ? "#{parent.code.strip}#{code.strip}" : "";end
+
+  def self.selectable
+    includes{parent}.enabled.collect{|c| ["#{c.parent.code}#{c.code} #{c.name}", c.id]}
+  end
 
 end

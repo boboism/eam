@@ -8,7 +8,7 @@ class AssetCategorizationsController < ApplicationController
   # GET /asset_categorizations.json
   # GET /asset_categorizations.xml
   def index
-    @asset_categorizations = AssetCategorization.accessible_by(current_ability).search(params[:search]).order("approved, confirmed, submitted, id desc").page(params[:page])
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability).search(params[:search]).where(created_by_id: current_user.try(:id)).order("approved, confirmed, submitted, id desc").page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -77,7 +77,6 @@ class AssetCategorizationsController < ApplicationController
   # POST /asset_categorizations.xml
   def create
     @asset_categorization = AssetCategorization.new(params[:asset_categorization].merge(:created_by_id => current_user.id, :updated_by_id => current_user.id))
-    binding.pry
     respond_to do |format|
       if @asset_categorization.save
         format.html { redirect_to @asset_categorization, notice: I18n.t('controllers.create_success', name: @asset_categorization.class.model_name.human) }
@@ -176,7 +175,7 @@ class AssetCategorizationsController < ApplicationController
     @asset_categorization = AssetCategorization.accessible_by(current_ability, :reject).where(params[:id]).first
     if @asset_categorization && @asset_categorization.reject!(current_user)
       respond_to do |format|
-        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.confirm_success', name: @asset_categorization.class.model_name.human) }
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.reject_success', name: @asset_categorization.class.model_name.human) }
         format.json { head :no_content }
         format.xml  { head :no_content }
       end

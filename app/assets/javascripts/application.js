@@ -61,6 +61,7 @@ var create_fields = function(link, association, content) {
   var regexp = new RegExp("new_" + association, "g");
   $(link).closest("tr").before(content.replace(regexp, new_id));
   fire_datepicker();
+  fire_select2();
   fire_calculate_asset_transfer_total_quantity();
 }
 
@@ -105,6 +106,10 @@ var hightlight_menu = function() {
   }
 }
 
+var fire_select2 = function() {
+  $("select.select").select2();
+}
+
 $(function(){
   fire_datepicker();
   $("a:has(.icon-trash), .create_button").on("click", function() {
@@ -116,4 +121,5 @@ $(function(){
   check_or_uncheck_all_records_in_my_table();
   toggle_asset_tabs();
   hightlight_menu();
+  fire_select2();
 });

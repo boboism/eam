@@ -57,7 +57,7 @@ class AssetCategorization < ActiveRecord::Base
     end
   end
 
-  def reopen!(user)
+  def reject!(user)
     self.transaction do
       update_attributes(:submitted => false, :confirmed => false, :submitted_by_id => nil, :submitted_at => nil, :confirmed_by_id => nil, :confirmed_at => nil, :updated_by_id => user.id)
     end
