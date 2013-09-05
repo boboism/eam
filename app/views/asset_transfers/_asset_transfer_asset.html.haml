@@ -1,6 +1,6 @@
 = f.simple_fields_for :transfering_assets do |ta|
-  = ta.input :refer_id_from, as: :hidden
-  = ta.input :refer_id_to, as: :hidden
+  = ta.input :refer_from_id, as: :hidden
+  = ta.input :refer_to_id, as: :hidden
   - asset = ta.object.asset
   %h3= "#{asset.category.name} #{asset.sub_category.name} - #{ta.object.asset.asset_no}"
   = render 'asset_transfer_item_froms', :ta => ta

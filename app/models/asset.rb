@@ -56,11 +56,11 @@ class Asset < ActiveRecord::Base
 
   has_one :asset_categorization_item, :class_name => "AssetCategorizationItem", :foreign_key => "asset_id"
   has_one :asset_categorization, :class_name => "AssetCategorization", :through => :asset_categorization_item
-  has_many :transfering_assets, :class_name => "TransferingAsset", :foreign_key => "refer_id_to" 
+  has_many :transfering_assets, :class_name => "TransferingAsset", :foreign_key => "refer_to_id" 
   has_many :asset_transfers, :class_name => "AssetTransfer", :through => :transfering_assets
   has_many :allocations, :class_name => "AssetAllocation", :foreign_key => "asset_id", :conditions => {:enabled => true}
   has_many :accessories, :class_name => "Accessory", :foreign_key => "asset_id", :conditions => {:enabled => true}
-  has_many :accessory_adjusting_assets, :class_name => "AccessoryAdjustingAsset", :foreign_key => "refer_id_to"
+  has_many :accessory_adjusting_assets, :class_name => "AccessoryAdjustingAsset", :foreign_key => "refer_to_id"
 
   scope :search, lambda { |search|
   }

@@ -35,6 +35,9 @@ class AssetCategorization < ActiveRecord::Base
   has_many :asset_categorization_items, :class_name => "AssetCategorizationItem", :dependent => :destroy
   accepts_nested_attributes_for :asset_categorization_items
 
+  has_many :reject_reason_relationships, class_name: "ModelRelationship", as: :refer_from, dependent: :destroy
+  has_many :reject_reasons, through: :reject_reason_relationships, source: :refer_to, source_type: "MasterData", conditions: { type: "AssetCategorizationRejectReason" }                
+
   scope :search, lambda{|search|
     search ||= {}
     text, criteria = search[:text], scoped
@@ -57,9 +60,24 @@ class AssetCategorization < ActiveRecord::Base
     end
   end
 
-  def reject!(user)
+  def reject!(*args)
+    raise NoMethedError, I18n.t("activerecord.errors.models.asset_categorization.already_approved") if approved?
+    user, reason, _ = args
+    time_now = Time.now
+    current_status = [:approved, :confirmed, :submitted].select{|item| __send__(item) }.first.to_s.upcase
     self.transaction do
-      update_attributes(:submitted => false, :confirmed => false, :submitted_by_id => nil, :submitted_at => nil, :confirmed_by_id => nil, :confirmed_at => nil, :updated_by_id => user.id)
+      self.reject_reasons << AssetCategorizationRejectReason.new(code:          "[AssetCategorization] [#{current_status}] [#{time_now}] [#{id}] [#{user.id}]",
+                                                                 description:   reason,
+                                                                 created_by_id: user.id,
+                                                                 updated_by_id: user.id)
+      self.attributes = {:submitted => false,
+                         :confirmed => false,
+                         :submitted_by_id => nil,
+                         :submitted_at => nil,
+                         :confirmed_by_id => nil,
+                         :confirmed_at => nil,
+                         :updated_by_id => user.id}
+      save!
     end
   end
 

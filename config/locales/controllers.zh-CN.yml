@@ -6,6 +6,14 @@ zh-CN:
     destroy_fail: "%{name}删除失败。"
     create_success: "%{name}创建成功。"
     create_fail: "%{name}创建失败。"
+    reject_success: "%{name}撤销成功。"
+    reject_fail: "%{name}撤销失败。"
+    submit_success: "%{name}提交成功。"
+    submit_fail: "%{name}提交失败。"
+    confirm_success: "%{name}确认成功。"
+    confirm_fail: "%{name}确认失败。"
+    approve_success: "%{name}审核成功。"
+    approve_fail: "%{name}审核失败。"
 
     work_orders:
       issue_success: "刀具%{hilt_no}发放成功"

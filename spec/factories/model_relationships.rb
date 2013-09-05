@@ -2,9 +2,12 @@
 
 FactoryGirl.define do
   factory :model_relationship do
-    refer_id_from 1
-    refer_id_to 1
-    created_by_id 1
-    updated_by_id 1
+    refer_from_id 1
+    refer_from_type "MyString"
+    refer_from_status 1
+    refer_to_id 1
+    refer_to_type "MyString"
+    refer_to_status 1
+    type ""
   end
 end

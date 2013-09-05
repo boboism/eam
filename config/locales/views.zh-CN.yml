@@ -36,6 +36,10 @@ zh-CN:
       index_asset_transfers: "资产转移历史"
       index_confirmable_asset_transfers: "待确认资产转移"
       index_approvable_asset_transfers: "待审核资产转移"
+      accessory_adjustments: "附属设备"
+      index_accessory_adjustments: "附属设备清单"
+      index_confirmable_accessory_adjustments: "待确认附属是设备"
+      index_approvable_accessory_adjustments: "待审核附属设备"
       asset_mgmt:
         title: '归口功能'
         unclassified_goods_lists: '待判断资产'
@@ -54,9 +58,10 @@ zh-CN:
       new_asset_transfer: "新增资产转移"
       new_accessory_adjustment: "新增附属设备调整"
     index:
-      new_info_adjustment: "新增基础信息调整"
-      new_cost_adjustment: "新增原值信息调整"
-      new_asset_transfer: "新增资产转移"
+      new_info_adjustment: "调整基础信息"
+      new_cost_adjustment: "调整原值信息"
+      new_asset_transfer: "资产转移"
+      new_accessory_adjustment: "调整附属设备"
   asset_categorizations:
     index:
       title: "我的分类编码列表"

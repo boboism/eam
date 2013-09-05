@@ -9,7 +9,7 @@ class Ability
     if user.has_any_role?(:admin)
       master_datas = (MasterData.types.map{|md| md.last.constantize} << MasterData)
       can [:create, :read, :modify], master_datas
-      can [:enable], master_datas, :enabled => false 
+      can [:enable], master_datas, :enabled => false
       can [:disable], master_datas, :enabled => true
     end
 
@@ -24,6 +24,7 @@ class Ability
     can [:modify, :submit], AssetCategorization, :created_by_id => user.id, :submitted => false
     can [:confirm, :index_confirmable], AssetCategorization, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AssetCategorization, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
+    can [:reject], AssetCategorization, :approved => false, :submitted => true if user.has_any_role?(:admin, :finadmin)
 
     if user.has_any_role?(:admin,:finadmin,:acctadmin,:finmgr,:acctmgr)
       can :read, Asset
@@ -62,7 +63,7 @@ class Ability
     else
       can :read, AssetInfoAdjustment, :created_by_id => user.id
     end
-    can [:modify, :submit], AssetInfoAdjustment, :created_by_id => user.id, :submitted => false 
+    can [:modify, :submit], AssetInfoAdjustment, :created_by_id => user.id, :submitted => false
     can [:confirm, :index_confirmable], AssetInfoAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AssetInfoAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 
@@ -71,10 +72,10 @@ class Ability
     end
     if user.has_any_role?(:admin, :finadmin, :acctadmin)
       can :read, AccessoryAdjustment
-    else 
+    else
       can :read, AccessoryAdjustment, :created_by_id => user.id
     end
-    can [:modify, :submit], AccessoryAdjustment, :created_by_id => user.id, :submitted => false 
+    can [:modify, :submit], AccessoryAdjustment, :created_by_id => user.id, :submitted => false
     can [:confirm, :index_confirmable], AccessoryAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AccessoryAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 
@@ -86,7 +87,7 @@ class Ability
     else
       can :read, AssetCostAdjustment, :created_by_id => user.id
     end
-    can [:modify, :submit], AssetCostAdjustment, :created_by_id => user.id, :submitted => false 
+    can [:modify, :submit], AssetCostAdjustment, :created_by_id => user.id, :submitted => false
     can [:confirm, :index_confirmable], AssetCostAdjustment, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AssetCostAdjustment, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 

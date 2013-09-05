@@ -30,10 +30,9 @@
           %th= model_class.human_attribute_name(:effective_date)
           %th{colspan: 2}= model_class.human_attribute_name(:asset)
           %th= model_class.human_attribute_name(:changed_asset_attributes)
-          %th= model_class.human_attribute_name(:submitted_at)
-          %th= model_class.human_attribute_name(:confirmed_at)
-          %th= model_class.human_attribute_name(:approved_at)
-          %th= model_class.human_attribute_name(:rejected_at)
+          %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:confirmed)
+          %th= model_class.human_attribute_name(:approved)
           %th
       %tbody
         - @asset_info_adjustments.each do |asset_info_adjustment|
@@ -43,10 +42,9 @@
             %td= asset_info_adjustment.asset.sub_category
             %td= asset_info_adjustment.asset.asset_no
             %td= raw asset_info_adjustment.changed_asset_html(true, "<br>")
-            %td= asset_info_adjustment.submitted_at.try(:to_date)
-            %td= asset_info_adjustment.confirmed_at.try(:to_date)
-            %td= asset_info_adjustment.approved_at.try(:to_date)
-            %td= asset_info_adjustment.rejected_at.try(:to_date)
+            %td= icon_true_false(asset_info_adjustment.submitted)
+            %td= icon_true_false(asset_info_adjustment.confirmed)
+            %td= icon_true_false(asset_info_adjustment.approved)
             %td
               .btn-group
                 %button.btn.btn-info.dropdown-toggle{:"data-toggle" => "dropdown"}

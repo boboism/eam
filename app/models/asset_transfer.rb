@@ -11,7 +11,7 @@ class AssetTransfer < ActiveRecord::Base
 
 
   # association between transfer order & transfer_items and incase of the multi-asset transfer business case
-  has_many :transfering_assets, :class_name => "TransferingAsset", :foreign_key => "refer_id_from", :dependent => :destroy
+  has_many :transfering_assets, :class_name => "TransferingAsset", :foreign_key => "refer_from_id", :dependent => :destroy
   accepts_nested_attributes_for :transfering_assets
   has_many :assets, :class_name => "Asset", :through => :transfering_assets
   has_many :asset_transfer_item_froms, :class_name => "AssetTranferItemFrom", :through => :transfering_assets
