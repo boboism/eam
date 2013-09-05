@@ -48,6 +48,8 @@
   .span12
     %ul#assetTab.nav.nav-tabs
       %li.active
+        %a{ :href => "#flow", :"data-toggle" => "tab" }= t('.flow')
+      %li
         %a{ :href => "#asset", :"data-toggle" => "tab" }= t('.base_info') 
       %li
         %a{ :href => "#asset_cat", :"data-toggle" => "tab" }= t('.asset_categorization')
@@ -60,7 +62,9 @@
       %li
         %a{ :href => "#transfer", :"data-toggle" => "tab" }= t('.asset_transfers') 
     #assetTabContent.tab-content
-      #asset.tab-pane.fade.active.in
+      #flow.tab-pane.fade.active.in
+        = render 'flow', :asset => @asset
+      #asset.tab-pane.fade
         = render 'asset_info', :asset => @asset
       #asset_cat.tab-pane.fade
         = render 'asset_categorization_item', :asset => @asset

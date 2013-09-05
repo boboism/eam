@@ -82,4 +82,14 @@ class Asset < ActiveRecord::Base
   end
 
   def category_description; "#{category.name} - #{sub_category.name}"; end
+  def accessories_defined?; accessory_status != AccessoryStatusType[:to_be_defined][:weight]; end
+
+  def no_accessories!(*args)
+    user, _ = args
+    raise NoMethodError, I18n.t('') unless accessory_status == AccessoryStatusType[:to_be_defined][:weight]
+    self.updated_by_id = user.id
+    self.accessory_status = AccessoryStatusType[:to_be_defined][:none]
+    accessories.each{|acc| acc.disable_by(user);}
+    save
+  end
 end
