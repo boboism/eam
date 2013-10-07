@@ -7,5 +7,8 @@ class Department < MasterData
   belongs_to :parent, :class_name => "Department", :foreign_key => "parent_id"
   has_many :children, :class_name => "Department", :foreign_key => "parent_id"
 
+  has_many :manageable_department_relationships, class_name: "ModelRelationship", as: :refer_to, dependent: :destroy, conditions: { type: "UserManageableDepartment" }
+  has_many :managed_users, through: :manageable_department_relationships, source: :refer_from, source_type: "User"
+
   scope :enabled, lambda{ where(:enabled => true) }
 end

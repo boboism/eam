@@ -63,6 +63,7 @@ zh-CN:
       new_asset_transfer: "资产转移"
       new_accessory_adjustment: "调整附属设备"
     flow:
+      new_final_acceptance: "终验收"
       acceptance_flow: "验收流程"
       new_asset_categorization: "资产分类"
       asset_categorization_added: "资产已分类"
@@ -71,6 +72,7 @@ zh-CN:
       accessory_adjustment_added: "已判断附属设备"
       new_asset_transfer: "初始化资产转移"
       asset_transfer_added: "已初始化资产转移"
+      deactivated: "未启用"
   asset_categorizations:
     index:
       title: "我的分类编码列表"

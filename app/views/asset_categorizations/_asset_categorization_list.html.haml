@@ -55,11 +55,6 @@
                       = link_to confirm_asset_categorization_path(asset_categorization), method: :put do
                         %i.icon-check
                         %span= t(".confirm", default: t("helpers.links.confirm"))
-                  - if can? :reject, asset_categorization
-                    %li
-                      = link_to reject_asset_categorization_path(asset_categorization), method: :put do
-                        %i.icon-thumbs-down
-                        %span= t(".reject", default: t("helpers.links.reject"))
                   - if can? :approve, asset_categorization
                     %li
                       = link_to approve_asset_categorization_path(asset_categorization), method: :put do

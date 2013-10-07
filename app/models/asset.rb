@@ -1,5 +1,5 @@
 class Asset < ActiveRecord::Base
-  attr_accessible :accepted, :accepted_at, :accepted_by_id, :activated, :activated_at, :activated_by_id, :asset_name, :asset_no, :brand, :category_id, :created_by_id, :is_specific_fund, :is_tariff_free, :is_vat_free, :model, :original_cost, :published, :published_at, :salvage, :salvage_rate, :serial_no, :sub_category_id, :tax_preference_id, :updated_by_id, :vat, :vat_rate, :supplier, :specification
+  attr_accessible :accepted, :accepted_at, :accepted_by_id, :activated, :activated_at, :activated_by_id, :asset_name, :asset_no, :brand, :category_id, :created_by_id, :is_specific_fund, :is_tariff_free, :is_vat_free, :model, :original_cost, :published, :published_at, :salvage, :salvage_rate, :serial_no, :sub_category_id, :tax_preference_id, :updated_by_id, :vat, :vat_rate, :supplier, :specification, :accessory_status
 
   AccessoryStatusType = {
     :to_be_defined => {
@@ -83,6 +83,7 @@ class Asset < ActiveRecord::Base
 
   def category_description; "#{category.name} - #{sub_category.name}"; end
   def accessories_defined?; accessory_status != AccessoryStatusType[:to_be_defined][:weight]; end
+  def allocated?; !allocations.empty?; end
 
   def no_accessories!(*args)
     user, _ = args

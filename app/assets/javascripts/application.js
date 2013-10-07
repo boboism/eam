@@ -17,6 +17,7 @@
 //= require bootstrap-datepicker/locales/bootstrap-datepicker.zh-CN
 //= require jasny-bootstrap
 //= require select2
+//= require select2_locale_zh-CN
 //= require_tree .
 
 // make table rows of index page can link to each record show page.

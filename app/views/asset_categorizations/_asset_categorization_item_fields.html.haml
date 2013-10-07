@@ -25,7 +25,7 @@
         %th= model_class.human_attribute_name(:contract_no)
         %th{colspan: 2}= model_class.human_attribute_name(:supplier)
         %th= model_class.human_attribute_name(:arrival_date)
-        %th= model_class.human_attribute_name(:amount)
+        %th{width: "80px"}= model_class.human_attribute_name(:amount)
         %th= model_class.human_attribute_name(:conversion_rate_percentage)
       %tr
         %td= f.input_field :purchase_no, class: "input-block-level"

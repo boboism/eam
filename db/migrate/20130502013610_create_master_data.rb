@@ -7,7 +7,7 @@ class CreateMasterData < ActiveRecord::Migration
       t.integer :parent_id
       t.text :profiles
       t.string :type
-      t.boolean :enabled
+      t.boolean :enabled, default: true
       t.integer :created_by_id
       t.integer :updated_by_id
 

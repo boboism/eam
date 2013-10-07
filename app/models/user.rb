@@ -34,6 +34,14 @@ class User < ActiveRecord::Base
   has_many :confirmed_asset_cost_adjustments, class_name: "AssetCostAdjustment", foreign_key: "confirmed_by_id"
   has_many :approved_asset_cost_adjustments, class_name: "AssetCostAdjustment", foreign_key: "approved_by_id"
 
+  has_many :manageable_department_relationships, class_name: "ModelRelationship", as: :refer_from, dependent: :destroy, conditions: { type: "UserManageableDepartment" } 
+  has_many :manageable_departments, through: :manageable_department_relationships, source: :refer_to, source_type: "MasterData", conditions: { type: "Department" }
+  has_many :manageable_cost_center_relationships, class_name: "ModelRelationship", as: :refer_from, dependent: :destroy, conditions: { type: "UserManageableCostCenter" } 
+  has_many :manageable_cost_centers, through: :manageable_cost_center_relationships, source: :refer_to, source_type: "MasterData", conditions: { type: "CostCenter" }
+
+  belongs_to :department, class_name: "Department", foreign_key: "department_id"
+  belongs_to :cost_center, class_name: "CostCenter", foreign_key: "cost_center_id"
+
   def to_s; name; end
   
 end

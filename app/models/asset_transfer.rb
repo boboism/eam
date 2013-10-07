@@ -57,6 +57,10 @@ class AssetTransfer < ActiveRecord::Base
       # make it to an array(Asset), so that can satisfy the needs of 
       # business case change.
       targets, default_attrs = Array(targets), {:created_by_id => user.id, :updated_by_id => user.id}
+      trans_to_attrs = default_attrs.merge({construction_period_id:   ConstructionPeriod.first.try(:id),
+                                            cost_center_id:           CostCenter.first.try(:id),
+                                            management_department_id: Department.first.try(:id),
+                                            specific_investment_id:   SpecificInvestment.first.try(:id)})
       return new(default_attrs.merge(:submitted => false, :confirmed => false, :approved => false)) do |instance|
         instance.transfering_assets << targets.collect do |asset|
           TransferingAsset.new(default_attrs.merge(:asset_id => asset.id)) do |tr|
@@ -71,7 +75,7 @@ class AssetTransfer < ActiveRecord::Base
               tr.asset_transfer_item_tos << AssetTransferItemTo.new(default_attrs.merge(:quantity => 1))
             else
               tr.asset_transfer_item_tos << tr.asset_transfer_item_froms.collect do |trans_fm|
-                AssetTransferItemTo.new_by_asset_transfer_item_from(trans_fm, default_attrs) 
+                AssetTransferItemTo.new_by_asset_transfer_item_from(trans_fm, trans_to_attrs) 
               end
             end
             logger.debug "fms: #{tr.asset_transfer_item_froms.count}"
