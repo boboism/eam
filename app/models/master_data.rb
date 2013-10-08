@@ -12,8 +12,9 @@ class MasterData < ActiveRecord::Base
     if params[:text].present?
       if master_data_types = types.select{|item| item.first =~ %r"#{params[:text]}"}.map{|item| item.last} and master_data_types.size > 0
         master_datas = master_datas.where{type.in master_data_types}
+      else
+        master_datas = master_datas.where{(name.like("%#{params[:text]}%") | code.like("%#{params[:text]}"))}
       end
-      master_datas.where{(name.like("%#{params[:text]}%")) | code.like("%#{params[:text]}")}
     end
     master_datas
   }
