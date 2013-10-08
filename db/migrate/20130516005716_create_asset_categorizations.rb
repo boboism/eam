@@ -1,7 +1,7 @@
 class CreateAssetCategorizations < ActiveRecord::Migration
   def change
     create_table :asset_categorizations do |t|
-      t.integer :categorize_type
+      t.integer :categorize_type, default: AssetCategorization::CategorizeType.collect{|k,v| v[:weight]}.last
       t.integer :created_by_id
       t.integer :updated_by_id
       t.boolean :submitted, :default => false
