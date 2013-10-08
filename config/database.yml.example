@@ -4,16 +4,14 @@ common: &common
   pool: 5
   username: boboism
   password: 123456
+  database: eam_<%= Rails.env %>
   host: 127.0.0.1
 
 development:
   <<: *common
-  database: eam_development
 
 test:
   <<: *common
-  database: eam_test
 
 production:
   <<: *common
-  database: eam_production
