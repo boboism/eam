@@ -12,39 +12,64 @@
         %th= model_class.human_attribute_name(:brand)
         %th= model_class.human_attribute_name(:model)
         %th= model_class.human_attribute_name(:serial_no)
-        %th{colspan: 2}= model_class.human_attribute_name(:specification)
+        %th= model_class.human_attribute_name(:specification)
+        %th= model_class.human_attribute_name(:remark)
       %tr
         %td= f.input_field :sub_category_id, as: :select, :collection => SubCategory.selectable, class: "input-block-level"
         %td= f.input_field :asset_name, class: "input-block-level"
         %td= f.input_field :brand, class: "input-block-level"
         %td= f.input_field :model, class: "input-block-level"
         %td= f.input_field :serial_no, class: "input-block-level"
-        %td{colspan: 2}= f.input_field :specification, class: "input-block-level"
+        %td= f.input_field :specification, class: "input-block-level"
+        %td= f.input_field :remark, class: "input-block-level"
       %tr
+        %th= model_class.human_attribute_name(:original_cost)
+        %th= model_class.human_attribute_name(:vat)
+        %th= model_class.human_attribute_name(:vat_rate)
         %th= model_class.human_attribute_name(:purchase_no)
         %th= model_class.human_attribute_name(:contract_no)
-        %th{colspan: 2}= model_class.human_attribute_name(:supplier)
-        %th= model_class.human_attribute_name(:arrival_date)
-        %th{width: "80px"}= model_class.human_attribute_name(:amount)
-        %th= model_class.human_attribute_name(:conversion_rate_percentage)
+        %th= model_class.human_attribute_name(:warranty_date_from)
+        %th= model_class.human_attribute_name(:warranty_period)
       %tr
+        %td= f.input_field :original_cost, class: "input-block-level"
+        %td= f.input_field :vat, class: "input-block-level"
+        %td= f.input_field :vat_rate, class: "input-block-level"
         %td= f.input_field :purchase_no, class: "input-block-level"
         %td= f.input_field :contract_no, class: "input-block-level"
-        %td{colspan: 2}= f.input_field :supplier, class: "input-block-level"
-        %td= f.input_field :arrival_date, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
-        %td= f.input_field :amount, class: "input-block-level"
-        %td= f.input_field :conversion_rate_percentage, class: "input-block-level"
+        %td= f.input_field :warranty_date_from, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
+        %td= f.input_field :warranty_period, class: "input-block-level"
       %tr
+        %th= model_class.human_attribute_name(:supplier)
+        %th= model_class.human_attribute_name(:arrival_date)
         %th= model_class.human_attribute_name(:design_company)
         %th= model_class.human_attribute_name(:construction_company)
         %th= model_class.human_attribute_name(:construction_date_from)
         %th= model_class.human_attribute_name(:construction_date_to)
-        %th{colspan:3}= model_class.human_attribute_name(:remark)
+        %th
       %tr
+        %td= f.input_field :supplier, class: "input-block-level"
+        %td= f.input_field :arrival_date, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
         %td= f.input_field :design_company, class: "input-block-level"
         %td= f.input_field :construction_company, class: "input-block-level"
         %td= f.input_field :construction_date_from, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
         %td= f.input_field :construction_date_to, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
-        %td{colspan:3}= f.input_field :remark, class: "input-block-level"
+        %td
+      %tr
+        %th= model_class.human_attribute_name(:construction_period)
+        %th= model_class.human_attribute_name(:specific_investment)
+        %th= model_class.human_attribute_name(:management_department)
+        %th= model_class.human_attribute_name(:cost_center)
+        %th= model_class.human_attribute_name(:allocation_propotion)
+        %th= model_class.human_attribute_name(:responsible_by)
+        %th
+      %tr
+        %td= f.input_field :construction_period_id, class: "input-block-level", collection: ConstructionPeriod.selectable
+        %td= f.input_field :specific_investment_id, class: "input-block-level", collection: SpecificInvestment.selectable
+        %td= f.input_field :management_department_id, class: "input-block-level", collection: Department.selectable
+        %td= f.input_field :cost_center_id, class: "input-block-level", collection: CostCenter.selectable
+        %td= f.input_field :allocation_propotion, as: :string, class: "input-block-level"
+        %td= f.input_field :responsible_by, class: "input-block-level"
+        %td
+
   %td.pull-right
     = link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), f, href: "javascript:void(0);")

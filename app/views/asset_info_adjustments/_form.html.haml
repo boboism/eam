@@ -9,7 +9,6 @@
     = f.input :serial_no_from, as: :hidden
     = f.input :is_tariff_free_from, as: :hidden
     = f.input :is_specific_fund_from, as: :hidden
-    = f.input :tax_preference_id_from, as: :hidden
     = f.input :is_vat_free_from, as: :hidden
     = f.input :vat_from, as: :hidden
     = f.input :vat_rate_from, as: :hidden
@@ -28,7 +27,7 @@
     .row-fluid
       .span4= f.input :is_tariff_free_to, input_html: { class: "input-block-level" }
       .span4= f.input :is_specific_fund_to, input_html: { class: "input-block-level" }
-      .span4= f.input :tax_preference_id_to, as: :select, collection: TaxPreference.selectable, input_html: { class: "input-block-level" }
+      .span4
     .row-fluid
       .span4= f.input :is_vat_free_to, input_html: { class: "input-block-level" }
       .span4= f.input :vat_to, input_html: { class: "input-block-level" }

@@ -1,6 +1,8 @@
 zh-CN:
   activerecord:
     errors:
+      exceptions:
+        unknown_filetype: "系统不支持当前类型文件%{filetype}"
       models:
         user:
           attributes:
@@ -33,9 +35,6 @@ zh-CN:
       specific_investment:
         one: "通用/专用"
         other: "通用/专用"
-      tax_preference:
-        one: "税收优惠类型"
-        other: "税收优惠类型"
       asset_info_adjustment: 
         one: "资产信息调整单"
         other: "资产信息调整单"
@@ -202,7 +201,6 @@ zh-CN:
         serial_no_to: "序列号"
         is_tariff_free_to: "免关税"
         is_specific_fund_to: "收否专项资金"
-        tax_preference_id_to: "税收优惠类型"
         is_vat_free_to: "免增值税"
         vat_to: "增值税"
         vat_rate_to: "增值税率"
@@ -212,7 +210,6 @@ zh-CN:
         serial_no_from: "序列号"
         is_tariff_free_from: "免关税"
         is_specific_fund_from: "收否专项资金"
-        tax_preference_id_from: "税收优惠类型"
         is_vat_free_from: "免增值税"
         vat_from: "增值税"
         vat_rate_from: "增值税率"
@@ -257,7 +254,6 @@ zh-CN:
         accepted: "已验收"
         is_tariff_free: "免关税"
         is_specific_fund: "专项资金"
-        tax_preference: "税收优惠类型"
         is_vat_free: "免增值税"
         vat_rate: "增值税率"
         vat: "增值税"

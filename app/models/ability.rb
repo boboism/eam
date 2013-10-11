@@ -20,7 +20,7 @@ class Ability
       can :read, AssetCategorization, :created_by_id => user.id 
       can :reject, AssetCategorization, :approved => false, :submitted => true, :created_by_id => user.id
     end
-    can :create, AssetCategorization if user.has_any_role?(:admin,:costadmin)
+    can [:create, :import, :upload], AssetCategorization if user.has_any_role?(:admin,:costadmin)
     can [:modify, :submit], AssetCategorization, :created_by_id => user.id, :submitted => false
     can [:confirm, :index_confirmable], AssetCategorization, :submitted => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AssetCategorization, :submitted => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)

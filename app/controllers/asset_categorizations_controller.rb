@@ -68,6 +68,31 @@ class AssetCategorizationsController < ApplicationController
     end
   end
 
+  # POST /asset_categorizations/import
+  # POST /asset_categorizations/import.json
+  # POST /asset_categorizations/import.xml
+  def import
+    respond_to do |format|
+      begin
+        # process upload file, must be xls/xlsx(better, 'cause xls only can upload 65000 rows)
+        @asset_categorization = AssetCategorization.import(params[:file])
+        format.html { render action: "new" }
+      rescue => e
+        format.html { redirect_to upload_asset_categorizations_url, flash: { error: e.message } }                                                        
+      end
+    end
+  end
+
+
+  # GET /asset_categorizations/upload
+  # GET /asset_categorizations/upload.json
+  # GET /asset_categorizations/upload.xml
+  def upload
+    respond_to do |format|
+      format.html # upload.html.erb
+    end
+  end
+
   # GET /asset_categorizations/1/edit
   def edit
   end

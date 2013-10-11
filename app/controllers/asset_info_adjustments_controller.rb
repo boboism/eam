@@ -209,7 +209,6 @@ class AssetInfoAdjustmentsController < ApplicationController
     defaults = {effective_date: Date.current, 
                 is_tariff_free_to: false,
                 is_specific_fund_to: false,
-                tax_preference_id_to: TaxPreference.first.id,
                 is_vat_free_to: true,
                 vat_to: 0,
                 vat_rate_to: 0,

@@ -9,6 +9,9 @@
     %li.divider
     
     %li.nav-header= t('.asset_categorization')
+    - if can?(:upload, AssetCategorization)
+      %li
+        = link_to t('.upload_asset_categorization'), upload_asset_categorizations_path
     - if can?(:new, AssetCategorization)
       %li
         = link_to t('.new_asset_categorization'), new_asset_categorization_path

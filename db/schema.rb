@@ -47,20 +47,20 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
   end
 
   create_table "accessory_adjustments", :force => true do |t|
-    t.date     "effective_date"
+    t.date     "effective_date",  :default => '2013-10-08'
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "submitted_by_id"
     t.datetime "submitted_at"
-    t.boolean  "submitted"
-    t.boolean  "confirmed"
+    t.boolean  "submitted",       :default => false
+    t.boolean  "confirmed",       :default => false
     t.integer  "confirmed_by_id"
     t.datetime "confirmed_at"
-    t.boolean  "approved"
+    t.boolean  "approved",        :default => false
     t.datetime "approved_at"
     t.integer  "approved_by_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "asset_allocations", :force => true do |t|
@@ -101,20 +101,35 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.string   "construction_company"
     t.date     "construction_date_from"
     t.date     "construction_date_to"
-    t.decimal  "quantity"
-    t.decimal  "amount"
-    t.decimal  "conversion_rate"
     t.string   "supplier"
     t.string   "contract_no"
     t.string   "usage"
     t.string   "remark"
     t.integer  "asset_categorization_id"
-    t.datetime "created_at",              :null => false
-    t.datetime "updated_at",              :null => false
+    t.decimal  "allocation_propotion",     :precision => 18, :scale => 2, :default => 100.0
+    t.integer  "cost_center_id"
+    t.integer  "management_department_id"
+    t.date     "warranty_date_from",                                      :default => '2013-10-08'
+    t.date     "warranty_date_to",                                        :default => '2013-10-08'
+    t.integer  "warranty_period",                                         :default => 0
+    t.integer  "store_location"
+    t.string   "responsible_by"
+    t.decimal  "original_cost",            :precision => 18, :scale => 2, :default => 0.0
+    t.decimal  "vat",                      :precision => 18, :scale => 2, :default => 0.0
+    t.decimal  "vat_rate",                 :precision => 18, :scale => 2, :default => 0.0
+    t.boolean  "is_energy_saving",                                        :default => false
+    t.boolean  "is_env_protection",                                       :default => false
+    t.boolean  "is_research_use",                                         :default => false
+    t.boolean  "is_safety_production",                                    :default => false
+    t.integer  "construction_period_id"
+    t.integer  "specific_investment_id"
+    t.integer  "accessory_status"
+    t.datetime "created_at",                                                                        :null => false
+    t.datetime "updated_at",                                                                        :null => false
   end
 
   create_table "asset_categorizations", :force => true do |t|
-    t.integer  "categorize_type"
+    t.integer  "categorize_type", :default => 128
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.boolean  "submitted",       :default => false
@@ -166,41 +181,39 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.integer  "asset_id"
     t.date     "effective_date"
     t.string   "asset_name_from"
-    t.string   "asset_name_to",          :default => ""
+    t.string   "asset_name_to",         :default => ""
     t.string   "brand_from"
-    t.string   "brand_to",               :default => ""
+    t.string   "brand_to",              :default => ""
     t.string   "model_from"
-    t.string   "model_to",               :default => ""
+    t.string   "model_to",              :default => ""
     t.string   "serial_no_from"
-    t.string   "serial_no_to",           :default => ""
+    t.string   "serial_no_to",          :default => ""
     t.boolean  "is_tariff_free_from"
-    t.boolean  "is_tariff_free_to",      :default => false
+    t.boolean  "is_tariff_free_to",     :default => false
     t.boolean  "is_specific_fund_from"
-    t.boolean  "is_specific_fund_to",    :default => false
-    t.integer  "tax_preference_id_from"
-    t.integer  "tax_preference_id_to"
+    t.boolean  "is_specific_fund_to",   :default => false
     t.boolean  "is_vat_free_from"
-    t.boolean  "is_vat_free_to",         :default => false
+    t.boolean  "is_vat_free_to",        :default => false
     t.decimal  "vat_from"
-    t.decimal  "vat_to",                 :default => 0.0
+    t.decimal  "vat_to",                :default => 0.0
     t.decimal  "vat_rate_from"
-    t.decimal  "vat_rate_to",            :default => 0.0
+    t.decimal  "vat_rate_to",           :default => 0.0
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "confirmed_by_id"
     t.datetime "confirmed_at"
-    t.boolean  "confirmed",              :default => false
+    t.boolean  "confirmed",             :default => false
     t.datetime "approved_at"
     t.integer  "approved_by_id"
-    t.boolean  "approved",               :default => false
+    t.boolean  "approved",              :default => false
     t.datetime "rejected_at"
     t.integer  "rejected_by_id"
-    t.boolean  "rejected",               :default => false
+    t.boolean  "rejected",              :default => false
     t.datetime "submitted_at"
     t.integer  "submitted_by_id"
-    t.boolean  "submitted",              :default => false
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.boolean  "submitted",             :default => false
+    t.datetime "created_at",                               :null => false
+    t.datetime "updated_at",                               :null => false
   end
 
   add_index "asset_info_adjustments", ["asset_id"], :name => "info_adj_asset"
@@ -213,36 +226,36 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.integer  "cost_center_id"
     t.integer  "construction_period_id"
     t.integer  "specific_investment_id"
-    t.decimal  "quantity"
+    t.decimal  "quantity",                 :default => 1.0
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.string   "responsible_by"
-    t.datetime "created_at",               :null => false
-    t.datetime "updated_at",               :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   add_index "asset_transfer_items", ["type"], :name => "trans_items_type"
 
   create_table "asset_transfers", :force => true do |t|
-    t.date     "effective_date"
+    t.date     "effective_date",  :default => '2013-10-08'
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.boolean  "confirmed"
+    t.boolean  "confirmed",       :default => false
     t.integer  "confirmed_by_id"
     t.datetime "confirmed_at"
     t.datetime "approved_at"
-    t.boolean  "approved"
+    t.boolean  "approved",        :default => false
     t.integer  "approved_by_id"
     t.datetime "rejected_at"
     t.integer  "rejected_by_id"
-    t.boolean  "submitted"
+    t.boolean  "submitted",       :default => false
     t.integer  "submitted_by_id"
     t.datetime "submitted_at"
-    t.boolean  "published"
+    t.boolean  "published",       :default => false
     t.datetime "published_at"
     t.integer  "transfer_type"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",                                :null => false
+    t.datetime "updated_at",                                :null => false
   end
 
   create_table "assets", :force => true do |t|
@@ -266,7 +279,6 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.datetime "accepted_at"
     t.boolean  "is_tariff_free"
     t.boolean  "is_specific_fund"
-    t.integer  "tax_preference_id"
     t.boolean  "is_vat_free"
     t.decimal  "vat"
     t.decimal  "vat_rate"
@@ -304,11 +316,11 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.integer  "parent_id"
     t.text     "profiles"
     t.string   "type"
-    t.boolean  "enabled"
+    t.boolean  "enabled",       :default => true
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
   end
 
   add_index "master_data", ["enabled"], :name => "master_data_enabled"
@@ -323,6 +335,8 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.string   "refer_to_type"
     t.integer  "refer_to_status"
     t.string   "type"
+    t.integer  "created_by_id"
+    t.integer  "updated_by_id"
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
   end

@@ -21,7 +21,6 @@ class CreateAssets < ActiveRecord::Migration
       t.datetime :accepted_at
       t.boolean :is_tariff_free
       t.boolean :is_specific_fund
-      t.integer :tax_preference_id
       t.boolean :is_vat_free
       t.decimal :vat
       t.decimal :vat_rate

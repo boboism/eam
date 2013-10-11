@@ -16,8 +16,6 @@ FactoryGirl.define do
     is_tariff_free_to false
     is_specific_fund_from false
     is_specific_fund_to false
-    tax_preference_id_from 1
-    tax_preference_id_to 1
     is_vat_free_from false
     is_vat_free_to false
     vat_from "9.99"

@@ -20,7 +20,6 @@ FactoryGirl.define do
     #accepted_at "2013-05-02 11:15:27"
     is_tariff_free false
     is_specific_fund false
-    tax_preference_id 1
     is_vat_free true
     vat "170000"
     vat_rate "0.17"

@@ -1,5 +1,5 @@
 class Asset < ActiveRecord::Base
-  attr_accessible :accepted, :accepted_at, :accepted_by_id, :activated, :activated_at, :activated_by_id, :asset_name, :asset_no, :brand, :category_id, :created_by_id, :is_specific_fund, :is_tariff_free, :is_vat_free, :model, :original_cost, :published, :published_at, :salvage, :salvage_rate, :serial_no, :sub_category_id, :tax_preference_id, :updated_by_id, :vat, :vat_rate, :supplier, :specification, :accessory_status
+  attr_accessible :accepted, :accepted_at, :accepted_by_id, :activated, :activated_at, :activated_by_id, :asset_name, :asset_no, :brand, :category_id, :created_by_id, :is_specific_fund, :is_tariff_free, :is_vat_free, :model, :original_cost, :published, :published_at, :salvage, :salvage_rate, :serial_no, :sub_category_id, :updated_by_id, :vat, :vat_rate, :supplier, :specification, :accessory_status
 
   AccessoryStatusType = {
     :to_be_defined => {
@@ -23,7 +23,6 @@ class Asset < ActiveRecord::Base
     #a.validates :is_tariff_free, :presence => true
     #a.validates :is_vat_free, :presence => true
     a.validates :sub_category_id, :presence => true
-    a.validates :tax_preference_id, :presence => true
     a.validates :salvage, :presence => true, :numericality => {:greater_than => 0}
     a.validates :salvage_rate, :presence => true, :numericality => {:greater_than_or_equal_to => 0}
     a.validates :vat_rate, :presence => true, :numericality => {:greater_than_or_equal_to => 0}, unless: :is_vat_free
@@ -51,7 +50,6 @@ class Asset < ActiveRecord::Base
   belongs_to :category, :class_name => "Category"
   belongs_to :sub_category, :class_name => "SubCategory"
   belongs_to :created_by, :class_name => "User"
-  belongs_to :tax_preference, :class_name => "TaxPreference"
   belongs_to :updated_by, :class_name => "User"
 
   has_one :asset_categorization_item, :class_name => "AssetCategorizationItem", :foreign_key => "asset_id"

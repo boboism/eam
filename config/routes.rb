@@ -13,6 +13,8 @@ Eam::Application.routes.draw do
     put :confirm, :on => :member
     put :approve, :on => :member
     put :reject,  :on => :member
+    get :upload, :on => :collection
+    post :import,  :on => :collection
     get :approvable, :action => "index_approvable", :on => :collection
     get :confirmable, :action => "index_confirmable", :on => :collection
   end

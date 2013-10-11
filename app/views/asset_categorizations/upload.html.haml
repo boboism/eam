@@ -1,0 +1,8 @@
+= form_tag import_asset_categorizations_path, multipart: true, class: "well form-horizontal small-labels" do
+  .row-fluid
+    .offset3.span4.btn.btn-file
+      = t('.file')
+      = file_field_tag :file
+    .span2
+      = submit_tag t('.import'), class: "btn btn-primary"
+    .offset3

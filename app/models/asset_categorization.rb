@@ -44,6 +44,37 @@ class AssetCategorization < ActiveRecord::Base
     criteria = criteria.where{(id == text.to_i)} unless text.blank?
   }
 
+  # import & save!
+  def self.import!(file)
+    asset_cat = import(file)
+    asset_cat.save!
+  end
+
+  # import items from xls/xlsx/csv
+  def self.import(file)
+    spreadsheet = open_spreadsheet(file)
+    asset_cat = AssetCategorization.new
+
+    # uploaded xls/xlsx has 2 header rows, 1st row is in english which titled attr_names in activerecord,
+    # and the 2nd rows is in chinese desc for the end user
+    header = spreadsheet.row(1)
+    (3..spreadsheet.last_row).each do |i|
+      row = Hash[[header, spreadsheet.row(i)].transpose]
+      asset_cat.asset_categorization_items << AssetCategorizationItem.new(row.to_hash.slice(*AssetCategorizationItem.accessible_attributes))
+    end
+    asset_cat
+  end
+
+  # open xls/xlsx/csv
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_name)
+    when '.csv' then Csv.new(file.path, nil, :ignore)
+    when ".xls" then Excel.new(file.path, nil, :ignore)
+    when ".xlsx" then Excelx.new(file.path, nil, :ignore)
+    else raise I18n.t('activerecord.errors.exceptions.unknown_filetype', filetype: file.original_filename)
+    end
+  end
+
   def categorize_type_name;CategorizeType.select{|k,v| v[:weight] == categorize_type}.first.last[:description];end
 
   def submit!(user)

@@ -5,6 +5,9 @@ zh-CN:
       description: '固定资产实物管理系统'
     navigation:
       placeholder: '填入刀具号查询'
+      signout: '退出系统'
+      profile: '个人信息'
+      manage_users: '用户管理'
       fin_mgmt:
         title: '财务功能'
         master_data: '主数据管理'
@@ -18,6 +21,7 @@ zh-CN:
       new_master_data: "新增基础数据"
       home: "首页"
       asset_categorization: "资产分类"
+      upload_asset_categorization: "上传分类资产" 
       new_asset_categorization: "新建分类资产"
       index_asset_categorizations: "分类资产清单"
       index_confirmable_asset_categorizations: "待确认清单"
@@ -92,6 +96,9 @@ zh-CN:
       new: "增加资产项"
     new:
       title: "新增资产分类信息"
+    upload:
+      file: '选择文件（xls/xlsx/csv格式）'
+      import: "导入"
   accessory_adjustments:
     show:
       no_record: "无数据"

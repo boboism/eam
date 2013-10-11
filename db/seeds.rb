@@ -53,12 +53,12 @@ SubCategory.all.each do |sub_cat|
   AssetNumberPooling.arrange_sub_category_number_pooling(sub_cat)
 end
 
-puts "Tax Preference"
-TaxPreference.create(code:'NOTBLN', name:'不属于', enabled: true, created_by_id: 1, updated_by_id: 1)
-TaxPreference.create(code: 'ENGSAV', name: '节能节水设备', enabled: true, created_by_id: 1, updated_by_id: 1)
-TaxPreference.create(code: 'ENVPRO', name:'环境保护设备', enabled: true, created_by_id: 1, updated_by_id: 1)
-TaxPreference.create(code:'RND', name: '研发专用资产', enabled: true, created_by_id: 1, updated_by_id: 1)
-TaxPreference.create(code:'SAVPRD', name: '安全生产设备', enabled: true, created_by_id: 1, updated_by_id: 1)
+#puts "Tax Preference"
+#TaxPreference.create(code:'NOTBLN', name:'不属于', enabled: true, created_by_id: 1, updated_by_id: 1)
+#TaxPreference.create(code: 'ENGSAV', name: '节能节水设备', enabled: true, created_by_id: 1, updated_by_id: 1)
+#TaxPreference.create(code: 'ENVPRO', name:'环境保护设备', enabled: true, created_by_id: 1, updated_by_id: 1)
+#TaxPreference.create(code:'RND', name: '研发专用资产', enabled: true, created_by_id: 1, updated_by_id: 1)
+#TaxPreference.create(code:'SAVPRD', name: '安全生产设备', enabled: true, created_by_id: 1, updated_by_id: 1)
 
 puts "Construction Period"
 ConstructionPeriod.create(code: "PHASE#1", name: "一期", enabled: true, created_by_id: 1, updated_by_id: 1)

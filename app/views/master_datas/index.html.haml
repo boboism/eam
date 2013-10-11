@@ -31,7 +31,6 @@
           %th= model_class.human_attribute_name(:type)
           %th= model_class.human_attribute_name(:code)
           %th= model_class.human_attribute_name(:name)
-          %th= model_class.human_attribute_name(:description)
           %th= model_class.human_attribute_name(:enabled)
           %th
       %tbody
@@ -42,7 +41,6 @@
             %td= master_data.type.constantize.model_name.human
             %td= master_data.code
             %td= master_data.name
-            %td= master_data.description
             %td= icon_true_false(master_data.enabled)
             %td
               .btn-group
