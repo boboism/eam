@@ -10,6 +10,7 @@
           %th= model_class.human_attribute_name(:items_count)
           %th= model_class.human_attribute_name(:created_at)
           %th= model_class.human_attribute_name(:submitted)
+          %th= model_class.human_attribute_name(:number_arranged)
           %th= model_class.human_attribute_name(:confirmed)
           %th= model_class.human_attribute_name(:approved)
           %th
@@ -22,6 +23,7 @@
             %td= asset_categorization.items_count
             %td= asset_categorization.created_at && asset_categorization.created_at.to_date
             %td= icon_true_false(asset_categorization.submitted)
+            %td= icon_true_false(asset_categorization.number_arranged)
             %td= icon_true_false(asset_categorization.confirmed)
             %td= icon_true_false(asset_categorization.approved)
             %td
@@ -50,6 +52,11 @@
                       = link_to submit_asset_categorization_path(asset_categorization), method: :put do
                         %i.icon-upload
                         %span= t(".submit", default: t("helpers.links.submit"))
+                  - if can? :arrange_number, asset_categorization
+                    %li
+                      = link_to arrange_number_asset_categorization_path(asset_categorization), method: :put do
+                        %i.icon-upload
+                        %span= t(".arrange_number")
                   - if can? :confirm, asset_categorization
                     %li
                       = link_to confirm_asset_categorization_path(asset_categorization), method: :put do

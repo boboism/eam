@@ -22,6 +22,13 @@
           %span= t('.index_asset_categorizations')
           - if asset_categorization_count > 0
             %span.badge.badge-success= asset_categorization_count
+    - if can?(:arrange_number, AssetCategorization)
+      %li
+        - number_arrangeable_asset_categorization_count = AssetCategorization.accessible_by(current_ability, :arrange_number).count 
+        = link_to number_arrangeable_asset_categorizations_path do
+          %span= t('.index_number_arrangeable_asset_categorizations')
+          - if number_arrangeable_asset_categorization_count > 0
+            %span.badge.badge-important= number_arrangeable_asset_categorization_count 
     - if can?(:confirm, AssetCategorization)
       %li
         - confirmable_asset_categorization_count = AssetCategorization.accessible_by(current_ability, :confirm).count 

@@ -9,7 +9,7 @@ class AssetCategorization < ActiveRecord::Base
     :inventory_profit => {:weight => (1 << 6), :description => I18n.t("activerecord.attributes.asset_categorization.categorize_types.inventory_profit")},
     :other            => {:weight => (1 << 7), :description => I18n.t("activerecord.attributes.asset_categorization.categorize_types.other")}
   }
-  attr_accessible :approved, :approved_at, :approved_by_id, :categorize_type, :confirmed, :confirmed_at, :confirmed_by_id, :created_by_id, :submitted, :submitted_at, :submitted_by_id, :updated_by_id, :doc_status, :asset_categorization_items_attributes, :asset_attributes
+  attr_accessible :approved, :approved_at, :approved_by_id, :categorize_type, :confirmed, :confirmed_at, :confirmed_by_id, :created_by_id, :submitted, :submitted_at, :submitted_by_id, :updated_by_id, :doc_status, :asset_categorization_items_attributes, :asset_attributes, :number_arranged, :number_arranged_at, :number_arranged_by_id
 
   with_options :if => :approved do |ac|
     ac.validates :approved_at, :approved_by_id, :presence => true, :if => :approved
@@ -30,6 +30,7 @@ class AssetCategorization < ActiveRecord::Base
     ac.belongs_to :submitted_by, :foreign_key => "submitted_by_id"
     ac.belongs_to :confirmed_by, :foreign_key => "confirmed_by_id"
     ac.belongs_to :approved_by,  :foreign_key => "approved_by_id"
+    ac.belongs_to :number_arranged_by,  :foreign_key => "number_arranged_by_id"
   end
 
   has_many :asset_categorization_items, :class_name => "AssetCategorizationItem", :dependent => :destroy
@@ -95,25 +96,27 @@ class AssetCategorization < ActiveRecord::Base
     raise NoMethedError, I18n.t("activerecord.errors.models.asset_categorization.already_approved") if approved?
     user, reason, _ = args
     time_now = Time.now
-    current_status = [:approved, :confirmed, :submitted].select{|item| __send__(item) }.first.to_s.upcase
     self.transaction do
-      self.reject_reasons << AssetCategorizationRejectReason.new(code:          "[AssetCategorization] [#{current_status}] [#{time_now}] [#{id}] [#{user.id}]",
-                                                                 description:   reason,
+      self.reject_reasons << AssetCategorizationRejectReason.new(code: self.class.name,
+                                                                 name: "[#{self.class.name}] [#{current_status}] [#{time_now}] [#{id}] [#{user.id}]",
+                                                                 asset_categorization_id: self.id,
+                                                                 description: reason,
                                                                  created_by_id: user.id,
                                                                  updated_by_id: user.id)
-      self.attributes = {:submitted => false,
-                         :confirmed => false,
-                         :submitted_by_id => nil,
-                         :submitted_at => nil,
-                         :confirmed_by_id => nil,
-                         :confirmed_at => nil,
-                         :updated_by_id => user.id}
-      save!
+      return_asset_no_to_pool! 
+      clear_approval_info!(user.id) 
     end
   end
 
   def approve!(user)
     errors.add(:approved, I18n.t("activerecord.attributes.asset_categorization.transactions.already_approved", :at => approved_at, :by => approved_by)) && return if approved?
+    self.transaction do
+      update_attributes(:approved => true, :approved_by_id => user.id, :approved_at => DateTime.now, :updated_by_id => user.id)
+    end
+  end
+
+  def arrange_number!(user)
+    errors.add(:number_arranged, I18n.t("activerecord.attributes.asset_categorization.transactions.already_arranged_number", :at => number_arranged_at, :by => number_arranged_by)) && return if number_arranged?
     self.transaction do
       asset_categorization_items.each do |item|
         asset_no_in_pool = AssetNumberPooling.next(item.sub_category)
@@ -124,8 +127,40 @@ class AssetCategorization < ActiveRecord::Base
         item.asset_id = asset.id
         asset_no_in_pool.taken_by!(asset)
       end
-      update_attributes(:approved => true, :approved_by_id => user.id, :approved_at => DateTime.now, :updated_by_id => user.id)
+      update_attributes(:number_arranged => true, :number_arranged_by_id => user.id, :number_arranged_at => DateTime.now, :updated_by_id => user.id)
     end
+  end
+
+  def clear_approval_info(*args)
+    user_id = args.first
+    self.attributes = {:submitted => false,
+                       :confirmed => false,
+                       :number_arranged => false,
+                       :submitted_by_id => nil,
+                       :submitted_at => nil,
+                       :confirmed_by_id => nil,
+                       :confirmed_at => nil,
+                       :number_arranged_at => nil,
+                       :number_arranged_by_id => nil,
+                       :updated_by_id => user_id}
+  end
+
+  def clear_approval_info!(*args)
+    clear_approval_info(*args) && save!
+  end
+
+  def return_asset_no_to_pool!
+    if number_arranged?
+      asset_categorization_items.each do |item|
+        AssetNumberPooling.return_by!(item.asset)
+        item.asset.destroy
+        item.attributes = {asset_no: nil, asset_id: nil}
+      end
+    end
+  end
+
+  def current_status
+    [:approved, :confirmed, :number_arranged, :submitted].select{|item| __send__(item) }.first.to_s.upcase
   end
 
 end

@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
   end
 
   create_table "accessory_adjustments", :force => true do |t|
-    t.date     "effective_date",  :default => '2013-10-08'
+    t.date     "effective_date",  :default => '2013-10-16'
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "submitted_by_id"
@@ -109,8 +109,8 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.decimal  "allocation_propotion",     :precision => 18, :scale => 2, :default => 100.0
     t.integer  "cost_center_id"
     t.integer  "management_department_id"
-    t.date     "warranty_date_from",                                      :default => '2013-10-08'
-    t.date     "warranty_date_to",                                        :default => '2013-10-08'
+    t.date     "warranty_date_from",                                      :default => '2013-10-16'
+    t.date     "warranty_date_to",                                        :default => '2013-10-16'
     t.integer  "warranty_period",                                         :default => 0
     t.integer  "store_location"
     t.string   "responsible_by"
@@ -237,7 +237,7 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
   add_index "asset_transfer_items", ["type"], :name => "trans_items_type"
 
   create_table "asset_transfers", :force => true do |t|
-    t.date     "effective_date",  :default => '2013-10-08'
+    t.date     "effective_date",  :default => '2013-10-16'
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.boolean  "confirmed",       :default => false

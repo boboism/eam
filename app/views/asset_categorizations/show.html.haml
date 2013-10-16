@@ -1,4 +1,4 @@
-- model_class = @asset_categorization.class
+- model_class = AssetCategorization
 .row-fluid.page-header
   .span4
     %h3= t(".title", title: "#{model_class.model_name.human}: #{@asset_categorization.id}", default: t("helpers.views.show.title", title: "#{model_class.model_name.human}: #{@asset_categorization.id}"))
@@ -15,6 +15,11 @@
               = link_to submit_asset_categorization_path(@asset_categorization), method: :put do
                 %i.icon-upload
                 %span= t(".submit", default: t("helpers.links.submit"))
+          - if can? :arrange_number, @asset_categorization
+            %li
+              = link_to arrange_number_asset_categorization_path(@asset_categorization), method: :put do
+                %i.icon-upload
+                %span= t(".arrange_number")
           - if can? :confirm, @asset_categorization
             %li
               = link_to confirm_asset_categorization_path(@asset_categorization), method: :put do
@@ -76,6 +81,9 @@
           %th= model_class.human_attribute_name(:submitted)
           %th= model_class.human_attribute_name(:submitted_by_id)
           %th= model_class.human_attribute_name(:submitted_at)
+          %th= model_class.human_attribute_name(:number_arranged)
+          %th= model_class.human_attribute_name(:number_arranged_by_id)
+          %th= model_class.human_attribute_name(:number_arranged_at)
           %th= model_class.human_attribute_name(:confirmed)
           %th= model_class.human_attribute_name(:confirmed_by_id)
           %th= model_class.human_attribute_name(:confirmed_at)
@@ -87,6 +95,9 @@
           %td= icon_true_false(@asset_categorization.submitted)
           %td= @asset_categorization.submitted_by
           %td= @asset_categorization.submitted_at && @asset_categorization.submitted_at.to_date
+          %td= icon_true_false(@asset_categorization.number_arranged)
+          %td= @asset_categorization.number_arranged_by
+          %td= @asset_categorization.number_arranged_at && @asset_categorization.number_arranged_at.to_date
           %td= icon_true_false(@asset_categorization.confirmed)
           %td= @asset_categorization.confirmed_by
           %td= @asset_categorization.confirmed_at && @asset_categorization.confirmed_at.to_date
@@ -103,43 +114,86 @@
           %tr
             %th= item_class.model_name.human
             %td{colspan:6}= item.asset_no
+
           %tr
             %th= item_class.human_attribute_name(:sub_category_id)
             %th= item_class.human_attribute_name(:asset_name)
             %th= item_class.human_attribute_name(:brand)
             %th= item_class.human_attribute_name(:model)
             %th= item_class.human_attribute_name(:serial_no)
-            %th{colspan:2}= item_class.human_attribute_name(:specification)
+            %th= item_class.human_attribute_name(:specification)
+            %th= item_class.human_attribute_name(:remark)
           %tr
             %td= item.sub_category
             %td= item.asset_name
             %td= item.brand
             %td= item.model
             %td= item.serial_no
-            %td{colspan:2}= item.specification
+            %td= item.specification
+            %td= item.remark
+
           %tr
+            %th= item_class.human_attribute_name(:original_cost)
+            %th= item_class.human_attribute_name(:vat)
+            %th= item_class.human_attribute_name(:vat_rate)
             %th= item_class.human_attribute_name(:purchase_no)
             %th= item_class.human_attribute_name(:contract_no)
-            %th{colspan:2}= item_class.human_attribute_name(:supplier)
-            %th= item_class.human_attribute_name(:arrival_date)
-            %th= item_class.human_attribute_name(:amount)
-            %th= item_class.human_attribute_name(:conversion_rate)
+            %th= item_class.human_attribute_name(:warranty_date_from)
+            %th= item_class.human_attribute_name(:warranty_period)
           %tr
+            %td= item.original_cost
+            %td= item.vat
+            %td= item.vat_rate
             %td= item.purchase_no
             %td= item.contract_no
-            %td{colspan:2}= item.supplier
-            %td= item.arrival_date && item.arrival_date.to_date
-            %td= item.amount
-            %td= item.conversion_rate_percentage
+            %td= item.warranty_date_from
+            %td= item.warranty_period
+
           %tr
+            %th= item_class.human_attribute_name(:supplier)
+            %th= item_class.human_attribute_name(:arrival_date)
             %th= item_class.human_attribute_name(:design_company)
             %th= item_class.human_attribute_name(:construction_company)
             %th= item_class.human_attribute_name(:construction_date_from)
             %th= item_class.human_attribute_name(:construction_date_to)
-            %th{colspan:3}= item_class.human_attribute_name(:remark)
+            %th
           %tr
+            %td= item.supplier
+            %td= item.arrival_date
             %td= item.design_company
             %td= item.construction_company
-            %td= item.construction_date_from && item.construction_date_from.to_date
-            %td= item.construction_date_to && item.construction_date_to.to_date
-            %td{colspan:3}= item.remark
+            %td= item.construction_date_from
+            %td= item.construction_date_to
+            %td
+          %tr
+            %th= item_class.human_attribute_name(:construction_period_id)
+            %th= item_class.human_attribute_name(:specific_investment_id)
+            %th= item_class.human_attribute_name(:management_department_id)
+            %th= item_class.human_attribute_name(:cost_center_id)
+            %th= item_class.human_attribute_name(:allocation_propotion)
+            %th= item_class.human_attribute_name(:responsible_by)
+            %th= item_class.human_attribute_name(:store_location_id)
+          %tr
+            %td= item.construction_period
+            %td= item.specific_investment
+            %td= item.management_department
+            %td= item.cost_center
+            %td= item.allocation_propotion
+            %td= item.responsible_by
+            %td= item.store_location
+          %tr
+            %th= item_class.human_attribute_name(:is_energy_saving)
+            %th= item_class.human_attribute_name(:is_env_protection)
+            %th= item_class.human_attribute_name(:is_research_use)
+            %th= item_class.human_attribute_name(:is_safety_production)
+            %th
+            %th
+            %th
+          %tr
+            %td= icon_true_false(item.is_energy_saving)
+            %td= icon_true_false(item.is_env_protection)
+            %td= icon_true_false(item.is_research_use)
+            %td= icon_true_false(item.is_safety_production)
+            %td
+            %td
+            %td

@@ -10,6 +10,7 @@ Eam::Application.routes.draw do
 
   resources :asset_categorizations do
     put :submit,  :on => :member
+    put :arrange_number, :on => :member
     put :confirm, :on => :member
     put :approve, :on => :member
     put :reject,  :on => :member
@@ -17,6 +18,7 @@ Eam::Application.routes.draw do
     post :import,  :on => :collection
     get :approvable, :action => "index_approvable", :on => :collection
     get :confirmable, :action => "index_confirmable", :on => :collection
+    get :number_arrangeable, :action => "index_number_arrangeable", :on => :collection
   end
 
 

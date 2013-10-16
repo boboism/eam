@@ -32,6 +32,14 @@ class AssetNumberPooling < NumberPooling
       end
       num
     end
+
+    def return_by!(asset)
+      self.transaction do
+        if asset_no_obj = where(serial: asset.asset_no).first
+          asset_no_obj.update_attributes(:owned_by_id => nil, :status => StatusType[:available][:weight])
+        end
+      end
+    end
   end
 
   def taken_by!(asset)

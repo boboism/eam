@@ -60,6 +60,8 @@ class Asset < ActiveRecord::Base
   has_many :accessories, :class_name => "Accessory", :foreign_key => "asset_id", :conditions => {:enabled => true}
   has_many :accessory_adjusting_assets, :class_name => "AccessoryAdjustingAsset", :foreign_key => "refer_to_id"
 
+  before_save :sync_category
+
   scope :search, lambda { |search|
   }
 
@@ -91,4 +93,10 @@ class Asset < ActiveRecord::Base
     accessories.each{|acc| acc.disable_by(user);}
     save
   end
+
+  def sync_category
+    self.category_id = SubCategory.where(sub_category_id).first.parent_id
+  end
+  private :sync_category
+
 end

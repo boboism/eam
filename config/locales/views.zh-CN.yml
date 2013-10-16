@@ -24,6 +24,7 @@ zh-CN:
       upload_asset_categorization: "上传分类资产" 
       new_asset_categorization: "新建分类资产"
       index_asset_categorizations: "分类资产清单"
+      index_number_arrangeable_asset_categorizations: "待生成号码清单"
       index_confirmable_asset_categorizations: "待确认清单"
       index_approvable_asset_categorizations: "待审核清单"
       assets: "资产台账"
@@ -87,9 +88,12 @@ zh-CN:
     index_confirmable:
       title: "待确认分类编码列表"
       placehoder: "单号、资产类型"
+    asset_categorization_list:
+      arrange_number: "分配资产号"
     show:
       title: "明细：%{title}"
       index: "我的分类编码列表"
+      arrange_number: "分配资产号"
       index_approvable: "待审核列表"
       index_confirmable: "待确认列表"
     form:

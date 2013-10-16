@@ -38,6 +38,10 @@ class CreateAssets < ActiveRecord::Migration
       t.date :construction_date_from
       t.date :construction_date_to
       t.text :remark
+      t.boolean :is_energy_saving, default: false
+      t.boolean :is_env_protection, default: false
+      t.boolean :is_research_use, default: false
+      t.boolean :is_safety_production, default: false
       t.integer :accessory_status 
 
       t.timestamps

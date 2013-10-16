@@ -57,11 +57,11 @@
       %tr
         %th= model_class.human_attribute_name(:construction_period)
         %th= model_class.human_attribute_name(:specific_investment)
-        %th= model_class.human_attribute_name(:management_department)
-        %th= model_class.human_attribute_name(:cost_center)
+        %th= model_class.human_attribute_name(:management_department_id)
+        %th= model_class.human_attribute_name(:cost_center_id)
         %th= model_class.human_attribute_name(:allocation_propotion)
         %th= model_class.human_attribute_name(:responsible_by)
-        %th
+        %th= model_class.human_attribute_name(:store_location_id)
       %tr
         %td= f.input_field :construction_period_id, class: "input-block-level", collection: ConstructionPeriod.selectable
         %td= f.input_field :specific_investment_id, class: "input-block-level", collection: SpecificInvestment.selectable
@@ -69,6 +69,22 @@
         %td= f.input_field :cost_center_id, class: "input-block-level", collection: CostCenter.selectable
         %td= f.input_field :allocation_propotion, as: :string, class: "input-block-level"
         %td= f.input_field :responsible_by, class: "input-block-level"
+        %td= f.input_field :store_location_id, class: "input-block-level", collection: StoreLocation.selectable
+      %tr
+        %th= model_class.human_attribute_name(:is_energy_saving)
+        %th= model_class.human_attribute_name(:is_env_protection)
+        %th= model_class.human_attribute_name(:is_research_use)
+        %th= model_class.human_attribute_name(:is_safety_production)
+        %th= model_class.human_attribute_name(:accessory_status)
+        %th
+        %th
+      %tr
+        %td= f.input_field :is_energy_saving, class: "input-block-level"
+        %td= f.input_field :is_env_protection, class: "input-block-level"
+        %td= f.input_field :is_research_use, class: "input-block-level"
+        %td= f.input_field :is_safety_production, class: "input-block-level"
+        %td= f.input_field :accessory_status, class: "input-block-level", collection: Asset::AccessoryStatusType.map{|key, value| [ value[:description], value[:weight]]}.reverse.take(2)
+        %td
         %td
 
   %td.pull-right

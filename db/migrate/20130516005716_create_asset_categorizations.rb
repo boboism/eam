@@ -13,6 +13,9 @@ class CreateAssetCategorizations < ActiveRecord::Migration
       t.boolean :approved, :default => false
       t.integer :approved_by_id
       t.datetime :approved_at
+      t.boolean :number_arranged, :default => false
+      t.integer :number_arranged_by_id
+      t.datetime :number_arranged_at
       t.string :doc_status
       t.integer :items_count, :default => 0
 

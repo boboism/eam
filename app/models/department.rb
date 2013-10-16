@@ -11,4 +11,8 @@ class Department < MasterData
   has_many :managed_users, through: :manageable_department_relationships, source: :refer_from, source_type: "User"
 
   scope :enabled, lambda{ where(:enabled => true) }
+
+  def self.selectable
+    enabled.collect{|c| ["#{c.code} #{c.name}", c.id]}
+  end
 end

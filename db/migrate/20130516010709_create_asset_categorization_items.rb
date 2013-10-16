@@ -27,7 +27,7 @@ class CreateAssetCategorizationItems < ActiveRecord::Migration
       t.date :warranty_date_from, default: Date.current
       t.date :warranty_date_to, default: Date.current
       t.integer :warranty_period, default: 0
-      t.integer :store_location
+      t.integer :store_location_id
       t.string :responsible_by
       t.decimal :original_cost, default: 0, precision: 18, scale: 2
       t.decimal :vat, default: 0, precision: 18, scale: 2

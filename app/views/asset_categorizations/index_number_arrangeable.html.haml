@@ -1,0 +1,20 @@
+- model_class = AssetCategorization
+.row-fluid.page-header
+  .span5
+    %h3= t(".title", title: model_class.model_name.human, default: t("helpers.views.index.title", title: model_class.model_name.human))
+  .span7
+    .pull-right
+      .btn-group
+        = render "layouts/toolbar"
+.row-fluid
+  .span12
+    = form_tag model_class, method: :get, class: "form-search" do
+      .row-fluid
+        .span12
+          .input-append
+            = text_field_tag "[search][text]", nil, class: "search-query", placeholder: t(".placehoder", default: t("helpers.links.search_placeholder"))
+            = button_tag class: "btn" do
+              %i.icon-search
+              %span= t(".search", default: t("helpers.links.search"))
+
+= render 'asset_categorization_list', :asset_categorizations => @asset_categorizations

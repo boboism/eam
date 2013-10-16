@@ -19,7 +19,7 @@ class AssetCategorizationItem < ActiveRecord::Base
   belongs_to :asset, :class_name => "Asset", :foreign_key => "asset_id"
   belongs_to :cost_center, :class_name => "CostCenter", :foreign_key => "cost_center_id"
   belongs_to :sub_category, :class_name => "SubCategory", :foreign_key => "sub_category_id"
-  belongs_to :management_department_id, :class_name => "Department", :foreign_key => "management_department_id"
+  belongs_to :management_department, :class_name => "Department", :foreign_key => "management_department_id"
   belongs_to :store_location, :class_name => "StoreLocation", :foreign_key => "store_location_id"
   belongs_to :construction_period, :class_name => "ConstructionPeriod", :foreign_key => "construction_period_id"
   belongs_to :specific_investment, :class_name => "SpecificInvestment", :foreign_key => "specific_investment_id"

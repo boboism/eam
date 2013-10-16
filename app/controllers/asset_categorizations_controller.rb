@@ -8,7 +8,7 @@ class AssetCategorizationsController < ApplicationController
   # GET /asset_categorizations.json
   # GET /asset_categorizations.xml
   def index
-    @asset_categorizations = AssetCategorization.accessible_by(current_ability).search(params[:search]).where(created_by_id: current_user.try(:id)).order("approved, confirmed, submitted, id desc").page(params[:page])
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability).search(params[:search]).where(created_by_id: current_user.try(:id)).order("approved, confirmed, number_arranged, submitted, id desc").page(params[:page])
 
     respond_to do |format|
       format.html # index.html.erb
@@ -21,7 +21,20 @@ class AssetCategorizationsController < ApplicationController
   # GET /asset_categorizations.json
   # GET /asset_categorizations.xml
   def index_approvable
-    @asset_categorizations = AssetCategorization.accessible_by(current_ability, :approve).search(params[:search]).order("approved, confirmed, submitted, id desc").page(params[:page])
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability, :approve).search(params[:search]).order("approved, confirmed, number_arranged, submitted, id desc").page(params[:page])
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @asset_categorizations }
+      format.xml  { render xml: @asset_categorizations }
+    end
+  end
+
+  # GET /asset_categorizations
+  # GET /asset_categorizations.json
+  # GET /asset_categorizations.xml
+  def index_number_arrangeable
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability, :arrange_number).search(params[:search]).order("approved, confirmed, number_arranged, submitted, id desc").page(params[:page])
 
     respond_to do |format|
       format.html 
@@ -34,7 +47,7 @@ class AssetCategorizationsController < ApplicationController
   # GET /asset_categorizations.json
   # GET /asset_categorizations.xml
   def index_confirmable
-    @asset_categorizations = AssetCategorization.accessible_by(current_ability, :confirm).search(params[:search]).order("approved, confirmed, submitted, id desc").page(params[:page])
+    @asset_categorizations = AssetCategorization.accessible_by(current_ability, :confirm).search(params[:search]).order("approved, confirmed, number_arranged, submitted, id desc").page(params[:page])
 
     respond_to do |format|
       format.html 
@@ -103,8 +116,8 @@ class AssetCategorizationsController < ApplicationController
   def create
     @asset_categorization = AssetCategorization.new(params[:asset_categorization].merge(:created_by_id => current_user.id, :updated_by_id => current_user.id))
     respond_to do |format|
-      if @asset_categorization.save
-        format.html { redirect_to @asset_categorization, notice: I18n.t('controllers.create_success', name: @asset_categorization.class.model_name.human) }
+      if @asset_categorization.save && @asset_categorization.submit!(current_user)
+        format.html { redirect_to asset_categorization_url(@asset_categorization), notice: I18n.t('controllers.create_success', name: @asset_categorization.class.model_name.human) }
         format.json { render json: @asset_categorization, status: :created, location: @asset_categorization }
         format.xml  { render xml: @asset_categorization, status: :created, location: @asset_categorization }
       else
@@ -192,9 +205,29 @@ class AssetCategorizationsController < ApplicationController
     end
   end
 
-  # POST /asset_categorizations/1
-  # POST /asset_categorizations/1.json
-  # POST /asset_categorizations/1.xml
+  # PUT /asset_categorizations/1
+  # PUT /asset_categorizations/1.json
+  # PUT /asset_categorizations/1.xml
+  def arrange_number
+    #@asset_categorization = AssetCategorization.find(params[:id])
+    if @asset_categorization.arrange_number!(current_user)
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.confirm_success', name: @asset_categorization.class.model_name.human) }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to asset_categorizations_url, flash: { error: @asset_categorization.errors.messages.values.join } }
+        format.json { head :no_content }
+        format.xml  { head :no_content }
+      end
+    end
+  end
+
+  # PUT /asset_categorizations/1
+  # PUT /asset_categorizations/1.json
+  # PUT /asset_categorizations/1.xml
   def reject
     #@asset_categorization = AssetCategorization.find(params[:id])
     @asset_categorization = AssetCategorization.accessible_by(current_ability, :reject).where(id: params[:id]).first
@@ -213,9 +246,9 @@ class AssetCategorizationsController < ApplicationController
     end
   end
 
-  # POST /asset_categorizations/1
-  # POST /asset_categorizations/1.json
-  # POST /asset_categorizations/1.xml
+  # PUT /asset_categorizations/1
+  # PUT /asset_categorizations/1.json
+  # PUT /asset_categorizations/1.xml
   def approve
     #@asset_categorization = AssetCategorization.find(params[:id])
     if @asset_categorization.approve!(current_user)
