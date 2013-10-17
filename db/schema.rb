@@ -69,7 +69,7 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.integer  "cost_center_id"
     t.integer  "construction_period_id"
     t.integer  "specific_investment_id"
-    t.decimal  "quantity"
+    t.decimal  "allocation_propotion"
     t.boolean  "enabled"
     t.datetime "enabled_at"
     t.integer  "created_by_id"
@@ -124,7 +124,6 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.integer  "construction_period_id"
     t.integer  "specific_investment_id"
     t.integer  "accessory_status"
-    t.integer  "quantity"
     t.datetime "created_at",                                                                        :null => false
     t.datetime "updated_at",                                                                        :null => false
   end
@@ -230,12 +229,12 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
     t.integer  "cost_center_id"
     t.integer  "construction_period_id"
     t.integer  "specific_investment_id"
-    t.decimal  "quantity",                 :default => 1.0
+    t.decimal  "allocation_propotion",     :default => 100.0
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.string   "responsible_by"
-    t.datetime "created_at",                                :null => false
-    t.datetime "updated_at",                                :null => false
+    t.datetime "created_at",                                  :null => false
+    t.datetime "updated_at",                                  :null => false
   end
 
   add_index "asset_transfer_items", ["type"], :name => "trans_items_type"

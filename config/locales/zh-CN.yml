@@ -121,6 +121,8 @@ zh-CN:
       too_long: 过长（最长为 %{count} 个字符）
       too_short: 过短（最短为 %{count} 个字符）
       wrong_length: 长度非法（必须为 %{count} 个字符）
+      after: "%{attribute} 必须大于 %{date}"
+      before: "%{attribute} 必须小于 %{date}"
     template:
       body: 如下字段出现错误：
       header:

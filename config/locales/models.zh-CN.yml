@@ -11,7 +11,7 @@ zh-CN:
             password:
               confirmation: "请再次填写密码确认"
         asset_transfer:
-          item_tos_total_quantity_euqals_to_one: "当前数量为%{current_quantity},转移总数量必须为1"
+          item_tos_total_propotion_euqals_to_one_hundred: "当前分配比例为%{current_propotion},转移总分配比例必须为100"
         master_data:
           attributes:
             already_disabled: "当前基础数据原状态为禁用，无法再次禁用"

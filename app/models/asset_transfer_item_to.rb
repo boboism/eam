@@ -5,7 +5,7 @@ class AssetTransferItemTo < AssetTransferItem
   validates :cost_center, presence: true
   #validates :created_by, presence: true
   validates :management_department, presence: true
-  validates :quantity, presence: true, numericality: {less_than_or_equal_to: 1, greater_than: 0}
+  validates :allocation_propotion, presence: true, numericality: {less_than_or_equal_to: 100, greater_than: 0}
   validates :specific_investment, presence: true
   #validates :updated_by, presence: true
   validates :responsible_by, presence: true

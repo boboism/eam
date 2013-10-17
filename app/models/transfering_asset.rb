@@ -6,7 +6,7 @@ class TransferingAsset < ModelRelationship
   belongs_to :asset_transfer, :class_name => "AssetTransfer", :foreign_key => "refer_from_id"
   belongs_to :asset, :class_name => "Asset", :foreign_key => "refer_to_id"
 
-  validate :validate_item_tos_total_quantity_euqals_to_one
+  validate :validate_item_tos_total_propotion_euqals_to_one_hundred
 
   with_options :dependent => :destroy do |assoc|
     assoc.has_many :asset_transfer_item_froms, :class_name => "AssetTransferItemFrom", :foreign_key => "transfering_asset_id"
@@ -20,9 +20,9 @@ class TransferingAsset < ModelRelationship
   end
 
   private
-  def validate_item_tos_total_quantity_euqals_to_one
-    current_quantity = asset_transfer_item_tos.map(&:quantity).inject(0,&:+)
-    errors.add(:asset_transfer_item_tos, I18n.t('activerecord.errors.models.asset_transfer.item_tos_total_quantity_euqals_to_one', current_quantity: current_quantity)) unless current_quantity == 1
+  def validate_item_tos_total_propotion_euqals_to_one_hundred
+    current_propotion = asset_transfer_item_tos.map(&:allocation_propotion).inject(0,&:+)
+    errors.add(:asset_transfer_item_tos, I18n.t('activerecord.errors.models.asset_transfer.item_tos_total_propotion_euqals_to_one_hundred', current_propotion: current_propotion)) unless current_propotion == 100
   end
 
 end

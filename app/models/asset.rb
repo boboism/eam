@@ -96,7 +96,7 @@ class Asset < ActiveRecord::Base
   end
 
   def sync_category
-    self.category_id = SubCategory.where(sub_category_id).first.parent_id
+    self.category_id = SubCategory.where(id: sub_category_id).first.parent_id
   end
   private :sync_category
 

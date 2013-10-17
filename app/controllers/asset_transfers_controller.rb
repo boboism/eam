@@ -82,7 +82,7 @@ class AssetTransfersController < ApplicationController
     
 
     respond_to do |format|
-      if @asset_transfer.save
+      if @asset_transfer.save && @asset_transfer.submit!(current_user)
         format.html { redirect_to @asset_transfer, notice: I18n.t('controllers.create_success', name: @asset_transfer.class.model_name.human) }
         format.json { render json: @asset_transfer, status: :created, location: @asset_transfer }
         format.xml  { render xml: @asset_transfer, status: :created, location: @asset_transfer }

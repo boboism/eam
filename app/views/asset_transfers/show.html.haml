@@ -100,7 +100,7 @@
             %th= item_fm_class.human_attribute_name(:management_department)
             %th= item_fm_class.human_attribute_name(:cost_center)
             %th= item_fm_class.human_attribute_name(:responsible_by)
-            %th= item_fm_class.human_attribute_name(:quantity)
+            %th= item_fm_class.human_attribute_name(:allocation_propotion)
           %tr
             %th{colspan:6}= item_fm_class.model_name.human
           - if adj.asset_transfer_item_froms.empty?
@@ -114,7 +114,7 @@
                 %td= fm.management_department
                 %td= fm.cost_center
                 %td= fm.responsible_by
-                %td= fm.quantity
+                %td= fm.allocation_propotion
           %tr
             %th{colspan:6}= item_to_class.model_name.human
           - if adj.asset_transfer_item_tos.empty?
@@ -128,4 +128,4 @@
                 %td= to.management_department
                 %td= to.cost_center
                 %td= to.responsible_by
-                %td= to.quantity
+                %td= to.allocation_propotion
