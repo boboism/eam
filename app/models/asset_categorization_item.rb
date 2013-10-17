@@ -3,6 +3,8 @@ class AssetCategorizationItem < ActiveRecord::Base
 
   AssetAttributes = [:original_cost, :asset_name, :contract_no, :remark, :supplier, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :accessory_status]
 
+  AssetAllocationAttributes = [:construction_period_id, :cost_center_id, :management_department_id, :allocation_propotion, :specific_investment_id, :responsible_by]
+
   validates :original_cost, :numericality => {:greater_than_or_equal_to => 0}
   validates :asset_name, :presence => true
   validates :sub_category_id, :cost_center_id, :management_department_id, :store_location_id, :construction_period_id, :presence => true

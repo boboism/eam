@@ -8,7 +8,7 @@
       %th= tfif_class.human_attribute_name(:management_department)
       %th= tfif_class.human_attribute_name(:cost_center)
       %th= tfif_class.human_attribute_name(:responsible_by)
-      %th= tfif_class.human_attribute_name(:quantity)
+      %th= tfif_class.human_attribute_name(:allocation_propotion)
   %tbody
     - if ta.object.asset_transfer_item_froms.empty?
       %tr
@@ -28,4 +28,4 @@
           %td= fm.object.management_department
           %td= fm.object.cost_center
           %td= fm.object.responsible_by
-          %td= fm.object.quantity
+          %td= fm.object.allocation_propotion

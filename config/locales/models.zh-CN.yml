@@ -104,6 +104,7 @@ zh-CN:
         approved_at: "审核时间"
         asset_categorization_items: "资产项"
       asset_categorization_item:
+        accessory_status: "资产状态"
         store_location_id: "存放地点"
         original_cost: "原值"
         vat: "增值税金额"
@@ -202,6 +203,7 @@ zh-CN:
         asset_transfer_item_tos: "分配项（新）"
         transfering_assets: "待转移资产"
       asset_transfer_item_from:
+        allocation_propotion: "分配比例"
         construction_period: "一期/二期"
         specific_investment: "专项资金"
         management_department: "管理部门"
@@ -209,6 +211,7 @@ zh-CN:
         responsible_by: "责任人"
         quantity: "分配数量"
       asset_transfer_item_to:
+        allocation_propotion: "分配比例"
         created_by: "创建人"
         updated_by: "更新人"
         construction_period: "一期/二期"
@@ -216,7 +219,6 @@ zh-CN:
         management_department: "管理部门"
         cost_center: "成本费用中心"
         responsible_by: "责任人"
-        quantity: "分配数量"
       asset_info_adjustment:
         effective_date: "生效时间"
         asset_name_to: "资产名称"

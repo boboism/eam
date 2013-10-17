@@ -1,5 +1,5 @@
 class AssetTransferItemFrom < AssetTransferItem
-  attr_accessible :asset_allocation_id, :trasfering_asset_id, :construction_period_id, :cost_center_id, :created_by_id, :management_department_id, :quantity, :specific_investment_id, :updated_by_id, :responsible_by
+  attr_accessible :asset_allocation_id, :trasfering_asset_id, :construction_period_id, :cost_center_id, :created_by_id, :management_department_id, :allocation_propotion, :specific_investment_id, :updated_by_id, :responsible_by
 
   belongs_to :asset_allocation, :class_name => "AssetAllocation", :foreign_key => "asset_allocation_id"
   belongs_to :transfering_asset, :class_name => "TransferingAsset", :foreign_key => "transfering_asset_id"

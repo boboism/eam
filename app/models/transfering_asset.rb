@@ -15,8 +15,8 @@ class TransferingAsset < ModelRelationship
   accepts_nested_attributes_for :asset_transfer_item_froms, :allow_destroy => true
   accepts_nested_attributes_for :asset_transfer_item_tos, :allow_destroy => true
 
-  def transfer_item_tos_total_quantity
-    asset_transfer_item_tos.map(&:quantity).delete_if(&:nil?).inject(0, &:+)
+  def transfer_item_tos_total_allocation_propotion
+    asset_transfer_item_tos.map(&:allocation_propotion).delete_if(&:nil?).inject(0, &:+)
   end
 
   private

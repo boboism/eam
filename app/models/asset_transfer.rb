@@ -72,7 +72,7 @@ class AssetTransfer < ActiveRecord::Base
             # if is the first time tranfer, auto init a empty trans_to_item with quantity = 1
             # else copy the trans_from_items
             if tr.asset_transfer_item_froms.empty?
-              tr.asset_transfer_item_tos << AssetTransferItemTo.new(default_attrs.merge(:quantity => 1))
+              tr.asset_transfer_item_tos << AssetTransferItemTo.new(default_attrs.merge(:allocation_propotion => 1))
             else
               tr.asset_transfer_item_tos << tr.asset_transfer_item_froms.collect do |trans_fm|
                 AssetTransferItemTo.new_by_asset_transfer_item_from(trans_fm, trans_to_attrs) 

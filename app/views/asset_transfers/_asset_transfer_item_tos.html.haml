@@ -7,7 +7,7 @@
     %th= tfit_class.human_attribute_name(:management_department)
     %th= tfit_class.human_attribute_name(:cost_center)
     %th= tfit_class.human_attribute_name(:responsible_by)
-    %th= tfit_class.human_attribute_name(:quantity)
+    %th= tfit_class.human_attribute_name(:allocation_propotion)
     %th
   %tbody
     = ta.simple_fields_for :asset_transfer_item_tos do |to|
@@ -15,5 +15,5 @@
     %tr.sub_total
       %td{colspan: 5}
         = link_to_create_fields(content_tag("i", "", class: "icon-plus")+content_tag("span", t(".new", default: t("helpers.links.new"))), ta, :asset_transfer_item_tos, class: "btn create_button", href: "javascript:void(0);")
-      %td.quantity= ta.object.transfer_item_tos_total_quantity
+      %td.quantity= ta.object.transfer_item_tos_total_allocation_propotion
       %td

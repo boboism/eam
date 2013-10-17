@@ -6,7 +6,7 @@ class CreateAssetAllocations < ActiveRecord::Migration
       t.integer :cost_center_id
       t.integer :construction_period_id
       t.integer :specific_investment_id
-      t.decimal :quantity
+      t.decimal :allocation_propotion
       t.boolean :enabled
       t.datetime :enabled_at
       t.integer :created_by_id

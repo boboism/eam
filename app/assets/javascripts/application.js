@@ -69,7 +69,7 @@ var create_fields = function(link, association, content) {
 // calculate total quantity of transfer
 var calculate_total_quantity = function(elem) {
   var total_quantity = 0;
-  $(elem).closest("tbody").find(".field:has(:hidden[value='false']) input[id$='_quantity']").each(function(index, elem) {
+  $(elem).closest("tbody").find(".field:has(:hidden[value='false']) input[id$='_allocation_propotion']").each(function(index, elem) {
     var qty = $(this).val();
     if(!isNaN(qty) && Number(qty) > 0) {
       total_quantity += Number(qty);
@@ -79,7 +79,7 @@ var calculate_total_quantity = function(elem) {
 }
 
 var fire_calculate_asset_transfer_total_quantity = function() {
-  $("input[id$='_quantity']").on("change", function() {
+  $("input[id$='_allocation_propotion']").on("change", function() {
     calculate_total_quantity(this);
   });
 }

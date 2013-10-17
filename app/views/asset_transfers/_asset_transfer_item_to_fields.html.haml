@@ -4,6 +4,6 @@
   %td.span2= f.input_field :management_department_id, collection: Department.selectable, class: "input-block-level"
   %td.span2= f.input_field :cost_center_id, as: :select, collection: CostCenter.selectable, class: "input-block-level"
   %td.span2= f.input_field :responsible_by, as: :string, class: "input-block-level"
-  %td.span1= f.input_field :quantity, class: "input-block-level"
+  %td.span1= f.input_field :allocation_propotion, class: "input-block-level"
   %td.span1
     = link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), f, href: "javascript:void(0);")

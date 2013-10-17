@@ -1,5 +1,7 @@
 class AssetAllocation < ActiveRecord::Base
-  attr_accessible :asset_id, :construction_period_id, :cost_center_id, :created_by_id, :enabled, :enabled_at, :management_department_id, :quantity, :specific_investment_id, :updated_by_id, :asset_transfer_item_from_attributes, :responsible_by
+  attr_accessible :asset_id, :construction_period_id, :cost_center_id, :created_by_id, :enabled, :enabled_at, :management_department_id, :allocation_propotion, :specific_investment_id, :updated_by_id, :asset_transfer_item_from_attributes, :responsible_by
+
+  #validates :allocation_propotion, :presence => true, :numbericality => {:greater_than_or_equal_to => 0, :less_than_or_equal_to => 100}
 
   belongs_to :asset, :class_name => "Asset", :foreign_key => "asset_id"
 
@@ -14,6 +16,14 @@ class AssetAllocation < ActiveRecord::Base
       new(default_attrs.merge(:asset_id => trans_to.transfering_asset.asset.id, :enabled => true, :enabled_at => DateTime.now)) do |alloc|
         AssetTransferItem::AllocationAttributes.each do |attr| 
           alloc.__send__("#{attr.to_s}=", trans_to.__send__("#{attr.to_s}"))
+        end
+      end
+    end
+
+    def new_by_asset_categorization_item(asset_categorization_item, user)
+      new(:enabled => true, :enabled_at => DateTime.now, :created_by_id => user.id, :updated_by_id => user.id) do |alloc|
+        AssetCategorizationItem::AssetAllocationAttributes.each do |attr|
+          alloc.__send__("#{attr.to_s}=", asset_categorization_item.__send__("#{attr.to_s}"))
         end
       end
     end

@@ -50,7 +50,7 @@ CSV.foreach("./db/asset_category.csv") do |row|
 end
 puts "Arranging Number Pooling"
 SubCategory.all.each do |sub_cat|
-  puts "Initializing SubCategory Number Pooling #{sub_cat.inspect}"
+  puts "Initializing SubCategory Number Pooling #{sub_cat.code} #{sub_cat.name}"
   AssetNumberPooling.arrange_sub_category_number_pooling(sub_cat)
 end
 
@@ -74,7 +74,7 @@ SpecificInvestment.create(code: "05", name: "AF专用", enabled: true, created_b
 SpecificInvestment.create(code: "02", name: "AH专用", enabled: true, created_by_id: 1, updated_by_id: 1)
 
 puts "Cost Center"
-ostCenter.create(code: "1110A", name: "冲压科-直直", enabled: true, created_by_id: 1, updated_by_id: 1)
+CostCenter.create(code: "1110A", name: "冲压科-直直", enabled: true, created_by_id: 1, updated_by_id: 1)
 CostCenter.create(code: "1110C", name: "冲压科-直间", enabled: true, created_by_id: 1, updated_by_id: 1)
 CostCenter.create(code: "1120A", name: "焊装科-直直", enabled: true, created_by_id: 1, updated_by_id: 1)
 CostCenter.create(code: "1120C", name: "焊装科-直间", enabled: true, created_by_id: 1, updated_by_id: 1)

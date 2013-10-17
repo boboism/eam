@@ -186,7 +186,7 @@
             %th= item_class.human_attribute_name(:is_env_protection)
             %th= item_class.human_attribute_name(:is_research_use)
             %th= item_class.human_attribute_name(:is_safety_production)
-            %th
+            %th= item_class.human_attribute_name(:accessory_status)
             %th
             %th
           %tr
@@ -194,6 +194,6 @@
             %td= icon_true_false(item.is_env_protection)
             %td= icon_true_false(item.is_research_use)
             %td= icon_true_false(item.is_safety_production)
-            %td
+            %td= icon_true_false(item.accessory_status)
             %td
             %td

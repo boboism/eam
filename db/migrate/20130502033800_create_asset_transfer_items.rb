@@ -8,7 +8,7 @@ class CreateAssetTransferItems < ActiveRecord::Migration
       t.integer :cost_center_id
       t.integer :construction_period_id
       t.integer :specific_investment_id
-      t.decimal :quantity, default: 1
+      t.decimal :allocation_propotion, default: 100
       t.integer :created_by_id
       t.integer :updated_by_id
       t.string :responsible_by

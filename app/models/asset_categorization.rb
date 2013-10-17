@@ -97,7 +97,7 @@ class AssetCategorization < ActiveRecord::Base
     user, reason, _ = args
     time_now = Time.now
     self.transaction do
-      self.reject_reasons << AssetCategorizationRejectReason.new(code: self.class.name,
+      self.reject_reasons << AssetCategorizationRejectReason.new(code: "#{self.class.name}#{time_now.to_i}",
                                                                  name: "[#{self.class.name}] [#{current_status}] [#{time_now}] [#{id}] [#{user.id}]",
                                                                  asset_categorization_id: self.id,
                                                                  description: reason,

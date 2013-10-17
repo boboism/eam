@@ -73,10 +73,11 @@ class Asset < ActiveRecord::Base
   class << self
     def new_by_asset_categorization_item(asset_categorization_item, user)
       new(:created_by_id => user.id, :updated_by_id => user.id) do |a|
-        AssetCategorizationItem::AssetAttributes.each{|attr| a.__send__("#{attr}=", asset_categorization_item.__send__("#{attr}"))}
-        [:activated, :accepted, :published, :is_specific_fund, :is_tariff_free, :is_vat_free].each{|attr| a.__send__("#{attr}=", false)}
+        [:activated, :accepted, :published].each{|attr| a.__send__("#{attr}=", false)}
         a.salvage = a.original_cost
         a.accessory_status = AccessoryStatusType[:to_be_defined][:weight]
+        AssetCategorizationItem::AssetAttributes.each{|attr| a.__send__("#{attr}=", asset_categorization_item.__send__("#{attr}"))}
+        a.allocations << AssetAllocation.new_by_asset_categorization_item(asset_categorization_item, user)
       end
     end
   end
