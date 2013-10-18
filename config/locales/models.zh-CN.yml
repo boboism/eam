@@ -74,6 +74,7 @@ zh-CN:
 
     attributes:
       asset_categorization:
+        estimated: "是否暂估"
         categorize_type: "新增类型"
         categorize_types:
           purchase_via_oa: "采购新增（OA系统）"
@@ -104,7 +105,7 @@ zh-CN:
         approved_at: "审核时间"
         asset_categorization_items: "资产项"
       asset_categorization_item:
-        accessory_status: "资产状态"
+        accessory_status: "是否有附属设备"
         store_location_id: "存放地点"
         original_cost: "原值"
         vat: "增值税金额"

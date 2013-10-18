@@ -1,0 +1,10 @@
+zh-CN:
+  asset_categorization_mailer:
+    submitted_email:
+      subject: "【待分配编码】例外新增资产"
+    arranged_email:
+      subject: "【待确认】例外新增资产"
+    confirmed_email:
+      subject: "【待审核】例外新增资产"
+    approved_email:
+      subject: "【已审核】例外新增资产"

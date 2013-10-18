@@ -62,6 +62,7 @@
       %thead
         %tr
           %th= model_class.human_attribute_name(:categorize_type)
+          %th= model_class.human_attribute_name(:estimated)
           %th= model_class.human_attribute_name(:created_by_id)
           %th= model_class.human_attribute_name(:created_at)
           %th= model_class.human_attribute_name(:updated_by_id)
@@ -69,6 +70,7 @@
       %tbody
         %tr
           %td= @asset_categorization.categorize_type_name
+          %td= icon_true_false(@asset_categorization.estimated)
           %td= @asset_categorization.created_by
           %td= @asset_categorization.created_at && @asset_categorization.created_at.to_date
           %td= @asset_categorization.updated_by
@@ -194,6 +196,6 @@
             %td= icon_true_false(item.is_env_protection)
             %td= icon_true_false(item.is_research_use)
             %td= icon_true_false(item.is_safety_production)
-            %td= icon_true_false(item.accessory_status)
+            %td= item.accessory_status_name
             %td
             %td

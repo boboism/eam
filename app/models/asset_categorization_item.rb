@@ -52,6 +52,10 @@ class AssetCategorizationItem < ActiveRecord::Base
     self.specific_investment_id = SpecificInvestment.where{(code == my{value}) | (name == my{value})}.first.id
   end
 
+  def accessory_status_name
+    Asset::AccessoryStatusType.select{|k, v| v[:weight] == accessory_status}.values.first[:description]
+  end
+
   def calculate_warranty_date_to
     if warranty_period && warranty_date_from && warranty_period == warranty_period.abs 
       self.warranty_date_to = warranty_period.since(warranty_date_from) 

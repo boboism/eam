@@ -24,7 +24,7 @@ class Ability
     end
     can [:create, :import, :upload], AssetCategorization if user.has_any_role?(:admin,:costadmin)
     can [:modify, :submit], AssetCategorization, :created_by_id => user.id, :submitted => false
-    can [:arrange_number, :index_number_arrangeable], AssetCategorization, :submitted => true, :number_arranged => false if user.has_any_role?(:admin,:deptadmin)
+    can [:arrange_number, :index_number_arrangeable], AssetCategorization, :submitted => true, :number_arranged => false if user.has_any_role?(:admin,:finadmin)
     can [:confirm, :index_confirmable], AssetCategorization, :number_arranged => true, :confirmed => false if user.has_any_role?(:admin,:deptadmin)
     can [:approve, :index_approvable], AssetCategorization, :submitted => true, :number_arranged => true, :confirmed => true, :approved => false if user.has_any_role?(:admin,:finadmin)
 

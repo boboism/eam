@@ -18,6 +18,7 @@ class CreateAssetCategorizations < ActiveRecord::Migration
       t.datetime :number_arranged_at
       t.string :doc_status
       t.integer :items_count, :default => 0
+      t.boolean :estimated, :default => false
 
       t.timestamps
     end

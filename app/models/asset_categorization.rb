@@ -9,7 +9,7 @@ class AssetCategorization < ActiveRecord::Base
     :inventory_profit => {:weight => (1 << 6), :description => I18n.t("activerecord.attributes.asset_categorization.categorize_types.inventory_profit")},
     :other            => {:weight => (1 << 7), :description => I18n.t("activerecord.attributes.asset_categorization.categorize_types.other")}
   }
-  attr_accessible :approved, :approved_at, :approved_by_id, :categorize_type, :confirmed, :confirmed_at, :confirmed_by_id, :created_by_id, :submitted, :submitted_at, :submitted_by_id, :updated_by_id, :doc_status, :asset_categorization_items_attributes, :asset_attributes, :number_arranged, :number_arranged_at, :number_arranged_by_id
+  attr_accessible :approved, :approved_at, :approved_by_id, :categorize_type, :confirmed, :confirmed_at, :confirmed_by_id, :created_by_id, :submitted, :submitted_at, :submitted_by_id, :updated_by_id, :doc_status, :asset_categorization_items_attributes, :asset_attributes, :number_arranged, :number_arranged_at, :number_arranged_by_id, :estimated
 
   with_options :if => :approved do |ac|
     ac.validates :approved_at, :approved_by_id, :presence => true, :if => :approved

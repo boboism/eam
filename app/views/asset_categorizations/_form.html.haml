@@ -3,6 +3,7 @@
   = display_error_messages @asset_categorization
   .form-inputs
     = f.input :categorize_type, as: :radio_buttons, collection: AssetCategorization::CategorizeType.delete_if{|k,v| k == :purchase_via_oa}.collect{|k,v| [v[:description],v[:weight]]}, item_wrapper_class: "inline"
+    = f.input :estimated
     %table.table-condensed
       %tbody
         = f.simple_fields_for :asset_categorization_items do |item|
