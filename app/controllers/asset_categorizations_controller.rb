@@ -117,6 +117,7 @@ class AssetCategorizationsController < ApplicationController
     @asset_categorization = AssetCategorization.new(params[:asset_categorization].merge(:created_by_id => current_user.id, :updated_by_id => current_user.id))
     respond_to do |format|
       if @asset_categorization.save && @asset_categorization.submit!(current_user)
+        AssetCategorizationMailer.submitted_email(@asset_categorization.id).deliver
         format.html { redirect_to asset_categorization_url(@asset_categorization), notice: I18n.t('controllers.create_success', name: @asset_categorization.class.model_name.human) }
         format.json { render json: @asset_categorization, status: :created, location: @asset_categorization }
         format.xml  { render xml: @asset_categorization, status: :created, location: @asset_categorization }
@@ -171,6 +172,7 @@ class AssetCategorizationsController < ApplicationController
   def submit
     #@asset_categorization = AssetCategorization.find(params[:id])
     if @asset_categorization.submit!(current_user)
+      AssetCategorizationMailer.submitted_email(@asset_categorization.id).deliver
       respond_to do |format|
         format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.submit_success', name: @asset_categorization.class.model_name.human) }
         format.json { head :no_content }
@@ -191,6 +193,7 @@ class AssetCategorizationsController < ApplicationController
   def confirm
     #@asset_categorization = AssetCategorization.find(params[:id])
     if @asset_categorization.confirm!(current_user)
+      AssetCategorizationMailer.confirmed_email(@asset_categorization.id).deliver
       respond_to do |format|
         format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.confirm_success', name: @asset_categorization.class.model_name.human) }
         format.json { head :no_content }
@@ -211,6 +214,7 @@ class AssetCategorizationsController < ApplicationController
   def arrange_number
     #@asset_categorization = AssetCategorization.find(params[:id])
     if @asset_categorization.arrange_number!(current_user)
+      AssetCategorizationMailer.arranged_email(@asset_categorization.id).deliver
       respond_to do |format|
         format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.confirm_success', name: @asset_categorization.class.model_name.human) }
         format.json { head :no_content }
@@ -252,6 +256,7 @@ class AssetCategorizationsController < ApplicationController
   def approve
     #@asset_categorization = AssetCategorization.find(params[:id])
     if @asset_categorization.approve!(current_user)
+      AssetCategorizationMailer.approved_email(@asset_categorization.id).deliver
       respond_to do |format|
         format.html { redirect_to asset_categorizations_url, notice: I18n.t('controllers.approve_success', name: @asset_categorization.class.model_name.human) }
         format.json { head :no_content }
