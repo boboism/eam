@@ -45,7 +45,7 @@
         %th= model_class.human_attribute_name(:construction_company)
         %th= model_class.human_attribute_name(:construction_date_from)
         %th= model_class.human_attribute_name(:construction_date_to)
-        %th
+        %th= model_class.human_attribute_name(:quantity)
       %tr
         %td= f.input_field :supplier, class: "input-block-level"
         %td= f.input_field :arrival_date, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
@@ -53,7 +53,7 @@
         %td= f.input_field :construction_company, class: "input-block-level"
         %td= f.input_field :construction_date_from, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
         %td= f.input_field :construction_date_to, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
-        %td
+        %td= f.input_field :quantity, class: "input-block-level"
       %tr
         %th= model_class.human_attribute_name(:construction_period)
         %th= model_class.human_attribute_name(:specific_investment)

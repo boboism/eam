@@ -114,7 +114,8 @@ class AssetCategorizationsController < ApplicationController
   # POST /asset_categorizations.json
   # POST /asset_categorizations.xml
   def create
-    @asset_categorization = AssetCategorization.new(params[:asset_categorization].merge(:created_by_id => current_user.id, :updated_by_id => current_user.id))
+    #@asset_categorization = AssetCategorization.new(params[:asset_categorization].merge(:created_by_id => current_user.id, :updated_by_id => current_user.id))
+    @asset_categorization = AssetCategorization.new_by_splitable_quantity(params[:asset_categorization].merge(:created_by_id => current_user.id, :updated_by_id => current_user.id))
     respond_to do |format|
       if @asset_categorization.save && @asset_categorization.submit!(current_user)
         AssetCategorizationMailer.submitted_email(@asset_categorization.id).deliver

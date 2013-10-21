@@ -101,7 +101,8 @@ zh-CN:
     new:
       title: "新增资产分类信息"
     upload:
-      file: '选择文件（xls/xlsx/csv格式）'
+      file: '选择文件（xls格式）'
+      template: "下载上传模板"
       import: "导入"
   accessory_adjustments:
     show:
@@ -136,3 +137,5 @@ zh-CN:
       disable_confirm: "请确认是否禁用"
       enable: "启用"
       disable: "禁用"
+    form:
+      asset_number: "%{type}资产编号"

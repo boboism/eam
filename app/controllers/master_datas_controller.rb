@@ -75,7 +75,7 @@ class MasterDatasController < ApplicationController
   # POST /master_data.xml
   def create
     default_attrs = {created_by_id: current_user.id, updated_by_id: current_user.id, enabled: true}
-    @master_data = MasterData.new(default_attrs.merge!(params[:master_datas]))
+    @master_data = MasterData.new(default_attrs.merge!(params[:master_data]))
 
     respond_to do |format|
       if @master_data.save

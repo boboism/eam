@@ -1,5 +1,8 @@
+#encoding: utf-8
 class AssetCategorizationItem < ActiveRecord::Base
-  attr_accessible :asset_name, :asset_categorization_id, :contract_no, :remark, :supplier, :usage, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :asset_id, :allocation_propotion, :cost_center_id, :management_department_id, :warranty_date_from, :warranty_period, :store_location_id, :responsible_by, :original_cost, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :construction_period_id, :specific_investment_id, :accessory_status
+  attr_accessible :asset_name, :asset_categorization_id, :contract_no, :remark, :supplier, :usage, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :asset_id, :allocation_propotion, :cost_center_id, :management_department_id, :warranty_date_from, :warranty_period, :store_location_id, :responsible_by, :original_cost, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :construction_period_id, :specific_investment_id, :accessory_status, :sub_category_code, :accessory_status_code, :specific_investment_code, :construction_period_code, :store_location_code, :management_department_code, :cost_center_code, :quantity
+
+  attr_accessor :quantity
 
   AssetAttributes = [:original_cost, :asset_name, :contract_no, :remark, :supplier, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :accessory_status]
 
@@ -29,27 +32,40 @@ class AssetCategorizationItem < ActiveRecord::Base
   before_validation :calculate_warranty_date_to
 
   def cost_center_code=(value)
-    self.cost_center_id = CostCenter.where{(code == my{value}) | (name == my{value})}.first.id
+    self.cost_center_id = CostCenter.where{(code == my{value}) | (name == my{value})}.first.try(:id)
   end
 
   def sub_category_code=(value)
-    self.sub_category_id = SubCategory.where{(code == my{value}) | (name == my{value})}.first.id
+    self.sub_category_id = SubCategory.where{(code == my{value}) | (name == my{value})}.first.try(:id)
   end
 
   def management_department_code=(value)
-    self.management_department_id = Department.where{(code == my{value}) | (name == my{value})}.first.id
+    self.management_department_id = Department.where{(code == my{value}) | (name == my{value})}.first.try(:id)
   end
   
   def store_location_code=(value)
-    self.store_location_id = StoreLocation.where{(code == my{value}) | (name == my{value})}.first.id
+    self.store_location_id = StoreLocation.where{(code == my{value}) | (name == my{value})}.first.try(:id)
   end
 
   def construction_period_code=(value)
-    self.construction_period_id = ConstructionPeriod.where{(code == my{value}) | (name == my{value})}.first.id
+    self.construction_period_id = ConstructionPeriod.where{(code == my{value}) | (name == my{value})}.first.try(:id)
   end
 
   def specific_investment_code=(value)
-    self.specific_investment_id = SpecificInvestment.where{(code == my{value}) | (name == my{value})}.first.id
+    self.specific_investment_id = SpecificInvestment.where{(code == my{value}) | (name == my{value})}.first.try(:id)
+  end
+
+  def accessory_status_code=(value)
+    self.accessory_status = Asset::AccessoryStatusType.select{|k, v| v[:weight] == value || v[:description] == value}.values.first[:weight]
+  end
+
+  [:is_safety_production, :is_research_use, :is_env_protection, :is_energy_saving].each do |m|
+    class_eval <<-END
+      def #{m}_code=(value)
+        self.#{m} = (value == '是' || value == true || value == 1)
+      end
+      attr_accessible :#{m}_code
+    END
   end
 
   def accessory_status_name

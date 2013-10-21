@@ -1,4 +1,8 @@
 Eam::Application.routes.draw do
+  get "asset_number_poolings/index"
+
+  get "asset_number_poolings/show"
+
   resources :accessory_adjustments do
     put :submit,  :on => :member
     put :confirm, :on => :member

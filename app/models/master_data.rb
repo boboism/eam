@@ -20,7 +20,7 @@ class MasterData < ActiveRecord::Base
   }
 
   def self.types
-    %w(Category SubCategory ConstructionPeriod CostCenter Department SpecificInvestment).map{|klass|
+    %w(Category SubCategory ConstructionPeriod CostCenter Department SpecificInvestment StoreLocation).map{|klass|
       [klass.constantize.model_name.human, klass]
     }
   end

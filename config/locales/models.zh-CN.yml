@@ -73,6 +73,11 @@ zh-CN:
         other: "原值调整单"
 
     attributes:
+      asset_number_pooling:
+        StatusType:
+          available: "可用"
+          reserved: "保留"
+          taken: "已用"
       asset_categorization:
         estimated: "是否暂估"
         categorize_type: "新增类型"
@@ -105,6 +110,7 @@ zh-CN:
         approved_at: "审核时间"
         asset_categorization_items: "资产项"
       asset_categorization_item:
+        quantity: "导入数量"
         accessory_status: "是否有附属设备"
         store_location_id: "存放地点"
         original_cost: "原值"

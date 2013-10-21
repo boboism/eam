@@ -1,6 +1,6 @@
 source 'http://ruby.taobao.org'
 ruby '1.9.3'
-gem 'rails', '~> 3.2.14'
+gem 'rails', :github => "rails/rails", :branch => "3-2-stable"
 gem 'sqlite3'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
@@ -45,3 +45,5 @@ gem "libv8", ">= 3.11.8"
 gem "therubyracer", ">= 0.11.3", :group => :assets, :platform => :ruby, :require => "v8"
 gem "rails-erd", :group => :development
 gem "pry-rails", :group => [:development, :test]
+gem "paperclip"
+gem "roo"

@@ -16,4 +16,12 @@ class SubCategory < MasterData
     includes{parent}.enabled.collect{|c| ["#{c.parent.code}#{c.code} #{c.name}", c.id]}
   end
 
+  AssetNumberPooling::StatusType.each do |key, value|
+    class_eval <<-END
+      def #{key}_numbers
+        AssetNumberPooling.where{(status == #{value[:weight]}) & (serial =~ my{number_pooling_prefix+"%"})}.select{serial}.map(&:serial)
+      end
+    END
+  end
+
 end

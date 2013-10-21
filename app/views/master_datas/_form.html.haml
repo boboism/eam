@@ -20,3 +20,17 @@
 
   .form-actions
     = f.button :submit, t('helpers.links.submit'), class: 'btn-primary'
+
+  - if @master_data.is_a? SubCategory
+    .row-fluid
+      .accordion#sub_cat_numbers
+        - AssetNumberPooling::StatusType.each do |key, value|
+          .accordion-group
+            .accordion-heading
+              = link_to t(".asset_number", type: value[:description]), "#asset_number_pooling_#{key}", "data-toggle" => "collapse", "data-parent" => "#sub_cat_numbers", :class => "accordion-toggle"
+            = content_tag(:div, :class => "accordion-body collapse", :id => "asset_number_pooling_#{key}") do
+              .accordion-inner
+                - @master_data.send("#{key}_numbers").each_with_index do |num, index|
+                  - if index % 12 == 0
+                    .row-fluid
+                  .span1= num

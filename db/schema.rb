@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130918042151) do
+ActiveRecord::Schema.define(:version => 20131021040350) do
 
   create_table "accessories", :force => true do |t|
     t.string   "name"
@@ -316,6 +316,21 @@ ActiveRecord::Schema.define(:version => 20130918042151) do
   add_index "assets", ["category_id"], :name => "assets_cat"
   add_index "assets", ["published"], :name => "assets_published"
   add_index "assets", ["sub_category_id"], :name => "assets_sub_cat"
+
+  create_table "documents", :force => true do |t|
+    t.text     "description"
+    t.integer  "documentable_id"
+    t.string   "documentable_type"
+    t.string   "type"
+    t.string   "name"
+    t.string   "status"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "data_file_name"
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.datetime "data_updated_at"
+  end
 
   create_table "master_data", :force => true do |t|
     t.string   "code"

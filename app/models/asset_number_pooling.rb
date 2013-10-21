@@ -4,9 +4,9 @@ class AssetNumberPooling < NumberPooling
   belongs_to :asset, :class_name => "Asset", :foreign_key => "owned_by_id"
 
   StatusType = {
-    :available => {:weight => (1 << 0)},
-    :reserved  => {:weight => (1 << 1)},
-    :taken     => {:weight => (1 << 2)}
+    :available => {:weight => (1 << 0), :description => I18n.t('activerecord.attributes.asset_number_pooling.StatusType.available')},
+    :reserved  => {:weight => (1 << 1), :description => I18n.t('activerecord.attributes.asset_number_pooling.StatusType.reserved')},
+    :taken     => {:weight => (1 << 2), :description => I18n.t('activerecord.attributes.asset_number_pooling.StatusType.taken')}
   }
 
   StatusType.each_pair{|key, value| scope(key, lambda{where(:status => value[:weight])}) }

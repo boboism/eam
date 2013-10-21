@@ -68,12 +68,22 @@ class AssetCategorization < ActiveRecord::Base
 
   # open xls/xlsx/csv
   def self.open_spreadsheet(file)
-    case File.extname(file.original_name)
-    when '.csv' then Csv.new(file.path, nil, :ignore)
-    when ".xls" then Excel.new(file.path, nil, :ignore)
-    when ".xlsx" then Excelx.new(file.path, nil, :ignore)
+    case File.extname(file.original_filename)
+    #when '.csv' then Csv.new(file.path, nil, :ignore)
+    when ".xls" then Roo::Excel.new(file.path, nil, :ignore)
+    #when ".xlsx" then Excelx.new(file.path, nil, :ignore)
     else raise I18n.t('activerecord.errors.exceptions.unknown_filetype', filetype: file.original_filename)
     end
+  end
+
+  def self.new_by_splitable_quantity(params)
+    asset_cat = new(params)
+    unsplittable_items = asset_cat.asset_categorization_items.select{|item| item.quantity.to_i == 1}
+    asset_cat.asset_categorization_items.select{|item| item.quantity.to_i > 1}.each{|item|
+      item.quantity.to_i.times{ unsplittable_items << AssetCategorizationItem.new(item.attributes.slice(*AssetCategorizationItem.accessible_attributes)) } 
+    }
+    asset_cat.asset_categorization_items = unsplittable_items
+    asset_cat
   end
 
   def categorize_type_name;CategorizeType.select{|k,v| v[:weight] == categorize_type}.first.last[:description];end
