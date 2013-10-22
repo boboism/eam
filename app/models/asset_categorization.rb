@@ -78,7 +78,7 @@ class AssetCategorization < ActiveRecord::Base
 
   def self.new_by_splitable_quantity(params)
     asset_cat = new(params)
-    unsplittable_items = asset_cat.asset_categorization_items.select{|item| item.quantity.to_i == 1}
+    unsplittable_items = asset_cat.asset_categorization_items.select{|item| item.quantity.to_i < 1}
     asset_cat.asset_categorization_items.select{|item| item.quantity.to_i > 1}.each{|item|
       item.quantity.to_i.times{ unsplittable_items << AssetCategorizationItem.new(item.attributes.slice(*AssetCategorizationItem.accessible_attributes)) } 
     }

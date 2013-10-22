@@ -13,7 +13,7 @@ class SubCategory < MasterData
   def number_pooling_prefix; parent ? "#{parent.code.strip}#{code.strip}" : "";end
 
   def self.selectable
-    includes{parent}.enabled.collect{|c| ["#{c.parent.code}#{c.code} #{c.name}", c.id]}
+    includes{parent}.enabled.collect{|c| ["#{c.parent.code}#{c.code} #{c.parent.name}-#{c.name}", c.id]}
   end
 
   AssetNumberPooling::StatusType.each do |key, value|

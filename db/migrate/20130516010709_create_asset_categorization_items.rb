@@ -31,11 +31,15 @@ class CreateAssetCategorizationItems < ActiveRecord::Migration
       t.string :responsible_by
       t.decimal :original_cost, default: 0, precision: 18, scale: 2
       t.decimal :vat, default: 0, precision: 18, scale: 2
-      t.decimal :vat_rate, default: 0, precision: 18, scale: 2
+      t.decimal :vat_rate, default: 17, precision: 18, scale: 2
       t.boolean :is_energy_saving, default: false
       t.boolean :is_env_protection, default: false
       t.boolean :is_research_use, default: false
       t.boolean :is_safety_production, default: false
+      t.boolean :is_not_any_favorable, default: false
+      t.boolean :is_vat_deduction, default: false
+      t.boolean :is_specific_fund, default: false
+      t.boolean :is_tariff_free, default: false
       t.integer :construction_period_id
       t.integer :specific_investment_id
       t.integer :accessory_status

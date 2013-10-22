@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(:version => 20131021040350) do
   end
 
   create_table "accessory_adjustments", :force => true do |t|
-    t.date     "effective_date",  :default => '2013-10-18'
+    t.date     "effective_date",  :default => '2013-10-22'
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.integer  "submitted_by_id"
@@ -109,18 +109,22 @@ ActiveRecord::Schema.define(:version => 20131021040350) do
     t.decimal  "allocation_propotion",     :precision => 18, :scale => 2, :default => 100.0
     t.integer  "cost_center_id"
     t.integer  "management_department_id"
-    t.date     "warranty_date_from",                                      :default => '2013-10-18'
-    t.date     "warranty_date_to",                                        :default => '2013-10-18'
+    t.date     "warranty_date_from",                                      :default => '2013-10-22'
+    t.date     "warranty_date_to",                                        :default => '2013-10-22'
     t.integer  "warranty_period",                                         :default => 0
     t.integer  "store_location_id"
     t.string   "responsible_by"
     t.decimal  "original_cost",            :precision => 18, :scale => 2, :default => 0.0
     t.decimal  "vat",                      :precision => 18, :scale => 2, :default => 0.0
-    t.decimal  "vat_rate",                 :precision => 18, :scale => 2, :default => 0.0
+    t.decimal  "vat_rate",                 :precision => 18, :scale => 2, :default => 17.0
     t.boolean  "is_energy_saving",                                        :default => false
     t.boolean  "is_env_protection",                                       :default => false
     t.boolean  "is_research_use",                                         :default => false
     t.boolean  "is_safety_production",                                    :default => false
+    t.boolean  "is_not_any_favorable",                                    :default => false
+    t.boolean  "is_vat_deduction",                                        :default => false
+    t.boolean  "is_special_fund",                                         :default => false
+    t.boolean  "is_duty_free",                                            :default => false
     t.integer  "construction_period_id"
     t.integer  "specific_investment_id"
     t.integer  "accessory_status"
@@ -241,7 +245,7 @@ ActiveRecord::Schema.define(:version => 20131021040350) do
   add_index "asset_transfer_items", ["type"], :name => "trans_items_type"
 
   create_table "asset_transfers", :force => true do |t|
-    t.date     "effective_date",  :default => '2013-10-18'
+    t.date     "effective_date",  :default => '2013-10-22'
     t.integer  "created_by_id"
     t.integer  "updated_by_id"
     t.boolean  "confirmed",       :default => false

@@ -1,10 +1,10 @@
 #encoding: utf-8
 class AssetCategorizationItem < ActiveRecord::Base
-  attr_accessible :asset_name, :asset_categorization_id, :contract_no, :remark, :supplier, :usage, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :asset_id, :allocation_propotion, :cost_center_id, :management_department_id, :warranty_date_from, :warranty_period, :store_location_id, :responsible_by, :original_cost, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :construction_period_id, :specific_investment_id, :accessory_status, :sub_category_code, :accessory_status_code, :specific_investment_code, :construction_period_code, :store_location_code, :management_department_code, :cost_center_code, :quantity
+  attr_accessible :asset_name, :asset_categorization_id, :contract_no, :remark, :supplier, :usage, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :asset_id, :allocation_propotion, :cost_center_id, :management_department_id, :warranty_date_from, :warranty_period, :store_location_id, :responsible_by, :original_cost, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :construction_period_id, :specific_investment_id, :accessory_status, :sub_category_code, :accessory_status_code, :specific_investment_code, :construction_period_code, :store_location_code, :management_department_code, :cost_center_code, :quantity, :is_not_any_favorable, :is_vat_deduction, :is_specific_fund, :is_tariff_free
 
   attr_accessor :quantity
 
-  AssetAttributes = [:original_cost, :asset_name, :contract_no, :remark, :supplier, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :accessory_status]
+  AssetAttributes = [:original_cost, :asset_name, :contract_no, :remark, :supplier, :sub_category_id, :asset_no, :brand, :model, :specification, :serial_no, :purchase_no, :arrival_date, :design_company, :construction_company, :construction_date_from, :construction_date_to, :vat, :vat_rate, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :accessory_status, :is_not_any_favorable, :is_vat_deduction, :is_specific_fund, :is_tariff_free]
 
   AssetAllocationAttributes = [:construction_period_id, :cost_center_id, :management_department_id, :allocation_propotion, :specific_investment_id, :responsible_by]
 
@@ -19,6 +19,11 @@ class AssetCategorizationItem < ActiveRecord::Base
   validates :warranty_date_from, :presence => true, :date => {:before => :warranty_date_to}
   validates :warranty_date_to, :presence => true
   validates :warranty_period, :presence => true, :numericality => {:greater_than_or_equal_to => 0}
+  validates :vat_rate, :presence => true, :inclusion => { in: Asset::VatRateOptions.map(&:last) }
+  validates :vat, :presence => true, :numericality => {
+    :greater_than_or_equal_to => lambda{|item| (item.original_cost * item.vat_rate / 100.0).ceil  },
+    :less_than_or_equal_to    => lambda{|item| (item.original_cost * item.vat_rate / 100.0).floor }
+  }
 
   belongs_to :asset_categorization, :class_name => "AssetCategorization", :foreign_key => "asset_categorization_id", :counter_cache => :items_count
   belongs_to :asset, :class_name => "Asset", :foreign_key => "asset_id"
@@ -59,7 +64,8 @@ class AssetCategorizationItem < ActiveRecord::Base
     self.accessory_status = Asset::AccessoryStatusType.select{|k, v| v[:weight] == value || v[:description] == value}.values.first[:weight]
   end
 
-  [:is_safety_production, :is_research_use, :is_env_protection, :is_energy_saving].each do |m|
+  [:is_safety_production, :is_research_use, :is_env_protection, :is_energy_saving, 
+   :is_not_any_favorable, :is_vat_deduction, :is_special_fund, :is_duty_free].each do |m|
     class_eval <<-END
       def #{m}_code=(value)
         self.#{m} = (value == '是' || value == true || value == 1)

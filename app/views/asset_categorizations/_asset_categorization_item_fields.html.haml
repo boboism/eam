@@ -33,7 +33,7 @@
       %tr
         %td= f.input_field :original_cost, class: "input-block-level"
         %td= f.input_field :vat, class: "input-block-level"
-        %td= f.input_field :vat_rate, class: "input-block-level"
+        %td= f.input_field :vat_rate, class: "input-block-level", collection: Asset::VatRateOptions
         %td= f.input_field :purchase_no, class: "input-block-level"
         %td= f.input_field :contract_no, class: "input-block-level"
         %td= f.input_field :warranty_date_from, as: :string, class: "input-block-level", :"data-behavior" => "datepicker"
@@ -71,21 +71,31 @@
         %td= f.input_field :responsible_by, class: "input-block-level"
         %td= f.input_field :store_location_id, class: "input-block-level", collection: StoreLocation.selectable
       %tr
+        %th= model_class.human_attribute_name(:accessory_status)
         %th= model_class.human_attribute_name(:is_energy_saving)
         %th= model_class.human_attribute_name(:is_env_protection)
         %th= model_class.human_attribute_name(:is_research_use)
         %th= model_class.human_attribute_name(:is_safety_production)
-        %th= model_class.human_attribute_name(:accessory_status)
-        %th
+        %th= model_class.human_attribute_name(:is_not_any_favorable)
         %th
       %tr
-        %td= f.input_field :is_energy_saving, class: "input-block-level"
-        %td= f.input_field :is_env_protection, class: "input-block-level"
-        %td= f.input_field :is_research_use, class: "input-block-level"
-        %td= f.input_field :is_safety_production, class: "input-block-level"
         %td= f.input_field :accessory_status, class: "input-block-level", collection: Asset::AccessoryStatusType.map{|key, value| [ value[:description], value[:weight]]}.reverse.take(2)
+        %td= f.input_field :is_energy_saving
+        %td= f.input_field :is_env_protection
+        %td= f.input_field :is_research_use
+        %td= f.input_field :is_safety_production
+        %td= f.input_field :is_not_any_favorable
         %td
-        %td
+      %tr
+        %th= model_class.human_attribute_name(:is_vat_deduction)
+        %th= model_class.human_attribute_name(:is_special_fund)
+        %th= model_class.human_attribute_name(:is_tariff_free)
+        %th{colspan: 4}
+      %tr
+        %td= f.input_field :is_vat_deduction
+        %td= f.input_field :is_special_fund
+        %td= f.input_field :is_tariff_free
+        %td{colspan: 4}
 
   %td.pull-right
     = link_to_destroy_fields(content_tag("i", "", class: "icon-trash"), f, href: "javascript:void(0);")

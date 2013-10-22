@@ -72,7 +72,7 @@ class AssetCategorizationsController < ApplicationController
   # GET /asset_categorizations/new.xml
   def new
     @asset_categorization = AssetCategorization.new(categorize_type: AssetCategorization::CategorizeType.collect{|k,v| v[:weight]}.last) do |cat|
-      1.times{cat.asset_categorization_items.new}
+      1.times{cat.asset_categorization_items.new(vat_rate: 17)}
     end
     respond_to do |format|
       format.html # new.html.erb

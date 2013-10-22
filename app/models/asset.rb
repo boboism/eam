@@ -1,5 +1,5 @@
 class Asset < ActiveRecord::Base
-  attr_accessible :accepted, :accepted_at, :accepted_by_id, :activated, :activated_at, :activated_by_id, :asset_name, :asset_no, :brand, :category_id, :created_by_id, :is_specific_fund, :is_tariff_free, :is_vat_free, :model, :original_cost, :published, :published_at, :salvage, :salvage_rate, :serial_no, :sub_category_id, :updated_by_id, :vat, :vat_rate, :supplier, :specification, :accessory_status
+  attr_accessible :accepted, :accepted_at, :accepted_by_id, :activated, :activated_at, :activated_by_id, :asset_name, :asset_no, :brand, :category_id, :created_by_id, :is_specific_fund, :is_tariff_free, :model, :original_cost, :published, :published_at, :salvage, :salvage_rate, :serial_no, :sub_category_id, :updated_by_id, :vat, :vat_rate, :supplier, :specification, :accessory_status, :is_energy_saving, :is_env_protection, :is_research_use, :is_safety_production, :is_not_any_favorable, :is_vat_deduction
 
   AccessoryStatusType = {
     :to_be_defined => {
@@ -12,6 +12,8 @@ class Asset < ActiveRecord::Base
       :weight => (1 << 2),
       :description => I18n.t("activerecord.attributes.asset.accessory_status_types.exists")}
   }
+
+  VatRateOptions =  [["3%", 3.0], ["6%", 6.0], ["13%", 13.0], ["17%", 17.0]]
 
   #validates :accepted, :presence => true
   with_options :if => :accepted? do |a|
