@@ -184,18 +184,28 @@
             %td= item.responsible_by
             %td= item.store_location
           %tr
+            %th= item_class.human_attribute_name(:accessory_status)
             %th= item_class.human_attribute_name(:is_energy_saving)
             %th= item_class.human_attribute_name(:is_env_protection)
             %th= item_class.human_attribute_name(:is_research_use)
             %th= item_class.human_attribute_name(:is_safety_production)
-            %th= item_class.human_attribute_name(:accessory_status)
-            %th
+            %th= item_class.human_attribute_name(:is_not_any_favorable)
             %th
           %tr
+            %td= item.accessory_status_name
             %td= icon_true_false(item.is_energy_saving)
             %td= icon_true_false(item.is_env_protection)
             %td= icon_true_false(item.is_research_use)
             %td= icon_true_false(item.is_safety_production)
-            %td= item.accessory_status_name
+            %td= icon_true_false(item.is_not_any_favorable)
             %td
-            %td
+          %tr
+            %th= item_class.human_attribute_name(:is_vat_deduction)
+            %th= item_class.human_attribute_name(:is_specific_fund)
+            %th= item_class.human_attribute_name(:is_tariff_free)
+            %th{colspan: 4}
+          %tr
+            %td= icon_true_false(item.is_vat_deduction)
+            %td= icon_true_false(item.is_specific_fund)
+            %td= icon_true_false(item.is_tariff_free)
+            %td{colspan: 4}

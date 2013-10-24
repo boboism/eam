@@ -13,7 +13,7 @@ class Asset < ActiveRecord::Base
       :description => I18n.t("activerecord.attributes.asset.accessory_status_types.exists")}
   }
 
-  VatRateOptions =  [["3%", 3.0], ["6%", 6.0], ["13%", 13.0], ["17%", 17.0]]
+  VatRateOptions =  [["0%", 0.0], ["3%", 3.0], ["6%", 6.0], ["13%", 13.0], ["17%", 17.0]]
 
   #validates :accepted, :presence => true
   with_options :if => :accepted? do |a|

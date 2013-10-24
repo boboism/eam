@@ -65,7 +65,7 @@ class AssetCategorizationItem < ActiveRecord::Base
   end
 
   [:is_safety_production, :is_research_use, :is_env_protection, :is_energy_saving, 
-   :is_not_any_favorable, :is_vat_deduction, :is_special_fund, :is_duty_free].each do |m|
+   :is_not_any_favorable, :is_vat_deduction, :is_specific_fund, :is_tariff_free].each do |m|
     class_eval <<-END
       def #{m}_code=(value)
         self.#{m} = (value == '是' || value == true || value == 1)
