@@ -123,8 +123,8 @@ ActiveRecord::Schema.define(:version => 20131021040350) do
     t.boolean  "is_safety_production",                                    :default => false
     t.boolean  "is_not_any_favorable",                                    :default => false
     t.boolean  "is_vat_deduction",                                        :default => false
-    t.boolean  "is_special_fund",                                         :default => false
-    t.boolean  "is_duty_free",                                            :default => false
+    t.boolean  "is_specific_fund",                                        :default => false
+    t.boolean  "is_tariff_free",                                          :default => false
     t.integer  "construction_period_id"
     t.integer  "specific_investment_id"
     t.integer  "accessory_status"
@@ -287,7 +287,6 @@ ActiveRecord::Schema.define(:version => 20131021040350) do
     t.datetime "accepted_at"
     t.boolean  "is_tariff_free"
     t.boolean  "is_specific_fund"
-    t.boolean  "is_vat_free"
     t.decimal  "vat"
     t.decimal  "vat_rate"
     t.integer  "created_by_id"
@@ -308,6 +307,8 @@ ActiveRecord::Schema.define(:version => 20131021040350) do
     t.boolean  "is_env_protection",      :default => false
     t.boolean  "is_research_use",        :default => false
     t.boolean  "is_safety_production",   :default => false
+    t.boolean  "is_not_any_favorable",   :default => false
+    t.boolean  "is_vat_deduction",       :default => false
     t.integer  "accessory_status"
     t.datetime "created_at",                                :null => false
     t.datetime "updated_at",                                :null => false

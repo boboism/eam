@@ -122,7 +122,7 @@ zh-CN:
         is_safety_production: "安全生产设备"
         is_not_any_favorable: "不属于优惠设备"
         is_vat_deduction: "增值税抵扣"
-        is_special_fund: "专项资金"
+        is_specific_fund: "专项资金"
         is_tariff_free: "海关免税设备"
         construction_period: "一期/二期"
         construction_period_id: "一期/二期"
