@@ -31,8 +31,11 @@ class AssetCategorizationMailer < ActionMailer::Base
   #   en.asset_categorization_mailer.confirmed_email.subject
   #
   def confirmed_email(asset_categorization_id)
-    if (emails = User.joins{roles}.where{roles.name.in("finadmin")}.select{email}.map(&:email)) && !emails.empty? 
-      @asset_categorization = AssetCategorization.where(id: asset_categorization_id).includes{ [submitted_by] }.first
+    emails = User.joins{roles}.where{roles.name.in("finadmin")}.select{email}.map(&:email)
+    @asset_categorization = AssetCategorization.where(id: asset_categorization_id).includes{ [submitted_by] }.first
+    emails << @asset_categorization.submitted_by.try(:email)
+    if !emails.empty? 
+      attachments["#{AssetCategorization.model_name.human}##{@asset_categorization.id}.pdf"] = {:mine_type => "application/pdf", :content => @asset_categorization.export_pdf }
       mail to: emails
     end
   end

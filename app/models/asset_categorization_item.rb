@@ -11,7 +11,7 @@ class AssetCategorizationItem < ActiveRecord::Base
   validates :original_cost, :numericality => {:greater_than_or_equal_to => 0}
   validates :asset_name, :presence => true
   validates :sub_category_id, :cost_center_id, :management_department_id, :store_location_id, :construction_period_id, :presence => true
-  validates :asset_no, :asset_id, :presence => true, :if => lambda{ |item| (ac = item.asset_categorization) && ac.confirmed && !ac.approved }
+  #validates :asset_no, :asset_id, :presence => true, :if => lambda{ |item| (ac = item.asset_categorization) && ac.confirmed && !ac.approved }
   validates :serial_no, :presence => true
   validates :arrival_date, :presence => true
   validates :construction_date_from, :presence => true, :date => {:before => :construction_date_to}, :unless => "construction_company.blank?"

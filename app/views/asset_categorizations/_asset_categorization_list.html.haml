@@ -64,6 +64,10 @@
                         %span= t(".confirm", default: t("helpers.links.confirm"))
                   - if can? :approve, asset_categorization
                     %li
+                      = link_to asset_categorization_path(asset_categorization, format: :pdf) do
+                        %i.icon-print
+                        %span= t(".print", default: t("helpers.links.print"))
+                    %li
                       = link_to approve_asset_categorization_path(asset_categorization), method: :put do
                         %i.icon-check
                         %span= t(".approve", default: t("helpers.links.approve"))

@@ -64,6 +64,9 @@ class AssetCategorizationsController < ApplicationController
       format.html # show.html.erb
       format.json { render json: @asset_categorization }
       format.xml  { render xml: @asset_categorization }
+      if @asset_categorization.confirmed?
+        format.pdf  { send_data(@asset_categorization.export_pdf, :type => "application/pdf") }
+      end
     end
   end
 

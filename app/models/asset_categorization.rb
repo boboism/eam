@@ -78,7 +78,8 @@ class AssetCategorization < ActiveRecord::Base
 
   def self.new_by_splitable_quantity(params)
     asset_cat = new(params)
-    unsplittable_items = asset_cat.asset_categorization_items.select{|item| item.quantity.to_i < 1}
+    unsplittable_items = asset_cat.asset_categorization_items.select{|item| item.quantity.to_i <= 1}
+    binding.pry
     asset_cat.asset_categorization_items.select{|item| item.quantity.to_i > 1}.each{|item|
       item.quantity.to_i.times{ 
         unsplittable_items << AssetCategorizationItem.new(item.attributes.slice(*AssetCategorizationItem.accessible_attributes))
@@ -173,6 +174,25 @@ class AssetCategorization < ActiveRecord::Base
 
   def current_status
     [:approved, :confirmed, :number_arranged, :submitted].select{|item| __send__(item) }.first.to_s.upcase
+  end
+
+  def export_pdf
+    require 'net/http'
+    report_unit = if asset_categorization_items.size > 1 
+                    "eam/reports/accept_doc_multi" 
+                  else
+                    "eam/reports/accept_doc_single"
+                  end
+    format = "pdf"
+    host = "172.18.82.215"
+    port = "8080"
+    username = "jasperadmin"
+    password = "jasperadmin"
+
+    uri = URI("http://#{host}:#{port}/jasperserver/rest_v2/reports/#{report_unit}.#{format}")
+    req = Net::HTTP::Get.new("#{uri.path}?id=#{id}")
+    req.basic_auth username, password
+    Net::HTTP.start(uri.host, uri.port){|http| http.request(req)}.body
   end
 
 end

@@ -1,12 +1,13 @@
 source 'http://ruby.taobao.org'
 ruby '1.9.3'
 gem 'rails', :github => "rails/rails", :branch => "3-2-stable"
-gem 'sqlite3'
 group :assets do
   gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
   gem 'uglifier', '>= 1.0.3'
 end
+gem 'soap4r', '~> 1.5.8'
+gem 'jasperserver-client', :github => "boboism/jasperserver-client", :branch => "master"
 gem 'pg'
 gem 'jquery-rails'
 gem "thin", ">= 1.5.0", :group => [:development, :test]
